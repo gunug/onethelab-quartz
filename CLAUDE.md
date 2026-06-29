@@ -18,7 +18,8 @@ git repo 루트 = **프로젝트 루트**(`01-onethelab`). 이 전체가 `gunug/
   01_publish/                ← 발행 소스. 여기 .md만 공개됨
     index.md                 ← 홈페이지
   quartz/                    ← Quartz v4 엔진
-    quartz.config.ts         ← 설정 (baseUrl: onethelab.com/onethelab-quartz)
+    quartz.config.ts         ← 설정 (baseUrl: quartz.onethelab.com)
+  CNAME                      ← 커스텀 도메인(quartz.onethelab.com). workflow가 public/CNAME으로 복사
   .github/workflows/deploy.yml  ← push 시 자동 빌드/배포 (반드시 repo 루트 .github)
   .gitignore                 ← .obsidian, .vscode, quartz/node_modules, quartz/public 제외
 ```
@@ -42,7 +43,7 @@ npx quartz build -d ../01_publish --serve    # 로컬 미리보기
 1. 발행할 노트를 `01_publish/` 로 복사
 2. 비공개로 둘 노트는 frontmatter에 `draft: true`
 3. commit & push → GitHub Actions가 자동 배포
-4. 사이트: https://onethelab.com/onethelab-quartz/
+4. 사이트: https://quartz.onethelab.com/
 
 ## Git
 

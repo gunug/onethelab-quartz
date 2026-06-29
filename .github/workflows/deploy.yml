@@ -32,6 +32,8 @@ jobs:
         run: npm ci
       - name: Build Quartz
         run: npx quartz build -d ../01_publish
+      - name: Add CNAME (custom domain)
+        run: cp ../CNAME public/CNAME
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
