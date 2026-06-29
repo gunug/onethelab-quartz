@@ -52,11 +52,11 @@ One The Lab 디자인 시스템이 Quartz에 적용된 모습. 작성 시 참고
 
 ## Table (표)
 
-| 토큰 | 값 | 용도 |
-| --- | --- | --- |
+| 토큰             | 값       | 용도     |
+| -------------- | ------- | ------ |
 | `--hhg-yellow` | #FFD400 | 브랜드 강조 |
-| `--ink` | #1A1A17 | 제목·텍스트 |
-| `--canvas` | #FAFAF7 | 배경 |
+| `--ink`        | #1A1A17 | 제목·텍스트 |
+| `--canvas`     | #FAFAF7 | 배경     |
 
 ## 인용 · 코드
 
@@ -66,4 +66,20 @@ One The Lab 디자인 시스템이 Quartz에 적용된 모습. 작성 시 참고
 const token = "value"; // JetBrains Mono
 ```
 
+```json
+{
+  "name": "홍길동",
+  "age": 30,
+  "isEmployed": true,
+  "skills": ["Java", "Python", "React"],
+  "address": {
+    "city": "서울",
+    "zipcode": "12345"
+  },
+  "contact": {
+    "email": "hong@example.com",
+    "phone": "010-0000-0000"
+  }
+}
+```
 인라인 `code` 도 디자인 시스템 스타일.
