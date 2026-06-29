@@ -28,12 +28,93 @@
   --r-lg: 16px;
   --r-pill: 9999px;
 
-  /* 라이트 기본 surface-soft */
+  /* 라이트 기본 surface */
+  --surface: #ffffff;
   --surface-soft: #f4f3ee;
 }
 
 :root[saved-theme="dark"] {
+  --surface: #1c1c17;
   --surface-soft: #26261f;
+}
+
+/* =====================================================================
+   레이아웃 · 그리드 — design_system.html 의 사이드바 + 본문 구성에 맞춤
+   ===================================================================== */
+.page {
+  max-width: 1500px;
+}
+
+@media all and (min-width: 1200px) {
+  .page > #quartz-body {
+    /* 좌측 패널 / 본문 / 우측 보조 */
+    grid-template-columns: 264px auto 300px;
+    column-gap: 0;
+  }
+
+  /* 좌측 = 디자인 aside 패널 */
+  .page > #quartz-body .sidebar.left {
+    background: var(--surface);
+    border-right: 1px solid var(--lightgray);
+    padding: 2.6rem 1.4rem 2rem;
+    gap: 1rem;
+  }
+
+  /* 본문 여백 (디자인 main 패딩 느낌) */
+  .center {
+    padding: 1.5rem 2.5rem 2rem;
+  }
+  .center > article {
+    max-width: 860px;
+  }
+
+  /* 우측 보조 패널 살짝 띄움 */
+  .page > #quartz-body .sidebar.right {
+    padding-left: 1.5rem;
+  }
+}
+
+/* ---------- 좌측 내비(Explorer) — 디자인 nav 스타일 ---------- */
+.page-title {
+  margin-bottom: 0.4rem !important;
+}
+
+.explorer ul.explorer-ul a {
+  display: block;
+  padding: 3px 10px;
+  border-radius: var(--r-sm);
+  color: var(--gray);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.55;
+  transition:
+    background 0.1s,
+    color 0.1s;
+}
+.explorer ul.explorer-ul a:hover {
+  background: var(--surface-soft);
+  color: var(--dark);
+}
+/* 현재 페이지 = 브랜드 yellow */
+.explorer ul.explorer-ul li.active > a,
+.explorer ul.explorer-ul a.active {
+  background: var(--hhg-yellow);
+  color: var(--on-brand);
+  font-weight: 600;
+}
+/* 폴더 = 섹션 헤더(디자인 nav-sec) */
+.explorer .folder-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+}
+/* Explorer 헤더 버튼(디자인 nav-sec 틱) */
+.explorer > .title-button,
+.explorer > button.explorer-toggle {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--dark);
 }
 
 /* ---------- Typography ---------- */

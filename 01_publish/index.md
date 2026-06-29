@@ -1,8 +1,8 @@
 ---
-title: OneTheLab Notes
+title: One The Lab
 ---
 
-# OneTheLab 발행 노트
+# One The Lab
 
 이 사이트는 Obsidian 노트를 [Quartz](https://quartz.jzhao.xyz)로 변환해 발행합니다.
 
