@@ -21,32 +21,33 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: "Schibsted Grotesk",
-        body: "Source Sans Pro",
-        code: "IBM Plex Mono",
+        header: "Inter",
+        body: "Inter",
+        code: "JetBrains Mono",
       },
+      // One The Lab Design System 토큰 매핑
       colors: {
         lightMode: {
-          light: "#faf8f8",
-          lightgray: "#e5e5e5",
-          gray: "#b8b8b8",
-          darkgray: "#4e4e4e",
-          dark: "#2b2b2b",
-          secondary: "#284b63",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#fff23688",
+          light: "#FAFAF7", // canvas
+          lightgray: "#E7E5DD", // hairline
+          gray: "#7A7A72", // muted
+          darkgray: "#3D3D38", // body
+          dark: "#1A1A17", // ink
+          secondary: "#C9A600", // yellow-deep (링크/강조)
+          tertiary: "#FFD400", // yellow (hover)
+          highlight: "rgba(255, 212, 0, 0.15)", // yellow soft tint
+          textHighlight: "#FFE76699", // yellow soft (==마크==)
         },
         darkMode: {
-          light: "#161618",
-          lightgray: "#393639",
-          gray: "#646464",
-          darkgray: "#d4d4d4",
-          dark: "#ebebec",
-          secondary: "#7b97aa",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
+          light: "#121210", // canvas
+          lightgray: "#33332B", // hairline
+          gray: "#8E8C82", // muted
+          darkgray: "#CFCDC2", // body
+          dark: "#F5F4EC", // ink
+          secondary: "#FFD400", // yellow (링크/강조)
+          tertiary: "#FFE766", // yellow-soft (hover)
+          highlight: "rgba(255, 212, 0, 0.16)",
+          textHighlight: "#C9A60088",
         },
       },
     },

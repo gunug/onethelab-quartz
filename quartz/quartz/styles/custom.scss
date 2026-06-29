@@ -1,3 +1,335 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+/* =====================================================================
+   One The Lab Design System — Quartz 적용
+   참고: 00_HHG/design/design_system.html
+   ===================================================================== */
+
+:root {
+  /* Brand (테마 무관 고정) */
+  --hhg-yellow: #ffd400;
+  --hhg-yellow-soft: #ffe766;
+  --hhg-yellow-deep: #c9a600;
+  --on-brand: #1a1a17;
+
+  /* Semantic */
+  --success: #3fa66a;
+  --warning: #e0941a;
+  --error: #d24a4a;
+  --info: #3a78c2;
+
+  /* 코드 (항상 어둡게) */
+  --code-bg: #161613;
+  --code-fg: #fafaf7;
+
+  /* Radius / Space (디자인 토큰) */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-pill: 9999px;
+
+  /* 라이트 기본 surface-soft */
+  --surface-soft: #f4f3ee;
+}
+
+:root[saved-theme="dark"] {
+  --surface-soft: #26261f;
+}
+
+/* ---------- Typography ---------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--dark);
+}
+h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.page > #quartz-body .center .page-header h1,
+article > h1:first-child {
+  font-weight: 800;
+}
+
+/* 본문 링크 — 브랜드 강조 + 밑줄 */
+a {
+  text-decoration-color: var(--hhg-yellow-deep);
+  text-underline-offset: 2px;
+  transition:
+    color 0.1s,
+    background 0.1s;
+  &.internal {
+    background-color: var(--highlight);
+    border-radius: var(--r-sm);
+  }
+  &:hover {
+    color: var(--tertiary);
+  }
+}
+
+/* 선택 영역 — 브랜드 */
+::selection {
+  background: rgba(255, 212, 0, 0.28);
+  color: var(--dark);
+}
+
+/* ---------- 스크롤바 (디자인 시스템) ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lightgray) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--lightgray);
+  border-radius: var(--r-pill);
+  border: 2px solid var(--light);
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--hhg-yellow-deep);
+}
+
+/* ---------- 인용구 (yellow 강조) ---------- */
+blockquote {
+  border-left: 3px solid var(--hhg-yellow);
+  background: var(--surface-soft);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  margin: 1rem 0;
+  padding: 0.6rem 1rem;
+  color: var(--darkgray);
+}
+
+/* ---------- 가로줄 ---------- */
+hr {
+  border: none;
+  border-top: 1px solid var(--lightgray);
+  margin: 2rem 0;
+}
+
+/* ---------- 인라인 코드 / 코드블록 ---------- */
+code {
+  font-family: var(--codeFont);
+  border-radius: var(--r-sm);
+}
+pre {
+  border: 1px solid var(--lightgray);
+  border-radius: var(--r-md);
+  & > code {
+    border-radius: 0;
+  }
+}
+
+/* ---------- 테이블 (디자인 시스템) ---------- */
+table {
+  border-collapse: collapse;
+  border: 1px solid var(--lightgray);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+th,
+td {
+  border: none;
+  border-bottom: 1px solid var(--lightgray);
+  padding: 12px 16px;
+}
+thead th {
+  background: var(--surface-soft);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray);
+}
+tbody tr:last-child td {
+  border-bottom: none;
+}
+tbody tr:hover {
+  background: var(--surface-soft);
+}
+
+/* =====================================================================
+   Callouts — 디자인 시스템 시맨틱 팔레트로 재매핑
+   (Obsidian/Quartz: > [!note] [!info] [!tip] [!warning] [!danger] ...)
+   ===================================================================== */
+.callout {
+  border-radius: var(--r-md);
+  /* 기본(note) = 브랜드 yellow-deep */
+  &[data-callout] {
+    --color: var(--hhg-yellow-deep);
+    --border: #c9a60044;
+    --bg: #c9a6001a;
+  }
+  &[data-callout="info"],
+  &[data-callout="todo"],
+  &[data-callout="abstract"],
+  &[data-callout="summary"] {
+    --color: #3a78c2;
+    --border: #3a78c244;
+    --bg: #3a78c21a;
+  }
+  &[data-callout="tip"],
+  &[data-callout="success"],
+  &[data-callout="check"],
+  &[data-callout="done"],
+  &[data-callout="hint"] {
+    --color: #3fa66a;
+    --border: #3fa66a44;
+    --bg: #3fa66a1a;
+  }
+  &[data-callout="warning"],
+  &[data-callout="caution"],
+  &[data-callout="attention"],
+  &[data-callout="question"],
+  &[data-callout="help"] {
+    --color: #e0941a;
+    --border: #e0941a44;
+    --bg: #e0941a1a;
+  }
+  &[data-callout="danger"],
+  &[data-callout="error"],
+  &[data-callout="failure"],
+  &[data-callout="fail"],
+  &[data-callout="bug"] {
+    --color: #d24a4a;
+    --border: #d24a4a44;
+    --bg: #d24a4a1a;
+  }
+  &[data-callout="example"],
+  &[data-callout="quote"],
+  &[data-callout="cite"] {
+    --color: var(--hhg-yellow-deep);
+    --border: #c9a60044;
+    --bg: #c9a6001a;
+  }
+}
+
+/* =====================================================================
+   유틸리티 — 마크다운에 HTML로 그대로 사용 가능한 디자인 컴포넌트
+   (Quartz는 md 안 raw HTML 허용)
+   ===================================================================== */
+
+/* 버튼 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--bodyFont);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.12s;
+}
+.btn-primary {
+  background: var(--hhg-yellow);
+  color: var(--on-brand);
+}
+.btn-primary:hover {
+  background: var(--hhg-yellow-deep);
+  color: #fff;
+}
+.btn-secondary {
+  background: var(--light);
+  color: var(--dark);
+  border-color: var(--lightgray);
+}
+.btn-secondary:hover {
+  background: var(--surface-soft);
+}
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 16px;
+}
+
+/* 배지 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+}
+.badge.dot::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.b-yellow {
+  background: rgba(255, 212, 0, 0.16);
+  color: var(--hhg-yellow-deep);
+}
+.b-success {
+  background: rgba(63, 166, 106, 0.16);
+  color: var(--success);
+}
+.b-warning {
+  background: rgba(224, 148, 26, 0.16);
+  color: var(--warning);
+}
+.b-error {
+  background: rgba(210, 74, 74, 0.16);
+  color: var(--error);
+}
+.b-info {
+  background: rgba(58, 120, 194, 0.16);
+  color: var(--info);
+}
+
+/* eyebrow 라벨 */
+.eyebrow {
+  display: inline-block;
+  background: var(--code-bg);
+  color: var(--hhg-yellow);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+}
+
+/* KPI 카드 그리드 */
+.dash {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+.kpi {
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: var(--r-md);
+  padding: 16px;
+  box-shadow: var(--shadow-s, 0 1px 2px rgba(0, 0, 0, 0.06));
+}
+.kpi .label {
+  font-size: 12px;
+  color: var(--gray);
+}
+.kpi .num {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  margin-top: 4px;
+}
