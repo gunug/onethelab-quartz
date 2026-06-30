@@ -39,7 +39,8 @@ PageTitle.css = `
 .page-title-link {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 8px;
   font-weight: 800;
   letter-spacing: -0.01em;

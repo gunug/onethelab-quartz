@@ -87,18 +87,45 @@
 .search > .search-button > p {
   display: none;
 }
+/* 아이콘 0.7배 (검색 18→13, 다크모드/리더 20→14) */
 .search > .search-button svg {
-  margin: 0 0.45rem;
+  margin: 0 0.4rem;
+  width: 13px;
+  min-width: 13px;
+}
+.darkmode svg,
+.readermode svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+.darkmode,
+.readermode {
+  width: 14px !important;
+}
+
+/* ---------- 탐색기 — "탐색기" 글씨/접기버튼 삭제, 항상 펼침 ---------- */
+.explorer button.desktop-explorer {
+  display: none !important;
+}
+.explorer.collapsed {
+  flex: 0 1 auto !important;
+}
+.explorer.collapsed .explorer-content {
+  visibility: visible !important;
 }
 
 /* ---------- 타이틀 — 좁은 사이드바에 맞춤 ---------- */
 .page-title {
   margin-bottom: 0.4rem !important;
 }
-/* 로고와 글씨를 세로 두 줄로 */
+/* 로고와 글씨를 세로 두 줄 + 가운데 정렬 */
+.page-title {
+  text-align: center;
+}
 .page-title-link {
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 8px;
 }
 .page-title-logo svg {
