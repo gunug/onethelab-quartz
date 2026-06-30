@@ -1,6 +1,7 @@
 # editor / vault config
 .obsidian/
 .vscode/
+.claudian/
 
 # Quartz build artifacts & deps
 quartz/node_modules/

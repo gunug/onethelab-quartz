@@ -200,13 +200,17 @@ body {
     gap: 8px;
   }
 
-  /* 좌측 메뉴(explorer)가 펼쳐지면 로고/타이틀도 오버레이 위에 표시 */
+  /* 좌측 메뉴(explorer)가 펼쳐지면 로고/타이틀도 오버레이 위에 표시.
+     햄버거(좌측 최상단, 34px)와 겹치지 않게 오른쪽으로 빼고 높이 맞춤 */
   .sidebar.left:has(.explorer:not(.collapsed)) .page-title {
     position: fixed;
-    top: 0.9rem;
-    left: 1rem;
+    top: 2rem; /* sidebar padding-top = 햄버거 행과 동일 상단 */
+    left: 2.8rem; /* 34px 햄버거 오른쪽으로 */
+    height: 34px; /* 햄버거 높이와 일치 */
     z-index: 101; /* 오버레이(100) 위, 햄버거(101)와 동일 레이어 */
     margin: 0;
+    display: flex;
+    align-items: center;
   }
   .sidebar.left:has(.explorer:not(.collapsed)) .page-title-link {
     flex-direction: row;
