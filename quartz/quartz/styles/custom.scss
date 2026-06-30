@@ -47,6 +47,14 @@
   margin: 0;
 }
 
+/* 가로 스크롤(좌우 움직임) 방지 — 모바일 explorer 오버레이의 100vw/off-screen 등으로
+   생기는 수평 오버플로 차단. clip은 scroll 컨테이너를 만들지 않아 sticky 유지됨 */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 /* 태블릿~데스크탑(>=800px): 좌·우 사이드바를 해상도와 무관하게
    동일한 형태(세로 패널) + 높이(100vh sticky)로 유지.
    (모바일 <800px 는 collapse 동작 영역이라 그대로 둠) */
