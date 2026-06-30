@@ -124,7 +124,7 @@
 | CD&P 전시회               | 2019/10           | unity3d, arduino                   | 명지전문대학    |
 | LS 산전                  | 2018/08           | unity3d                            | LS산전      |
 | 실버 키즈 AR               | 2018/06           | unity3d, ar                        |           |
-| 경의선 책거리                | 2017/07           | php, kiosk                         |           |
+| 경의선 책거리                | 2017/07           | php, kiosk                         | 마포구청      |
 | 계원 캡스톤 전시회             | 2015/11           | hardware, arduino                  | 계원예술대학교   |
 | 무주 양수 홍보관              | 2015/10           | hardware, arduino, flash           | 무주군       |
 | 장수 말 역사 체험관            | 2015/10           | arduino, flash                     | 장수군       |
