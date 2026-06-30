@@ -291,10 +291,11 @@ a {
 
     & .center,
     & footer {
-      max-width: 100%;
-      min-width: 100%;
-      margin-left: auto;
-      margin-right: auto;
+      // 사용하지 않음 (custom.scss에서 center/footer 동일하게 처리)
+      // max-width: 100%;
+      // min-width: 100%;
+      // margin-left: auto;
+      // margin-right: auto;
       @media all and ($tablet) {
         margin-right: 0;
       }
@@ -303,9 +304,9 @@ a {
         margin-left: 0;
       }
     }
-    & footer {
-      margin-left: 0;
-    }
+    // & footer {
+    //   margin-left: 0;
+    // }
   }
 }
 

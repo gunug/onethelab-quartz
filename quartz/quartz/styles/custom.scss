@@ -69,8 +69,10 @@
     padding: 2.4rem 0.9rem 2rem;
   }
 
-  /* 본문 — 폭 제한 없이 최대 확장, 좌우 여백만 */
-  .center {
+  /* 본문 + 푸터 — 동일한 폭/여백 (좌우 정렬 일치) */
+  .center,
+  .page > #quartz-body footer {
+    margin: 0;
     padding: 1.5rem 3rem 2rem;
   }
   .center > article {
