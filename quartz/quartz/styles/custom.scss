@@ -200,28 +200,12 @@ body {
     gap: 8px;
   }
 
-  /* 좌측 메뉴(explorer)가 펼쳐지면: 햄버거와 로고를 둘 다 고정해 같은 줄에 정렬.
-     (햄버거 34px 좌상단 → 로고는 그 오른쪽, 동일 top/height) */
-  .sidebar.left:has(.explorer:not(.collapsed)) .mobile-explorer {
-    position: fixed;
-    top: 0.7rem;
-    left: 0.7rem;
-    z-index: 102;
-  }
-  .sidebar.left:has(.explorer:not(.collapsed)) .page-title {
-    position: fixed;
-    top: 0.7rem;
-    left: 3.3rem; /* 햄버거(0.7rem + 34px) 오른쪽 */
-    height: 34px; /* 햄버거와 높이 일치 */
-    z-index: 101;
-    margin: 0;
-    display: flex;
-    align-items: center;
-  }
-  .sidebar.left:has(.explorer:not(.collapsed)) .page-title-link {
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
+  /* 펼침 메뉴(오버레이)가 상단 로고/햄버거 행을 덮지 않게 행 아래에서 시작.
+     → 로고·햄버거는 열림/닫힘 두 상태 모두 같은 흐름 위치 → 토글 시 들썩임 없음 */
+  .explorer .explorer-content {
+    top: 4.7rem !important;
+    height: calc(100dvh - 4.7rem) !important;
+    padding-top: 1rem !important;
   }
 }
 
