@@ -95,15 +95,33 @@
 .page-title {
   margin-bottom: 0.4rem !important;
 }
+/* 로고와 글씨를 세로 두 줄로 */
 .page-title-link {
-  gap: 7px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 .page-title-logo svg {
-  width: 30px;
+  width: 34px;
 }
 .page-title-text {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   line-height: 1.15;
+}
+
+/* ---------- 목차(TOC) — 현재 섹션 하나만 활성 ---------- */
+.toc ul.toc-content > li > a {
+  opacity: 0.4;
+  color: var(--dark);
+  font-weight: 400;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease;
+}
+.toc ul.toc-content > li > a.in-view {
+  opacity: 1;
+  color: var(--secondary);
+  font-weight: 600;
 }
 
 .explorer ul.explorer-ul a {

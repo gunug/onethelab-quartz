@@ -38,8 +38,9 @@ PageTitle.css = `
 }
 .page-title-link {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   font-weight: 800;
   letter-spacing: -0.01em;
   color: var(--dark);
