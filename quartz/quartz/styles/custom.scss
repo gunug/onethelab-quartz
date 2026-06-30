@@ -173,6 +173,14 @@
   font-size: 0.95rem;
   line-height: 1.15;
 }
+/* 모바일에서는 로고 + 글씨를 한 줄로 */
+@media all and (max-width: 800px) {
+  .page-title-link {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+}
 
 /* ---------- 목차(TOC) ---------- */
 /* 접힘 버튼(fold) 숨김 + 항상 펼침 */
