@@ -5,7 +5,7 @@ title: One The Lab
 > [!note] Make more interactive.
 > 전시를 더 인터랙티브하게. One The Lab의 작업과 지식을 기록하는 공간입니다.
 
-# <img src="https://onethelab.com/hhg-design-system/gicons/hhg-icon.svg" alt="hhg-icon"> One The Lab
+# <img src="https://onethelab.com/hhg-design-system/gicons/hhg_x__onethelab-v2__x__20260630-183305.svg" width="46" height="46" style="vertical-align:middle"> One The Lab
 
 One The Lab은 **인터랙티브 전시 솔루션** 회사입니다. 인쇄된 설명과 정적인 전시에서 벗어나, 이미지·사운드·영상과 Kinect·Leap Motion·Arduino 같은 인터랙션 장치로 관람객이 직접 체험하는 콘텐츠를 만듭니다.
 
