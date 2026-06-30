@@ -41,18 +41,20 @@
 /* =====================================================================
    레이아웃 · 그리드 — design_system.html 의 사이드바 + 본문 구성에 맞춤
    ===================================================================== */
+/* 전체 폭 풀블리드 — 사이드바 양끝 고정, 가운데 최대 확장 */
 .page {
-  max-width: 1500px;
+  max-width: 100%;
+  margin: 0;
 }
 
 @media all and (min-width: 1200px) {
   .page > #quartz-body {
-    /* 좌측 패널 / 본문 / 우측 보조 */
-    grid-template-columns: 264px auto 300px;
+    /* 좌측 패널 / 본문(최대 확장) / 우측 패널 */
+    grid-template-columns: 264px minmax(0, 1fr) 300px;
     column-gap: 0;
   }
 
-  /* 좌측 = 디자인 aside 패널 */
+  /* 좌측 = 디자인 aside 패널 (왼쪽 끝에 붙음) */
   .page > #quartz-body .sidebar.left {
     background: var(--surface);
     border-right: 1px solid var(--lightgray);
@@ -60,17 +62,19 @@
     gap: 1rem;
   }
 
-  /* 본문 여백 (디자인 main 패딩 느낌) */
-  .center {
-    padding: 1.5rem 2.5rem 2rem;
-  }
-  .center > article {
-    max-width: 860px;
+  /* 우측 = 보조 패널 (오른쪽 끝에 붙음) */
+  .page > #quartz-body .sidebar.right {
+    background: var(--surface);
+    border-left: 1px solid var(--lightgray);
+    padding: 2.6rem 1.4rem 2rem;
   }
 
-  /* 우측 보조 패널 살짝 띄움 */
-  .page > #quartz-body .sidebar.right {
-    padding-left: 1.5rem;
+  /* 본문 — 폭 제한 없이 최대 확장, 좌우 여백만 */
+  .center {
+    padding: 1.5rem 3rem 2rem;
+  }
+  .center > article {
+    max-width: 100%;
   }
 }
 
