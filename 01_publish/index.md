@@ -9,8 +9,8 @@ title: One The Lab
 
 One The Lab은 **인터랙티브 전시 솔루션** 회사입니다. 인쇄된 설명과 정적인 전시에서 벗어나, 이미지·사운드·영상과 Kinect·Leap Motion·Arduino 같은 인터랙션 장치로 관람객이 직접 체험하는 콘텐츠를 만듭니다.
 
-- 🌐 회사 사이트: [onethelab.com](https://onethelab.com)
-- ✉️ 문의: gh.cho@onethelab.com, gunug@naver.com
+- <img src="https://onethelab.com/hhg-design-system/gicons/hhg_x__web__x__20260630-184931.svg" width="32" height="32" style="vertical-align:middle"> 회사 사이트: [onethelab.com](https://onethelab.com)
+- <img src="https://onethelab.com/hhg-design-system/gicons/hhg_x__object-mail__x__20260630-184958.svg" width="31" height="31" style="vertical-align:middle"> 문의: gh.cho@onethelab.com, gunug@naver.com
 
 ## 하는일
 
