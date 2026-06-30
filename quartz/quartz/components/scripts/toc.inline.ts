@@ -19,31 +19,24 @@ function setupToc() {
   }
 }
 
-// 현재 읽고 있는 섹션 하나만 활성화 (지나가면 다시 어둡게)
+// 현재 viewport에 보이는 모든 제목을 활성화
 let headers: HTMLElement[] = []
 let ticking = false
 
-function computeActiveSlug(): string | null {
-  if (headers.length === 0) return null
-  // 뷰포트 상단에서 20% 지점을 기준선으로
-  const line = window.scrollY + window.innerHeight * 0.2
-  let current = headers[0].id
-  for (const header of headers) {
-    const top = header.getBoundingClientRect().top + window.scrollY
-    if (top <= line) {
-      current = header.id
-    } else {
-      break
-    }
-  }
-  return current
-}
-
 function highlightActive() {
   ticking = false
-  const slug = computeActiveSlug()
+  const vh = window.innerHeight
+  const activeSlugs = new Set<string>()
+  for (const header of headers) {
+    const rect = header.getBoundingClientRect()
+    // 헤더 요소가 viewport 안에 보이면 활성
+    if (rect.bottom > 0 && rect.top < vh) {
+      activeSlugs.add(header.id)
+    }
+  }
   for (const link of document.querySelectorAll(".toc a[data-for]")) {
-    link.classList.toggle("in-view", link.getAttribute("data-for") === slug)
+    const slug = link.getAttribute("data-for")
+    link.classList.toggle("in-view", slug !== null && activeSlugs.has(slug))
   }
 }
 
