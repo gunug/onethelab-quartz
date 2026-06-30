@@ -250,6 +250,26 @@ body {
   font-weight: 600;
 }
 
+/* ---------- 백링크 — 목차(TOC)와 동일한 모양 ---------- */
+.backlinks > h3 {
+  font-size: 13px;
+}
+.backlinks > ul.overflow > li > a {
+  font-size: 13px;
+  color: var(--dark);
+  opacity: 0.4;
+  font-weight: 400;
+  background-color: transparent;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease;
+}
+.backlinks > ul.overflow > li > a:hover {
+  opacity: 1;
+  color: var(--secondary);
+  font-weight: 600;
+}
+
 .explorer ul.explorer-ul a {
   display: block;
   padding: 3px 10px;

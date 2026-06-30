@@ -1,0 +1,24 @@
+{
+  "id": "conv-1782784451257-0b240vh8m",
+  "providerId": "claude",
+  "title": "Generate section titles with descriptions",
+  "titleGenerationStatus": "success",
+  "createdAt": 1782784451272,
+  "updatedAt": 1782784469197,
+  "lastResponseAt": 1782784469197,
+  "sessionId": "22c55676-771a-496f-8a49-fb3a86c68bc6",
+  "providerState": {
+    "providerSessionId": "22c55676-771a-496f-8a49-fb3a86c68bc6"
+  },
+  "currentNote": "01_publish/index.md",
+  "usage": {
+    "model": "haiku",
+    "inputTokens": 8,
+    "cacheCreationInputTokens": 1636,
+    "cacheReadInputTokens": 28598,
+    "contextWindow": 200000,
+    "contextTokens": 30242,
+    "percentage": 15,
+    "contextWindowIsAuthoritative": true
+  }
+}
