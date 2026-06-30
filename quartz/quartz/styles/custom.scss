@@ -186,6 +186,20 @@
     align-items: center;
     gap: 8px;
   }
+
+  /* 좌측 메뉴(explorer)가 펼쳐지면 로고/타이틀도 오버레이 위에 표시 */
+  .sidebar.left:has(.explorer:not(.collapsed)) .page-title {
+    position: fixed;
+    top: 0.9rem;
+    left: 1rem;
+    z-index: 101; /* 오버레이(100) 위, 햄버거(101)와 동일 레이어 */
+    margin: 0;
+  }
+  .sidebar.left:has(.explorer:not(.collapsed)) .page-title-link {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
 }
 
 /* ---------- 목차(TOC) ---------- */
