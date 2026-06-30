@@ -155,6 +155,21 @@ body {
   }
 }
 
+/* Reader Mode (데스크탑/태블릿) — 사이드바를 투명화(기본)만 하면 패널 폭이 남아
+   본문이 안 넓어짐. 아예 접어서 본문을 전체폭으로 (명확한 접힘/펼침) */
+@media all and (min-width: 800px) {
+  :root[reader-mode="on"] .page > #quartz-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "grid-header"
+      "grid-center"
+      "grid-footer";
+  }
+  :root[reader-mode="on"] .page > #quartz-body .sidebar {
+    display: none;
+  }
+}
+
 /* ---------- 탐색기 — "탐색기" 글씨/접기버튼 삭제, 항상 펼침 ---------- */
 .explorer button.desktop-explorer {
   display: none !important;
