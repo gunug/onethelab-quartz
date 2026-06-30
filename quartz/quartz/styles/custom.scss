@@ -140,6 +140,12 @@
   height: 14px !important;
   top: calc(50% - 7px) !important; /* 14px 아이콘 수직 중앙 */
 }
+/* 모바일은 hover가 없어 reader mode 복귀 불가 → reader 아이콘 숨김 (데스크탑은 유지) */
+@media all and (max-width: 800px) {
+  .readermode {
+    display: none !important;
+  }
+}
 
 /* ---------- 탐색기 — "탐색기" 글씨/접기버튼 삭제, 항상 펼침 ---------- */
 .explorer button.desktop-explorer {
