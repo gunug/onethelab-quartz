@@ -6,6 +6,14 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
+  font-size: 0.7em;
+  font-weight: normal;
+  color: var(--hhg-yellow-deep);
+
+  a {
+    color: var(--hhg-yellow-deep);
+    font-weight: normal;
+  }
 }
 
 .breadcrumb-element {
