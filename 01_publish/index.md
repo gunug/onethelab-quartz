@@ -39,8 +39,7 @@ Unity3D 기반으로 VR, AR, 2D, 3D 콘텐츠를 개발하여 Windows 및 Androi
 - 2D/3D 그래픽 콘텐츠
 - Unity3D 기반 Windows 및 Android 애플리케이션
 
-![[Pasted image 20260630165203.png]]
-[^1] 
+![[Pasted image 20260630165203.png]][^1] 
 ## Physical Computing
 3D 설계와 프린팅, 레이저 커팅, PCB 설계 및 Arduino를 활용한 전자 장치 제어로 물리적 인터랙션을 구현합니다.
 
@@ -72,12 +71,10 @@ Serial, Socket, UDP, HID 등 다양한 통신 프로토콜로 소프트웨어와
 # 프로그래밍 교육
 ## Programming Education
 프로그래밍 전공이 아닌 관계자들을 대상으로 실무 중심의 프로그래밍 강의를 제공합니다.
-![[ChatGPT Image 2026년 6월 30일 오후 05_23_07.png]]
-[^1]
+![[ChatGPT Image 2026년 6월 30일 오후 05_23_07.png]][^1]
 ## AI Vibe Coding
 AI 기술을 활용하여 창의적이고 인터랙티브한 바이브코딩 강의를 진행합니다.
-![[Pasted image 20260630194216.png]]
-[^2]
+![[Pasted image 20260630194216.png]][^2]
 
 [^1]: 초상권 문제로 실제 촬영한 사진을 사람만 변경함 (AI)
 [^2]: 실제 사진이 아닌 AI로 생성된 이미지
