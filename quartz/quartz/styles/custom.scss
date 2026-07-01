@@ -81,6 +81,7 @@ body {
     border-right: 1px solid var(--lightgray);
     padding: 2.4rem 0.9rem 2rem;
     gap: 0.9rem;
+    overflow-x: hidden;
   }
 
   /* 우측 = 패널 (오른쪽 끝, 가로 변형/TOC 숨김 무효화) */
@@ -272,6 +273,9 @@ body {
   font-size: 13px;
   font-weight: 500;
   line-height: 1.55;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition:
     background 0.1s,
     color 0.1s;
@@ -294,6 +298,15 @@ body {
   color: var(--dark);
   padding-left: 3px;
   padding-right: 3px;
+}
+/* 사이드바 링크: 넘칠 때 줄내림 대신 ... 생략 */
+.explorer .folder-title,
+.toc .toc-content a,
+.backlinks a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* Explorer 헤더 버튼(디자인 nav-sec 틱) */
 .explorer > .title-button,
