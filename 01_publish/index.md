@@ -38,6 +38,7 @@ Unity3D 기반으로 VR, AR, 2D, 3D 콘텐츠를 개발하여 Windows 및 Androi
 - AR (증강현실) 콘텐츠 제작
 - 2D/3D 그래픽 콘텐츠
 - Unity3D 기반 Windows 및 Android 애플리케이션
+
 ![[Pasted image 20260630165203.png]]
 [^1] 
 ## Physical Computing
@@ -47,12 +48,14 @@ Unity3D 기반으로 VR, AR, 2D, 3D 콘텐츠를 개발하여 Windows 및 Androi
 - 2D 설계, 레이저 커팅
 - PCB 설계, 부품 실장
 - Arduino 기반 피지컬 컴퓨팅
+
 ![[Pasted image 20260630165144.png]]
 
 ## Device Remodeling
 기존 기계 장치를 커스터마이징하고 전시 환경에 맞춘 특수 장비를 직접 제작합니다.
 
 - 기계장치 개조 및 커스텀 제작
+
 ![[Pasted image 20260630165132.png]]
 
 ## System Integration
@@ -62,6 +65,7 @@ Serial, Socket, UDP, HID 등 다양한 통신 프로토콜로 소프트웨어와
 - Socket 통신 프로그래밍
 - UDP 프로토콜 연동
 - HID (Human Interface Device) 연동 프로그래밍
+
 ![[Pasted image 20260630165150.png]]
 
 ---
