@@ -1,5 +1,5 @@
 
-# introduction 교수소개
+# introduction 소개
 * 조건희 gunug@naver.com
 * 명지전문대학교 강사 (2019 ~ 2020)
 * 계원예술대학교 겸임교수 (2015 ~ 2026)

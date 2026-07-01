@@ -104,15 +104,19 @@ body {
   }
 
   /* 본문 + 푸터 — 동일한 폭/여백 (좌우 정렬 일치) */
-  .center,
+  .center {
+    margin: 0;
+    padding: 1.5rem 3rem 2rem;
+  }
   .page > #quartz-body footer {
     margin: 0;
-    /* padding: 1.5rem 3rem 2rem; */
+    /* footer는 사이드바로 이동했으므로 본문 패딩 미적용 */
   }
 
   /* 좌측 사이드바 푸터 — 사이드바 글씨크기(13px) + 최하단 고정 */
   .sidebar.left footer {
     font-size: 13px;
+    line-height: 0.75;
     margin-top: auto;
     margin-bottom: 0;
   }
