@@ -1,17 +1,20 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
+// footer moved into the left sidebar bottom
+const footer = Component.Footer({
+  links: {
+    GitHub: "https://github.com/gunug/onethelab-quartz",
+    Site: "https://quartz.onethelab.com",
+  },
+})
+
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [],
-  footer: Component.Footer({
-    links: {
-      GitHub: "https://github.com/gunug/onethelab-quartz",
-      Site: "https://quartz.onethelab.com",
-    },
-  }),
+  footer: Component.Spacer(),
 }
 
 // components for pages that display a single page (e.g. a single note)
@@ -39,6 +42,7 @@ export const defaultContentPageLayout: PageLayout = {
       ],
     }),
     Component.Explorer(),
+    footer,
   ],
   right: [
     Component.DesktopOnly(Component.TableOfContents()),
@@ -63,6 +67,7 @@ export const defaultListPageLayout: PageLayout = {
       ],
     }),
     Component.Explorer(),
+    footer,
   ],
   right: [],
 }
