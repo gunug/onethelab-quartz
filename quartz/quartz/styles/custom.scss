@@ -308,6 +308,35 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* 가로 스크롤/오버플로 차단.
+   flex/grid 자식은 min-width:0 이 없으면 긴 텍스트가 컬럼을 밀어내
+   ellipsis 가 안 먹고 가로 스크롤이 생긴다. 체인 전체에 min-width:0 부여. */
+.explorer,
+.explorer-content,
+.explorer ul.explorer-ul,
+.explorer-content .folder-outer > ul,
+.explorer li,
+.folder-container,
+.folder-container > div {
+  min-width: 0;
+}
+.explorer-content,
+.explorer ul.explorer-ul {
+  overflow-x: hidden;
+}
+/* 폴더명 span(클라이언트 렌더 전) 도 ellipsis */
+.folder-container > div {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.folder-container span.folder-title,
+.folder-container button {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /* Explorer 헤더 버튼(디자인 nav-sec 틱) */
 .explorer > .title-button,
 .explorer > button.explorer-toggle {
