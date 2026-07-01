@@ -61,19 +61,19 @@
 # 작업분야
 ## 아두이노 피지컬 컴퓨팅
 
-![[arduino_motor.gif]]
-![[arduino_segment.gif]]
-![[physical_rotator.gif]]
-![[physical_rotator_content1.gif]]
+![[01_publish/99_attachment/01_gifs/arduino_motor.gif]]
+![[01_publish/99_attachment/01_gifs/arduino_segment.gif]]
+![[01_publish/99_attachment/01_gifs/physical_rotator.gif]]
+![[01_publish/99_attachment/01_gifs/physical_rotator_content1.gif]]
 
 
 ## 메타버스, 3D 콘텐츠(VR, AR)
-![[metaverse1.gif]]![[metaverse2.gif]]![[tracking.gif]]
-![[vr1.gif]]
+![[01_publish/99_attachment/01_gifs/metaverse1.gif]]![[01_publish/99_attachment/01_gifs/metaverse2.gif]]![[01_publish/99_attachment/01_gifs/tracking.gif]]
+![[01_publish/99_attachment/01_gifs/vr1.gif]]
 
 ## XR Studio
-![[xr_space1.gif]]
-![[xr_space2.gif]]
+![[01_publish/99_attachment/01_gifs/xr_space1.gif]]
+![[01_publish/99_attachment/01_gifs/xr_space2.gif]]
 
 ---
 
