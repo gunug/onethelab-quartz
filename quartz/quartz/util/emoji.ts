@@ -37,11 +37,21 @@ export async function loadEmoji(code: string) {
     emojimap = data
   }
 
+  // 맵에 없는 이모지(예: 키캡 #️⃣)는 OG 이미지 빌드를 깨뜨리지 않도록 투명 픽셀로 대체
+  const TRANSPARENT_PNG =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+
   const name = emojimap.codePointToName[`${code.toUpperCase()}`]
-  if (!name) throw new Error(`codepoint ${code} not found in map`)
+  if (!name) {
+    console.warn(`emoji codepoint ${code} not found in map — skipping`)
+    return TRANSPARENT_PNG
+  }
 
   const b64 = emojimap.nameToBase64[name]
-  if (!b64) throw new Error(`name ${name} not found in map`)
+  if (!b64) {
+    console.warn(`emoji name ${name} not found in map — skipping`)
+    return TRANSPARENT_PNG
+  }
 
   return b64
 }

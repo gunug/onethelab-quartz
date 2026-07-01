@@ -122,10 +122,14 @@ body {
 
   /* 좌측 사이드바 푸터 — 사이드바 글씨크기(13px) + 최하단 고정 */
   .sidebar.left footer {
-    font-size: 13px;
+    font-size: calc(13px * 0.6);
+    font-weight: normal;
     line-height: 0.75;
     margin-top: auto;
     margin-bottom: 0;
+  }
+  .sidebar.left footer * {
+    font-weight: normal;
   }
   .center > article {
     max-width: 100%;
