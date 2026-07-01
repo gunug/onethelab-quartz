@@ -1,5 +1,12 @@
 @use "./base.scss";
 
+/* 본문 줄간격 */
+tbody,
+li,
+p {
+  line-height: 1rem;
+}
+
 /* =====================================================================
    One The Lab Design System — Quartz 적용
    참고: 00_HHG/design/design_system.html
