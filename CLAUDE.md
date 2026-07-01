@@ -50,3 +50,33 @@ npx quartz build -d ../01_publish --serve    # 로컬 미리보기
 - `origin` = `gunug/onethelab-quartz` (public)
 - `upstream` = `jackyzha0/quartz` (Quartz 업데이트 받을 때만)
 - 기본 브랜치: `main`
+
+## 첨부 이미지
+
+- 이미지/첨부는 **반드시 `01_publish/` 안**에 둔다. 콘텐츠 폴더 밖이면 빌드가 못 찾아
+  "파일없음"으로 발행됨. 첨부 폴더 = `01_publish/99_attachment/`.
+- `![[Pasted image ....png]]` 위키링크 임베드는 파일이 콘텐츠 폴더 안에 있으면 자동 resolve.
+
+## UI 커스터마이징 (upstream fork라 직접 수정한 엔진 파일)
+
+`quartz/`는 upstream fork. 아래 파일을 수정해 사이트 외형을 맞춤. **upstream merge 시 충돌 주의.**
+브랜드 색 = `quartz/quartz/styles/custom.scss` 상단 변수(`--hhg-yellow #ffd400`,
+`--hhg-yellow-soft #ffe766`, `--hhg-yellow-deep #c9a600`).
+
+- `components/PageTitle.tsx` — 인라인 SVG 로고
+- `quartz/static/favicon.svg` — 로고 왼쪽 첫 블록 파비콘. `components/Head.tsx`가 svg 우선+png 폴백으로 링크
+- `components/TableOfContents.tsx` — 목차 텍스트에서 HTML 태그 제거
+- `plugins/transformers/toc.ts` — slug 계산 전 HTML 태그 제거. **heading에 태그(`<img>` 등)
+  넣을 때 여기 안 고치면 목차 slug≠heading id → 첫 항목 활성화·앵커 깨짐**
+- `components/scripts/toc.inline.ts` — 스크롤 기준 현재 heading 활성화(`in-view`) 커스텀
+- `components/styles/breadcrumbs.scss` — 브레드크럼 deep yellow/0.7em/normal
+- `components/styles/explorer.scss` — 폴더 화살표 `.folder-icon` 8.4px
+- `components/styles/contentMeta.scss` — 메타 `--gray`/0.6em
+- `components/styles/listPage.scss` — 폴더 목록 날짜 nowrap, 항목 간격 0.5em
+- `styles/custom.scss` — 팔레트, `.folder-title` padding 3px, `.explorer ul.explorer-ul a` padding `3px 3px`
+
+## 작업 흐름 메모
+
+- 스타일/컴포넌트 수정 후 `cd quartz && npx quartz build -d ../01_publish`로 로컬 확인.
+- `quartz/public/`은 gitignore. 커밋하지 말 것 (Actions가 재빌드·배포).
+- 커밋·푸시는 사용자가 요청할 때만.
