@@ -387,9 +387,18 @@
   let rebuildOutline = () => {}; // init 에서 실제 구현 주입 (front/back 벡터 stroke)
 
   // ───────── svg 파일 로더 ─────────
+  // Supabase Storage(public 버킷 icons) 에서 로드 → file:// 로컬서버 불필요.
+  // 네트워크 실패 시 상대경로(svg/...) 폴백.
+  const SVG_BASE = "https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/svg/";
   async function loadSvg(folder, id) {
-    const res = await fetch("svg/" + folder + "/" + id + ".svg");
-    if (!res.ok) throw new Error("svg/" + folder + "/" + id + ".svg → " + res.status);
+    const path = folder + "/" + id + ".svg";
+    let res;
+    try {
+      res = await fetch(SVG_BASE + path);
+    } catch (e) {
+      res = await fetch("svg/" + path); // 폴백: 로컬 상대경로
+    }
+    if (!res.ok) throw new Error(path + " → " + res.status);
     const doc = new DOMParser().parseFromString(await res.text(), "image/svg+xml");
     const svg = doc.querySelector("svg");
     if (!svg || doc.querySelector("parsererror")) throw new Error("parse fail: " + id);

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HHG · SVG Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hhg-yellow:#FFD400; --hhg-yellow-soft:#FFE766; --hhg-yellow-deep:#C9A600; --on-brand:#1A1A17;
+    --ink:#F5F4EC; --body:#CFCDC2; --muted:#8E8C82; --hairline:#33332B;
+    --canvas:#121210; --surface:#1C1C17; --surface-soft:#26261F;
+    --sh-sm:0 1px 2px rgba(0,0,0,.4); --sh-md:0 4px 16px rgba(0,0,0,.45);
+    --r-sm:6px; --r-md:10px; --r-lg:16px;
+    --font:"Inter",-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; padding: 40px 24px 64px;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+    font-family: var(--font); background: var(--canvas); color: var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .eyebrow { display:inline-block; background:#161613; color:var(--hhg-yellow); font-size:11px; font-weight:600;
+             letter-spacing:.12em; text-transform:uppercase; padding:5px 12px; border-radius:9999px; margin-bottom:8px; }
+  .head { text-align:center; }
+  h1 { font-size: 28px; font-weight: 800; letter-spacing:-.02em; color: var(--ink); margin: 0; }
+  .sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+  /* 에러/상태 배너 */
+  .banner { display:none; width:100%; max-width:960px; background:#2a1a14; border:1px solid #6b3a2a;
+            border-radius: var(--r-lg); padding:14px 18px; color:#ffd0c0; font-size:13px; line-height:1.5; }
+  .banner.show { display:block; }
+  .banner code { font-family: var(--mono); background:#3a221a; padding:1px 6px; border-radius:4px; color:#ffe; }
+
+  /* 툴바 */
+  .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; width:100%; max-width:960px; }
+  .search { flex:1; min-width:180px; background:var(--surface-soft); border:1px solid var(--hairline);
+            border-radius:var(--r-md); color:var(--ink); font-family:var(--font); font-size:14px; padding:9px 14px; }
+  .search:focus { outline:none; border-color:var(--hhg-yellow); }
+  .filters { display:flex; gap:6px; flex-wrap:wrap; }
+  .filter { font-family:var(--font); font-size:12px; font-weight:700; padding:8px 14px; border:1px solid var(--hairline);
+            border-radius:var(--r-md); background:var(--surface); color:var(--muted); cursor:pointer; transition:.12s;
+            text-transform:uppercase; letter-spacing:.06em; }
+  .filter:hover { color:var(--body); }
+  .filter.active { background:var(--hhg-yellow); color:var(--on-brand); border-color:var(--hhg-yellow); }
+
+  /* size 슬라이더 */
+  .sizerow { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; color:var(--body); }
+  .sizerow input[type="range"] { width:90px; accent-color:var(--hhg-yellow); }
+
+  /* 섹션 */
+  .section { width:100%; max-width:960px; }
+  .section h2 { font-size:11px; font-weight:700; margin:18px 0 10px; text-transform:uppercase; letter-spacing:.1em;
+                color:var(--hhg-yellow-deep); }
+  .section[hidden] { display:none; }
+
+  /* 그리드 */
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); gap:12px; }
+  .card { background:var(--surface); border:1px solid var(--hairline); border-radius:var(--r-md);
+          padding:10px; display:flex; flex-direction:column; align-items:center; gap:8px; transition:.12s; }
+  .card[hidden] { display:none; }
+  .card:hover { border-color:var(--hhg-yellow); }
+  .thumb { width:100%; height:96px; display:flex; align-items:center; justify-content:center;
+           border-radius:var(--r-sm); background-color:#26261f;
+           background-image:
+             linear-gradient(45deg, #1c1c17 25%, transparent 25%),
+             linear-gradient(-45deg, #1c1c17 25%, transparent 25%),
+             linear-gradient(45deg, transparent 75%, #1c1c17 75%),
+             linear-gradient(-45deg, transparent 75%, #1c1c17 75%);
+           background-size:14px 14px; background-position:0 0,0 7px,7px -7px,-7px 0; }
+  .thumb svg { width:var(--thumb, 64px); height:var(--thumb, 64px); display:block; }
+  .nm { font-size:10.5px; font-family:var(--mono); color:var(--muted); text-align:center; word-break:break-all; line-height:1.3; }
+  .btns { display:flex; gap:6px; width:100%; }
+  .btn { flex:1; font-family:var(--font); font-size:11px; font-weight:600; padding:6px 0; border:1px solid var(--hairline);
+         border-radius:var(--r-sm); background:var(--surface-soft); color:var(--body); cursor:pointer; transition:.1s; }
+  .btn:hover { border-color:var(--hhg-yellow); color:var(--ink); }
+  .btn.primary { background:var(--hhg-yellow); color:var(--on-brand); border-color:var(--hhg-yellow); }
+  .btn.primary:hover { background:var(--hhg-yellow-deep); color:#fff; }
+  .btn.copied { background:#1f3a22; border-color:#3a6b3f; color:#c6f0cc; }
+
+  /* 토스트 */
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+           background:var(--ink); color:var(--on-brand); font-size:13px; font-weight:600; padding:10px 18px;
+           border-radius:9999px; box-shadow:var(--sh-md); opacity:0; pointer-events:none; transition:.18s; z-index:50; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  .count { font-size:12px; color:var(--muted); font-family:var(--mono); }
+</style>
+</head>
+<body>
+  <div class="head">
+    <span class="eyebrow">HHG · SVG Gallery</span>
+    <h1>SVG Gallery</h1>
+    <div class="sub">Supabase Storage 의 아이콘. <b>SVG</b> = 색 입힌 인라인 svg 태그 복사 · <b>URL</b> = 이미지 링크 복사</div>
+  </div>
+
+  <div class="banner" id="banner"></div>
+
+  <div class="toolbar">
+    <input type="search" class="search" id="search" placeholder="이름·폴더 검색 (예: arc, logo, heart)">
+    <div class="filters" id="filters"></div>
+    <div class="sizerow">size <input type="range" id="size" min="32" max="120" step="4" value="64"></div>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="toast" id="toast">복사됨</div>
+
+<script>
+  // ───────── 설정 ─────────
+  const SB_BASE = "https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/";
+  const MANIFEST_URL = SB_BASE + "manifest.json";
+  const publicUrl = path => SB_BASE + path; // path = "svg/<folder>/<id>.svg"
+
+  // 원본 svg 는 색 없이 클래스만 → 인라인 표시용 팔레트 주입 (icon_builder 기본색)
+  const PAL = { main:"#F5F4EC", point:"#FFD400", back:"#8E8C82", fill:"none" };
+  const STYLE_CSS =
+    ".arc{fill:" + PAL.fill + ";stroke:" + PAL.main + ";stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round}" +
+    ".edge{fill:none;stroke:" + PAL.main + ";stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round}" +
+    ".fill{fill:" + PAL.fill + ";stroke:none}" +
+    ".dot{fill:" + PAL.main + ";stroke:none}" +
+    ".ins{fill:none;stroke:" + PAL.point + ";stroke-width:0.6;stroke-linecap:round;stroke-linejoin:round}" +
+    ".ins-dot{fill:" + PAL.point + ";stroke:none}" +
+    ".ins-solid{fill:" + PAL.point + "}" +
+    ".ins-text{fill:" + PAL.point + ";font-family:'Inter',-apple-system,sans-serif;font-weight:800}";
+
+  const SVGNS = "http://www.w3.org/2000/svg";
+
+  // 원본 svg 텍스트 → 색 입힌 standalone svg 문자열 (썸네일 & 복사 공용)
+  function styledSvg(rawText, name) {
+    const doc = new DOMParser().parseFromString(rawText, "image/svg+xml");
+    const svg = doc.querySelector("svg");
+    if (!svg || doc.querySelector("parsererror")) return null;
+    svg.setAttribute("xmlns", SVGNS);
+    if (!svg.getAttribute("viewBox")) svg.setAttribute("viewBox", "-2 -2 28 28");
+    svg.setAttribute("role", "img");
+    if (name) svg.setAttribute("aria-label", name);
+    const style = doc.createElementNS(SVGNS, "style");
+    style.textContent = STYLE_CSS;
+    svg.insertBefore(style, svg.firstChild);
+    return new XMLSerializer().serializeToString(svg);
+  }
+
+  // ───────── 로드 & 렌더 ─────────
+  const FOLDER_ORDER = ["frame", "insert", "logo", "face"];
+  const state = { filter: "all", q: "" };
+  const cards = []; // {folder, name, el}
+
+  (async function init() {
+    let manifest;
+    try {
+      const res = await fetch(MANIFEST_URL, { cache: "no-cache" });
+      if (!res.ok) throw new Error("manifest " + res.status);
+      manifest = await res.json();
+    } catch (e) {
+      showBanner("manifest.json 을 못 읽음: <code>" + e.message + "</code><br>" +
+        "Supabase 버킷 <code>icons/manifest.json</code> 가 public 인지 확인하세요.");
+      return;
+    }
+    const items = manifest.items || [];
+    document.getElementById("count").textContent = items.length + " icons";
+
+    // 폴더별 그룹
+    const byFolder = {};
+    items.forEach(it => (byFolder[it.folder] = byFolder[it.folder] || []).push(it));
+    const folders = FOLDER_ORDER.filter(f => byFolder[f]).concat(
+      Object.keys(byFolder).filter(f => !FOLDER_ORDER.includes(f)));
+
+    // 필터 버튼
+    const filters = document.getElementById("filters");
+    [["all", "all"]].concat(folders.map(f => [f, f])).forEach(([key, label], i) => {
+      const b = document.createElement("button");
+      b.className = "filter" + (i === 0 ? " active" : "");
+      b.textContent = label; b.dataset.f = key;
+      b.addEventListener("click", () => {
+        filters.querySelectorAll(".filter").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); state.filter = key; applyFilter();
+      });
+      filters.appendChild(b);
+    });
+
+    // 섹션 + 카드
+    const host = document.getElementById("sections");
+    folders.forEach(folder => {
+      const sec = document.createElement("div");
+      sec.className = "section"; sec.dataset.folder = folder;
+      sec.innerHTML = "<h2>" + folder + " · " + byFolder[folder].length + "</h2>";
+      const grid = document.createElement("div"); grid.className = "grid";
+      sec.appendChild(grid); host.appendChild(sec);
+      byFolder[folder].forEach(it => grid.appendChild(buildCard(it)));
+    });
+
+    // 각 svg lazy fetch (썸네일 채우기)
+    cards.forEach(c => hydrate(c));
+
+    // 검색
+    document.getElementById("search").addEventListener("input", e => {
+      state.q = e.target.value.trim().toLowerCase(); applyFilter();
+    });
+    // size
+    const size = document.getElementById("size");
+    const applySize = () => document.documentElement.style.setProperty("--thumb", size.value + "px");
+    size.addEventListener("input", applySize); applySize();
+  })();
+
+  function buildCard(it) {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.dataset.name = it.name.toLowerCase();
+    card.dataset.folder = it.folder;
+    const thumb = document.createElement("div"); thumb.className = "thumb";
+    thumb.innerHTML = '<svg viewBox="-2 -2 28 28"></svg>'; // placeholder, hydrate 가 교체
+    const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = it.name;
+    const btns = document.createElement("div"); btns.className = "btns";
+    const bSvg = document.createElement("button"); bSvg.className = "btn primary"; bSvg.textContent = "SVG";
+    const bUrl = document.createElement("button"); bUrl.className = "btn"; bUrl.textContent = "URL";
+    btns.appendChild(bSvg); btns.appendChild(bUrl);
+    card.appendChild(thumb); card.appendChild(nm); card.appendChild(btns);
+
+    const rec = { folder: it.folder, name: it.name, path: it.path, el: card, thumb, markup: null, url: publicUrl(it.path) };
+    bSvg.addEventListener("click", () => {
+      if (!rec.markup) { toast("아직 로딩 중…"); return; }
+      copy(rec.markup, bSvg, "SVG");
+    });
+    bUrl.addEventListener("click", () => copy(rec.url, bUrl, "URL"));
+    cards.push(rec);
+    return card;
+  }
+
+  async function hydrate(rec) {
+    try {
+      const res = await fetch(rec.url, { cache: "force-cache" });
+      if (!res.ok) throw new Error(res.status);
+      const raw = await res.text();
+      const markup = styledSvg(raw, rec.name);
+      if (!markup) throw new Error("parse");
+      rec.markup = markup;
+      rec.thumb.innerHTML = markup;
+    } catch (e) {
+      rec.thumb.innerHTML = '<div style="color:#8e8c82;font-size:10px">load fail</div>';
+    }
+  }
+
+  // ───────── 필터/검색 ─────────
+  function applyFilter() {
+    const { filter, q } = state;
+    const secCount = {};
+    cards.forEach(rec => {
+      const okF = filter === "all" || rec.folder === filter;
+      const okQ = !q || rec.name.toLowerCase().includes(q) || rec.folder.includes(q);
+      const show = okF && okQ;
+      rec.el.hidden = !show;
+      if (show) secCount[rec.folder] = (secCount[rec.folder] || 0) + 1;
+    });
+    document.querySelectorAll(".section").forEach(sec => {
+      sec.hidden = !secCount[sec.dataset.folder];
+    });
+    const total = Object.values(secCount).reduce((a, b) => a + b, 0);
+    document.getElementById("count").textContent = total + " icons";
+  }
+
+  // ───────── 복사 & 토스트 ─────────
+  async function copy(text, btn, label) {
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; }
+    catch (e) {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { ok = document.execCommand("copy"); } catch (_) {}
+      document.body.removeChild(ta);
+    }
+    if (ok && btn) {
+      btn.classList.add("copied"); const t = btn.textContent; btn.textContent = "✓";
+      setTimeout(() => { btn.classList.remove("copied"); btn.textContent = t; }, 900);
+    }
+    toast(ok ? label + " 복사됨" : "복사 실패");
+  }
+  let toastTimer = null;
+  function toast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 1400);
+  }
+  function showBanner(html) {
+    const b = document.getElementById("banner"); b.className = "banner show"; b.innerHTML = html;
+  }
+</script>
+</body>
+</html>
