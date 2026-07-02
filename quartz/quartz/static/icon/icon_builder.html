@@ -958,5 +958,31 @@
     restoreState();
   })();
 </script>
+
+<!-- 부모 iframe 높이 보고: body min-height:100vh 순환 회피 위해 자식 실제 높이 측정 -->
+<script>
+(function(){
+  function contentHeight(){
+    var b=document.body, max=0, k=b.children;
+    for(var i=0;i<k.length;i++){
+      var r=k[i].getBoundingClientRect();
+      if(r.bottom>max) max=r.bottom;
+    }
+    var pb=parseFloat(getComputedStyle(b).paddingBottom)||0;
+    return Math.ceil(max + pb + window.scrollY);
+  }
+  var last=0, raf=null;
+  function report(){
+    var h=contentHeight();
+    if(h && h!==last){ last=h; try{ parent.postMessage({type:'iconFrameHeight',height:h},'*'); }catch(e){} }
+  }
+  function schedule(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(report); }
+  window.addEventListener('load', schedule);
+  window.addEventListener('resize', schedule);
+  new ResizeObserver(schedule).observe(document.body);
+  new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,attributes:true,characterData:true});
+  [0,100,300,600,1200].forEach(function(t){ setTimeout(schedule,t); });
+})();
+</script>
 </body>
 </html>
