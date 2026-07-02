@@ -31,7 +31,14 @@ jobs:
           cache: npm
           cache-dependency-path: quartz/package-lock.json
       - name: Install Dependencies
-        run: npm ci
+        run: |
+          n=0
+          until npm ci; do
+            n=$((n+1))
+            if [ "$n" -ge 3 ]; then echo "npm ci 3회 실패 — 중단"; exit 1; fi
+            echo "npm ci 실패 ($n/3) — 15s 후 재시도"
+            sleep 15
+          done
       - name: Build Quartz
         run: node ./quartz/bootstrap-cli.mjs build -d ../01_publish
       - name: Add CNAME (custom domain)
@@ -45,9 +52,20 @@ jobs:
     needs: build
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment-retry.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      # 1차 시도: 실패해도 job 은 안 죽임(continue-on-error) → 2차로 넘어감
       - name: Deploy to GitHub Pages
         id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      # 1차 실패(주로 Pages 인프라 타임아웃)일 때만 30s 후 재시도
+      - name: Wait before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+      # 2차 시도: 이건 continue-on-error 없음 → 여기서도 실패면 job 실패(진짜 오류 → 수동 수정)
+      - name: Deploy to GitHub Pages (retry)
+        id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
