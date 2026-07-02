@@ -87,8 +87,8 @@ const config: QuartzConfig = {
       Plugin.Static(),
       Plugin.Favicon(),
       Plugin.NotFoundPage(),
-      // Comment out CustomOgImages to speed up build time
-      Plugin.CustomOgImages(),
+      // CustomOgImages 비활성화: 페이지마다 og webp 생성해 빌드 느림. 링크 공유 프리뷰 안 쓰므로 끔.
+      // Plugin.CustomOgImages(),
     ],
   },
 }
