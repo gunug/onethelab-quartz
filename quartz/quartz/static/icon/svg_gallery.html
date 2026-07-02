@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>HHG · SVG Gallery</title>
+<title>svg gallery</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --hhg-yellow:#FFD400; --hhg-yellow-soft:#FFE766; --hhg-yellow-deep:#C9A600; --on-brand:#1A1A17;
+    --brand-yellow:#FFD400; --brand-yellow-soft:#FFE766; --brand-yellow-deep:#C9A600; --on-brand:#1A1A17;
     --ink:#F5F4EC; --body:#CFCDC2; --muted:#8E8C82; --hairline:#33332B;
     --canvas:#121210; --surface:#1C1C17; --surface-soft:#26261F;
     --sh-sm:0 1px 2px rgba(0,0,0,.4); --sh-md:0 4px 16px rgba(0,0,0,.45);
@@ -24,7 +24,7 @@
     font-family: var(--font); background: var(--canvas); color: var(--body);
     -webkit-font-smoothing: antialiased;
   }
-  .eyebrow { display:inline-block; background:#161613; color:var(--hhg-yellow); font-size:11px; font-weight:600;
+  .eyebrow { display:inline-block; background:#161613; color:var(--brand-yellow); font-size:11px; font-weight:600;
              letter-spacing:.12em; text-transform:uppercase; padding:5px 12px; border-radius:9999px; margin-bottom:8px; }
   .head { text-align:center; }
   h1 { font-size: 28px; font-weight: 800; letter-spacing:-.02em; color: var(--ink); margin: 0; }
@@ -40,23 +40,23 @@
   .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; width:100%; max-width:1400px; }
   .search { flex:1; min-width:180px; background:var(--surface-soft); border:1px solid var(--hairline);
             border-radius:var(--r-md); color:var(--ink); font-family:var(--font); font-size:14px; padding:9px 14px; }
-  .search:focus { outline:none; border-color:var(--hhg-yellow); }
+  .search:focus { outline:none; border-color:var(--brand-yellow); }
   .filters { display:flex; gap:6px; flex-wrap:wrap; }
   .filter { font-family:var(--font); font-size:12px; font-weight:700; padding:8px 14px; border:1px solid var(--hairline);
             border-radius:var(--r-md); background:var(--surface); color:var(--muted); cursor:pointer; transition:.12s;
             text-transform:uppercase; letter-spacing:.06em; }
   .filter:hover { color:var(--body); }
-  .filter.active { background:var(--hhg-yellow); color:var(--on-brand); border-color:var(--hhg-yellow); }
+  .filter.active { background:var(--brand-yellow); color:var(--on-brand); border-color:var(--brand-yellow); }
 
   /* size 슬라이더 */
   .sizerow { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; color:var(--body); }
-  .sizerow input[type="range"] { width:90px; accent-color:var(--hhg-yellow); }
+  .sizerow input[type="range"] { width:90px; accent-color:var(--brand-yellow); }
 
   /* 섹션 */
   #sections { width:100%; max-width:1400px; }
   .section { width:100%; }
   .section h2 { font-size:11px; font-weight:700; margin:18px 0 10px; text-transform:uppercase; letter-spacing:.1em;
-                color:var(--hhg-yellow-deep); }
+                color:var(--brand-yellow-deep); }
   .section[hidden] { display:none; }
 
   /* 그리드 */
@@ -64,7 +64,7 @@
   .card { background:var(--surface); border:1px solid var(--hairline); border-radius:var(--r-md);
           padding:10px; display:flex; flex-direction:column; align-items:center; gap:8px; transition:.12s; }
   .card[hidden] { display:none; }
-  .card:hover { border-color:var(--hhg-yellow); }
+  .card:hover { border-color:var(--brand-yellow); }
   .thumb { width:100%; height:96px; display:flex; align-items:center; justify-content:center;
            border-radius:var(--r-sm); background-color:#26261f;
            background-image:
@@ -78,9 +78,9 @@
   .btns { display:flex; gap:6px; width:100%; }
   .btn { flex:1; font-family:var(--font); font-size:11px; font-weight:600; padding:6px 0; border:1px solid var(--hairline);
          border-radius:var(--r-sm); background:var(--surface-soft); color:var(--body); cursor:pointer; transition:.1s; }
-  .btn:hover { border-color:var(--hhg-yellow); color:var(--ink); }
-  .btn.primary { background:var(--hhg-yellow); color:var(--on-brand); border-color:var(--hhg-yellow); }
-  .btn.primary:hover { background:var(--hhg-yellow-deep); color:#fff; }
+  .btn:hover { border-color:var(--brand-yellow); color:var(--ink); }
+  .btn.primary { background:var(--brand-yellow); color:var(--on-brand); border-color:var(--brand-yellow); }
+  .btn.primary:hover { background:var(--brand-yellow-deep); color:#fff; }
   .btn.copied { background:#1f3a22; border-color:#3a6b3f; color:#c6f0cc; }
 
   /* 토스트 */
@@ -93,7 +93,7 @@
 </head>
 <body>
   <div class="head">
-    <span class="eyebrow">HHG · SVG Gallery</span>
+    <span class="eyebrow">SVG Gallery</span>
     <h1>SVG Gallery</h1>
     <div class="sub">Supabase Storage 의 아이콘. <b>SVG</b> = 색 입힌 인라인 svg 태그 복사 · <b>URL</b> = 이미지 링크 복사</div>
   </div>

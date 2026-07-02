@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>One The Lab Design System</title>
+<title>design system</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   /* Brand (테마 무관 고정) */
-  --hhg-yellow:#FFD400;
-  --hhg-yellow-soft:#FFE766;
-  --hhg-yellow-deep:#C9A600;
+  --brand-yellow:#FFD400;
+  --brand-yellow-soft:#FFE766;
+  --brand-yellow-deep:#C9A600;
   --on-brand:#1A1A17;       /* 노랑 위 텍스트 — 항상 어둡게 */
   /* Semantic */
   --success:#3FA66A;
@@ -64,7 +64,7 @@
 *::-webkit-scrollbar-track{background:transparent}
 *::-webkit-scrollbar-thumb{background:var(--hairline);border-radius:var(--r-pill);
   border:2px solid var(--canvas);background-clip:padding-box}
-*::-webkit-scrollbar-thumb:hover{background:var(--hhg-yellow-deep)}
+*::-webkit-scrollbar-thumb:hover{background:var(--brand-yellow-deep)}
 *::-webkit-scrollbar-corner{background:transparent}
 body{font-family:var(--font);background:var(--canvas);color:var(--body);
   line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -76,24 +76,24 @@ aside{display:none}
   color:var(--ink);margin-bottom:var(--s7)}
 .logo .mark{display:grid;place-items:center}
 .logo .mark svg{width:46px;height:auto;display:block}
-.logo .mark svg path,.logo .mark svg polygon{fill:var(--hhg-yellow)}
+.logo .mark svg path,.logo .mark svg polygon{fill:var(--brand-yellow)}
 nav a{display:block;padding:3px 10px;border-radius:var(--r-sm);color:var(--muted);
   text-decoration:none;font-size:13px;font-weight:500;line-height:1.55}
 nav a:hover{background:var(--surface-soft);color:var(--ink)}
-nav a.active{background:var(--hhg-yellow);color:var(--on-brand);font-weight:600}
+nav a.active{background:var(--brand-yellow);color:var(--on-brand);font-weight:600}
 /* 큰 섹션 — 강한 구분 */
 nav .nav-sec{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;
   letter-spacing:.01em;color:var(--ink);margin:var(--s6) 0 var(--s3);
   padding-top:var(--s4);border-top:1px solid var(--hairline)}
 nav .nav-sec:first-of-type{margin-top:0;padding-top:0;border-top:none}
-nav .nav-sec .tick{width:4px;height:15px;border-radius:2px;background:var(--hhg-yellow)}
+nav .nav-sec .tick{width:4px;height:15px;border-radius:2px;background:var(--brand-yellow)}
 /* 작은 그룹 — 약한 구분 */
 nav .group{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   color:var(--muted);margin:var(--s3) 0 3px 10px}
 
 main{padding:var(--s8) var(--s8);max-width:100%;width:100%}
 .hero{margin-bottom:var(--s8)}
-.eyebrow{display:inline-block;background:var(--code-bg);color:var(--hhg-yellow);
+.eyebrow{display:inline-block;background:var(--code-bg);color:var(--brand-yellow);
   font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
   padding:5px 12px;border-radius:var(--r-pill);margin-bottom:var(--s4)}
 h1{font-size:52px;line-height:1.05;letter-spacing:-.02em;color:var(--ink);font-weight:800}
@@ -101,7 +101,7 @@ h1{font-size:52px;line-height:1.05;letter-spacing:-.02em;color:var(--ink);font-w
 
 section{margin-bottom:var(--s8);scroll-margin-top:var(--s5)}
 h2{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--hhg-yellow-deep);margin-bottom:var(--s2)}
+  color:var(--brand-yellow-deep);margin-bottom:var(--s2)}
 .sec-title{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:-.01em;
   margin-bottom:var(--s5)}
 h3{font-size:16px;font-weight:600;color:var(--ink);margin:var(--s5) 0 var(--s3)}
@@ -127,15 +127,15 @@ h3{font-size:16px;font-weight:600;color:var(--ink);margin:var(--s5) 0 var(--s3)}
 
 /* spacing */
 .space-row{display:flex;align-items:center;gap:var(--s4);margin-bottom:var(--s3)}
-.space-row .bar{height:18px;background:var(--hhg-yellow);border-radius:3px}
+.space-row .bar{height:18px;background:var(--brand-yellow);border-radius:3px}
 .space-row .tok{font-family:var(--mono);font-size:12px;color:var(--muted);width:120px}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font);
   font-size:14px;font-weight:600;padding:10px 20px;border-radius:var(--r-md);
   border:1px solid transparent;cursor:pointer;text-decoration:none;transition:.12s}
-.btn-primary{background:var(--hhg-yellow);color:var(--on-brand)}
-.btn-primary:hover{background:var(--hhg-yellow-deep);color:#fff}
+.btn-primary{background:var(--brand-yellow);color:var(--on-brand)}
+.btn-primary:hover{background:var(--brand-yellow-deep);color:#fff}
 .btn-secondary{background:var(--surface);color:var(--ink);border-color:var(--hairline)}
 .btn-secondary:hover{background:var(--surface-soft)}
 .btn-dark{background:var(--ink);color:var(--on-ink)}
@@ -151,7 +151,7 @@ h3{font-size:16px;font-weight:600;color:var(--ink);margin:var(--s5) 0 var(--s3)}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
   padding:4px 12px;border-radius:var(--r-pill)}
 .badge.dot::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
-.b-yellow{background:var(--hhg-yellow-soft);color:var(--hhg-yellow-deep)}
+.b-yellow{background:var(--brand-yellow-soft);color:var(--brand-yellow-deep)}
 .b-success{background:#E3F3EA;color:var(--success)}
 .b-warning{background:#FAF0DD;color:var(--warning)}
 .b-error{background:#F8E5E5;color:var(--error)}
@@ -163,8 +163,8 @@ label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-botto
 input,select,textarea{width:100%;font-family:var(--font);font-size:14px;
   padding:10px 14px;border:1px solid var(--hairline);border-radius:var(--r-md);
   background:var(--surface);color:var(--ink);outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--hhg-yellow-deep);
-  box-shadow:0 0 0 3px var(--hhg-yellow-soft)}
+input:focus,select:focus,textarea:focus{border-color:var(--brand-yellow-deep);
+  box-shadow:0 0 0 3px var(--brand-yellow-soft)}
 
 /* alert */
 .alert{display:flex;gap:12px;padding:14px 16px;border-radius:var(--r-md);
@@ -190,7 +190,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--surface-soft);
 .code-block{background:var(--code-bg);color:var(--code-fg);border-radius:var(--r-md);
   padding:var(--s5);font-family:var(--mono);font-size:13px;line-height:1.7;overflow-x:auto}
 .code-block .c{color:#9a9a8e}
-.code-block .y{color:var(--hhg-yellow)}
+.code-block .y{color:var(--brand-yellow)}
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s5)}
 .elev{height:90px;border-radius:var(--r-md);background:var(--surface);
@@ -199,7 +199,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--surface-soft);
 /* ===== 큰 섹션 배너 (콘텐츠) ===== */
 .banner{margin:var(--s8) 0 var(--s6);padding-top:var(--s5);border-top:3px solid var(--ink)}
 .banner .b-eyebrow{font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--hhg-yellow-deep)}
+  color:var(--brand-yellow-deep)}
 .banner .b-title{font-size:38px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-top:6px}
 .banner .b-desc{font-size:16px;color:var(--muted);margin-top:8px;max-width:62ch}
 
@@ -209,7 +209,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--surface-soft);
 .diagram svg{display:block;max-width:100%;height:auto}
 .cap{font-size:13px;color:var(--muted);margin:-4px 0 var(--s5)}
 svg .nbox{fill:var(--surface-soft);stroke:var(--hairline);stroke-width:1.5}
-svg .nfill{fill:var(--hhg-yellow)}
+svg .nfill{fill:var(--brand-yellow)}
 svg .ndark{fill:var(--ink)}
 svg .nline{stroke:var(--muted);stroke-width:1.5;fill:none}
 svg .ndash{stroke:var(--muted);stroke-width:1.5;fill:none;stroke-dasharray:5 4}
@@ -221,8 +221,8 @@ svg .nt-d{fill:var(--on-ink);font-family:var(--font);font-size:12px;font-weight:
 /* roadmap */
 .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4)}
 .rm-col{position:relative}
-.rm-q{font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--hhg-yellow-deep);margin-bottom:8px}
-.rm-card{background:var(--surface);border:1px solid var(--hairline);border-left:3px solid var(--hhg-yellow);
+.rm-q{font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--brand-yellow-deep);margin-bottom:8px}
+.rm-card{background:var(--surface);border:1px solid var(--hairline);border-left:3px solid var(--brand-yellow);
   border-radius:var(--r-md);padding:12px 14px;font-size:13px;margin-bottom:8px;box-shadow:var(--sh-sm)}
 .rm-card.done{border-left-color:var(--success);opacity:.8}
 .rm-card.now{border-left-color:var(--info)}
@@ -249,7 +249,7 @@ svg .nt-d{fill:var(--on-ink);font-family:var(--font);font-size:12px;font-weight:
 .kpi .delta{font-size:12px;font-weight:600;margin-top:4px}
 .kpi .up{color:var(--success)} .kpi .down{color:var(--error)}
 .bars{display:flex;align-items:flex-end;gap:10px;height:120px;padding-top:8px}
-.bars .bar{flex:1;background:var(--hhg-yellow);border-radius:5px 5px 0 0;min-width:18px;position:relative}
+.bars .bar{flex:1;background:var(--brand-yellow);border-radius:5px 5px 0 0;min-width:18px;position:relative}
 .bars .bar span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:11px;color:var(--muted)}
 
 /* timeline */
@@ -257,8 +257,8 @@ svg .nt-d{fill:var(--on-ink);font-family:var(--font);font-size:12px;font-weight:
 .timeline::before{content:"";position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--hairline)}
 .tl-item{position:relative;margin-bottom:var(--s5)}
 .tl-item::before{content:"";position:absolute;left:-25px;top:3px;width:14px;height:14px;
-  border-radius:50%;background:var(--hhg-yellow);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--hairline)}
-.tl-date{font-size:12px;font-weight:700;color:var(--hhg-yellow-deep)}
+  border-radius:50%;background:var(--brand-yellow);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--hairline)}
+.tl-date{font-size:12px;font-weight:700;color:var(--brand-yellow-deep)}
 .tl-title{font-size:15px;font-weight:600;color:var(--ink);margin-top:2px}
 .tl-desc{font-size:13px;color:var(--muted);margin-top:2px}
 
@@ -304,7 +304,7 @@ svg .nt-d{fill:var(--on-ink);font-family:var(--font);font-size:12px;font-weight:
 .gantt{font-size:13px}
 .gantt .grow{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:10px;margin-bottom:8px}
 .gantt .gtrack{position:relative;height:22px;background:var(--surface-soft);border-radius:5px}
-.gantt .gbar{position:absolute;height:22px;border-radius:5px;background:var(--hhg-yellow);
+.gantt .gbar{position:absolute;height:22px;border-radius:5px;background:var(--brand-yellow);
   display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--on-brand);font-weight:600}
 .gantt .gbar.b{background:var(--info)} .gantt .gbar.g{background:var(--success)}
 .gantt .gaxis{display:grid;grid-template-columns:120px 1fr;gap:10px;font-size:11px;color:var(--muted);margin-top:4px}
@@ -315,19 +315,19 @@ svg .nt-d{fill:var(--on-ink);font-family:var(--font);font-size:12px;font-weight:
 .kanban .kcol{background:var(--surface-soft);border:1px solid var(--hairline);border-radius:var(--r-md);padding:12px}
 .kanban .kh{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;justify-content:space-between}
 .kanban .kh .cnt{color:var(--muted);font-weight:600}
-.kanban .kcard{background:var(--surface);border:1px solid var(--hairline);border-left:3px solid var(--hhg-yellow);
+.kanban .kcard{background:var(--surface);border:1px solid var(--hairline);border-left:3px solid var(--brand-yellow);
   border-radius:6px;padding:10px;font-size:12.5px;margin-bottom:8px;box-shadow:var(--sh-sm)}
 .kanban .kcard.b{border-left-color:var(--info)} .kanban .kcard.g{border-left-color:var(--success)}
 
 /* Comparison matrix */
-.cmatrix td .dots{color:var(--hhg-yellow-deep);letter-spacing:2px}
+.cmatrix td .dots{color:var(--brand-yellow-deep);letter-spacing:2px}
 .cmatrix td .off{color:var(--hairline)}
 
 footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hairline);
   font-size:13px;color:var(--muted)}
 
 /* 다크 테마 — 시맨틱 칩/알림 톤 다운 */
-[data-theme="dark"] .b-yellow{background:rgba(255,212,0,.16);color:var(--hhg-yellow)}
+[data-theme="dark"] .b-yellow{background:rgba(255,212,0,.16);color:var(--brand-yellow)}
 [data-theme="dark"] .b-success{background:rgba(63,166,106,.18);color:#6cc28d}
 [data-theme="dark"] .b-warning{background:rgba(224,148,26,.18);color:#e6a948}
 [data-theme="dark"] .b-error{background:rgba(210,74,74,.18);color:#e07676}
@@ -342,7 +342,7 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
   padding:9px 12px;border:1px solid var(--hairline);border-radius:var(--r-md);
   background:var(--surface-soft);color:var(--ink);font-family:var(--font);
   font-size:13px;font-weight:600;cursor:pointer}
-.theme-toggle:hover{border-color:var(--hhg-yellow-deep)}
+.theme-toggle:hover{border-color:var(--brand-yellow-deep)}
 .theme-toggle .ic{font-size:15px}
 [data-theme="dark"] .theme-toggle .sun{display:none}
 [data-theme="light"] .theme-toggle .moon{display:none}
@@ -509,10 +509,10 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
         <div class="card">
           <h3 style="margin-top:0">Radius</h3>
           <div class="row">
-            <div style="width:70px;height:70px;background:var(--hhg-yellow);border-radius:6px"></div>
-            <div style="width:70px;height:70px;background:var(--hhg-yellow);border-radius:10px"></div>
-            <div style="width:70px;height:70px;background:var(--hhg-yellow);border-radius:16px"></div>
-            <div style="width:70px;height:70px;background:var(--hhg-yellow);border-radius:9999px"></div>
+            <div style="width:70px;height:70px;background:var(--brand-yellow);border-radius:6px"></div>
+            <div style="width:70px;height:70px;background:var(--brand-yellow);border-radius:10px"></div>
+            <div style="width:70px;height:70px;background:var(--brand-yellow);border-radius:16px"></div>
+            <div style="width:70px;height:70px;background:var(--brand-yellow);border-radius:9999px"></div>
           </div>
           <p style="font-size:13px;color:var(--muted);margin-top:10px">sm 6 · md 10 · lg 16 · pill</p>
         </div>
@@ -600,7 +600,7 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
       <table>
         <thead><tr><th>토큰</th><th>값</th><th>용도</th><th>상태</th></tr></thead>
         <tbody>
-          <tr><td><code>--hhg-yellow</code></td><td>#FFD400</td><td>브랜드 강조</td><td><span class="badge dot b-success">사용중</span></td></tr>
+          <tr><td><code>--brand-yellow</code></td><td>#FFD400</td><td>브랜드 강조</td><td><span class="badge dot b-success">사용중</span></td></tr>
           <tr><td><code>--ink</code></td><td>#1A1A17</td><td>제목·텍스트</td><td><span class="badge dot b-success">사용중</span></td></tr>
           <tr><td><code>--canvas</code></td><td>#FAFAF7</td><td>배경</td><td><span class="badge dot b-success">사용중</span></td></tr>
           <tr><td><code>--hairline</code></td><td>#E7E5DD</td><td>테두리</td><td><span class="badge dot b-warning">검토</span></td></tr>
@@ -748,7 +748,7 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
       <p class="cap">집합의 교집합·합집합 표현</p>
       <div class="diagram">
         <svg viewBox="0 0 480 240" role="img" aria-label="venn diagram">
-          <circle cx="180" cy="110" r="90" fill="var(--hhg-yellow)" fill-opacity="0.45" stroke="var(--hhg-yellow-deep)" stroke-width="1.5"/>
+          <circle cx="180" cy="110" r="90" fill="var(--brand-yellow)" fill-opacity="0.45" stroke="var(--brand-yellow-deep)" stroke-width="1.5"/>
           <circle cx="300" cy="110" r="90" fill="var(--info)" fill-opacity="0.30" stroke="var(--info)" stroke-width="1.5"/>
           <text class="nt" x="130" y="115" text-anchor="middle">디자인</text>
           <text class="nt" x="350" y="115" text-anchor="middle">개발</text>
@@ -766,7 +766,7 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
       <div class="diagram">
         <svg viewBox="0 0 480 240" role="img" aria-label="circle packing">
           <circle cx="160" cy="120" r="110" fill="var(--surface-soft)" stroke="var(--hairline)" stroke-width="1.5"/>
-          <circle cx="125" cy="100" r="55" fill="var(--hhg-yellow)" fill-opacity="0.55" stroke="var(--hhg-yellow-deep)"/>
+          <circle cx="125" cy="100" r="55" fill="var(--brand-yellow)" fill-opacity="0.55" stroke="var(--brand-yellow-deep)"/>
           <circle cx="200" cy="150" r="40" fill="var(--info)" fill-opacity="0.35" stroke="var(--info)"/>
           <circle cx="180" cy="70" r="22" fill="var(--success)" fill-opacity="0.4" stroke="var(--success)"/>
           <text class="ns" x="125" y="104" text-anchor="middle">UI</text>
@@ -788,7 +788,7 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
         <svg viewBox="0 0 520 260" role="img" aria-label="bubble chart">
           <line class="nline" x1="50" y1="20" x2="50" y2="220"/>
           <line class="nline" x1="50" y1="220" x2="500" y2="220"/>
-          <circle cx="130" cy="170" r="22" fill="var(--hhg-yellow)" fill-opacity="0.6" stroke="var(--hhg-yellow-deep)"/>
+          <circle cx="130" cy="170" r="22" fill="var(--brand-yellow)" fill-opacity="0.6" stroke="var(--brand-yellow-deep)"/>
           <circle cx="230" cy="120" r="38" fill="var(--info)" fill-opacity="0.35" stroke="var(--info)"/>
           <circle cx="330" cy="160" r="16" fill="var(--success)" fill-opacity="0.5" stroke="var(--success)"/>
           <circle cx="400" cy="80" r="48" fill="var(--error)" fill-opacity="0.3" stroke="var(--error)"/>
@@ -896,8 +896,8 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
           <div class="stage"><div class="st-h">사용</div><div class="st-do">기대대로 동작</div><div class="st-emo">😄</div></div>
         </div>
         <svg viewBox="0 0 520 80" style="margin-top:12px" role="img" aria-label="emotion line">
-          <polyline points="65,40 195,48 325,62 455,22" fill="none" stroke="var(--hhg-yellow-deep)" stroke-width="2.5"/>
-          <circle cx="65" cy="40" r="5" fill="var(--hhg-yellow)"/><circle cx="195" cy="48" r="5" fill="var(--hhg-yellow)"/>
+          <polyline points="65,40 195,48 325,62 455,22" fill="none" stroke="var(--brand-yellow-deep)" stroke-width="2.5"/>
+          <circle cx="65" cy="40" r="5" fill="var(--brand-yellow)"/><circle cx="195" cy="48" r="5" fill="var(--brand-yellow)"/>
           <circle cx="325" cy="62" r="5" fill="var(--error)"/><circle cx="455" cy="22" r="5" fill="var(--success)"/>
           <text class="ns" x="20" y="44">감정</text>
         </svg>
@@ -916,9 +916,9 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
           <rect class="nfill" x="280" y="40" width="16" height="80"/><text class="ns" x="288" y="32" text-anchor="middle">가입</text>
           <rect class="nbox" x="280" y="140" width="16" height="60" fill="var(--muted)"/><text class="ns" x="288" y="218" text-anchor="middle">이탈</text>
           <rect class="nfill" x="470" y="40" width="16" height="45"/><text class="ns" x="478" y="32" text-anchor="middle">결제</text>
-          <path d="M46 40 C160 40 160 40 280 40 L280 120 C160 120 160 120 46 120 Z" fill="var(--hhg-yellow)" fill-opacity="0.5"/>
+          <path d="M46 40 C160 40 160 40 280 40 L280 120 C160 120 160 120 46 120 Z" fill="var(--brand-yellow)" fill-opacity="0.5"/>
           <path d="M46 120 C160 120 160 140 280 140 L280 200 C160 200 160 200 46 200 Z" fill="var(--muted)" fill-opacity="0.3"/>
-          <path d="M296 40 C380 40 380 40 470 40 L470 85 C380 85 380 90 296 90 Z" fill="var(--hhg-yellow)" fill-opacity="0.6"/>
+          <path d="M296 40 C380 40 380 40 470 40 L470 85 C380 85 380 90 296 90 Z" fill="var(--brand-yellow)" fill-opacity="0.6"/>
         </svg>
       </div>
     </section>
@@ -1306,7 +1306,7 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
           <text class="ns" x="20" y="40">High</text><text class="ns" x="24" y="110">Low</text>
           <line class="nline" x1="60" y1="30" x2="60" y2="130"/>
           <line class="nline" x1="60" y1="130" x2="540" y2="130"/>
-          <polyline class="nfill" style="fill:none;stroke:var(--hhg-yellow);stroke-width:2.5"
+          <polyline class="nfill" style="fill:none;stroke:var(--brand-yellow);stroke-width:2.5"
             points="60,110 160,110 160,40 280,40 280,110 380,110 380,40 540,40"/>
           <text class="ns" x="110" y="148">t0</text><text class="ns" x="270" y="148">t1</text><text class="ns" x="370" y="148">t2</text>
         </svg>
@@ -1568,7 +1568,7 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
 .box{ background:<span class="y">#FFD400</span>; }<br><br>
 <span class="c">/* ✓ 토큰 참조 */</span><br>
 .box{<br>
-&nbsp;&nbsp;background: <span class="y">var(--hhg-yellow)</span>;<br>
+&nbsp;&nbsp;background: <span class="y">var(--brand-yellow)</span>;<br>
 &nbsp;&nbsp;color: <span class="y">var(--ink)</span>;<br>
 &nbsp;&nbsp;padding: <span class="y">var(--s4)</span>;<br>
 &nbsp;&nbsp;border-radius: <span class="y">var(--r-md)</span>;<br>
@@ -1585,14 +1585,14 @@ footer{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--hai
 <script>
   // 저장된 테마 복원 (기본 다크)
   (function(){
-    var saved = localStorage.getItem('hhg-theme');
+    var saved = localStorage.getItem('brand-theme');
     if(saved){ document.documentElement.setAttribute('data-theme', saved); }
   })();
   function toggleTheme(){
     var el = document.documentElement;
     var next = el.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     el.setAttribute('data-theme', next);
-    localStorage.setItem('hhg-theme', next);
+    localStorage.setItem('brand-theme', next);
   }
 </script>
 </body>
