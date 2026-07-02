@@ -62,6 +62,31 @@ npx quartz build -d ../01_publish --serve    # 로컬 미리보기
 - 콘텐츠 폴더가 quartz 밖(`../01_publish`)이라 항상 `-d ../01_publish` 플래그 필요.
 - workflow도 `working-directory: quartz` + `npx quartz build -d ../01_publish`, 아티팩트 `quartz/public`.
 
+## CI 빌드 속도 (자주 묻는 것)
+
+**"배포가 왜 5분이나 걸리나 / 더 빠르게 못 하나"에 대한 결론(측정 근거 있음):**
+
+CI 단계별 실측(md 128개 기준):
+
+| 단계 | 시간 | 비고 |
+|---|---|---|
+| checkout | 8s | |
+| setup-node | 1s | |
+| npm install (`npm ci`) | 8s | npm 캐시(`cache: npm`) 붙임 → 소폭 단축 |
+| **Build Quartz** | **5s** | 전체 md 재빌드. ~40ms/페이지. 병목 아님 |
+| Upload artifact | 16s | 출력 용량 따라 증가 |
+| **Deploy to GitHub Pages** | **~250s** | **병목(94%). GitHub Pages 인프라라 우리가 못 줄임. run마다 편차 큼(1분30초~5분)** |
+
+- **`quartz build`는 증분 없음** — 매 run마다 전체 md 파싱·전체 html 재생성. 증분(변경분만)은
+  로컬 `--serve` 감시모드의 `partialEmit`에서만 동작, CI엔 없음. 게다가 CI는 fresh checkout이라
+  이전 `public`/캐시가 안 남아 증분 자체가 불가.
+- **md 증분 빌드 최적화 = 무의미**. 빌드가 5초뿐이라 아껴봐야 몇 초. 5분 대기는 Pages 배포 지연임.
+- **빌드 폭증 위험은 md 개수보다 무거운 emitter.** 특히 `CustomOgImages`는 페이지마다 og webp를
+  렌더해 초선형(128개에 +12초). **`quartz.config.ts`에서 주석처리해 비활성화함 — 다시 켜지 말 것.**
+  끈 뒤 og:image 태그는 `components/Head.tsx`의 정적 폴백(`static/og-image.png`, git 추적됨)으로
+  유지되어 프리뷰 깨지지 않음(전 페이지 공용 1장). 링크 공유 프리뷰가 페이지별로 꼭 필요할 때만 재검토.
+- md 개수 증가는 ~40ms/페이지로 완만(1000개≈40초, 3000개≈2분). 수천 개 전엔 걱정 불필요.
+
 ## 발행 방법
 
 1. 발행할 노트를 `01_publish/` 로 복사
