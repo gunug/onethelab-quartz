@@ -1,7 +1,3 @@
----
-title: 디자인 시스템 데모
----
-
 One The Lab 디자인 시스템이 Quartz에 적용된 모습. 작성 시 참고용.
 
 ## Callout (콜아웃)
