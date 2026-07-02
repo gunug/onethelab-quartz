@@ -291,7 +291,8 @@
   }
 </script>
 
-<!-- 부모 iframe 높이 보고 (icon_builder 와 동일 프로토콜: iconFrameHeight) -->
+<!-- 부모 iframe 높이 보고: 모든 필터(탭) 중 가장 긴 것 기준으로 고정.
+     필터 변경으로 높이가 바뀌지 않도록 최대 높이를 measure→body min-height 로 잠금. -->
 <script>
 (function(){
   function contentHeight(){
@@ -303,16 +304,27 @@
     var pb=parseFloat(getComputedStyle(b).paddingBottom)||0;
     return Math.ceil(max + pb + window.scrollY);
   }
-  var last=0, raf=null;
+  // 필터를 하나씩 적용해 각 상태 높이 측정 → 최댓값. 동기 실행 후 원상복구라 화면 깜빡임 없음.
+  function measureMax(){
+    var btns=document.querySelectorAll("#filters .filter");
+    if(!btns.length || typeof applyFilter!=="function") return contentHeight();
+    var savedFilter=state.filter, max=0, vals=["all"];
+    btns.forEach(function(b){ if(b.dataset.f!=="all") vals.push(b.dataset.f); });
+    vals.forEach(function(v){ state.filter=v; applyFilter(); var h=contentHeight(); if(h>max) max=h; });
+    state.filter=savedFilter; applyFilter(); // 복구
+    return max;
+  }
+  var locked=0, raf=null;
   function report(){
-    var h=contentHeight();
-    if(h && h!==last){ last=h; try{ parent.postMessage({type:'iconFrameHeight',height:h},'*'); }catch(e){} }
+    var h=measureMax();
+    if(h>locked){ locked=h; document.body.style.minHeight=locked+"px"; }
+    if(locked){ try{ parent.postMessage({type:'iconFrameHeight',height:locked},'*'); }catch(e){} }
   }
   function schedule(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(report); }
+  function relock(){ locked=0; document.body.style.minHeight=""; schedule(); } // 폭/크기 변경 시 재계산
   window.addEventListener('load', schedule);
-  window.addEventListener('resize', schedule);
-  new ResizeObserver(schedule).observe(document.body);
-  new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,attributes:true,characterData:true});
+  window.addEventListener('resize', relock);
+  var sz=document.getElementById("size"); if(sz) sz.addEventListener("input", relock); // 썸네일 크기 변경도 재잠금
   [0,100,300,600,1200,2000].forEach(function(t){ setTimeout(schedule,t); });
 })();
 </script>
