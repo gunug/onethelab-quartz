@@ -30,13 +30,13 @@
   .sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
 
   /* 에러/상태 배너 */
-  .banner { display:none; width:100%; max-width:960px; background:#2a1a14; border:1px solid #6b3a2a;
+  .banner { display:none; width:100%; max-width:1400px; background:#2a1a14; border:1px solid #6b3a2a;
             border-radius: var(--r-lg); padding:14px 18px; color:#ffd0c0; font-size:13px; line-height:1.5; }
   .banner.show { display:block; }
   .banner code { font-family: var(--mono); background:#3a221a; padding:1px 6px; border-radius:4px; color:#ffe; }
 
   /* 툴바 */
-  .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; width:100%; max-width:960px; }
+  .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; width:100%; max-width:1400px; }
   .search { flex:1; min-width:180px; background:var(--surface-soft); border:1px solid var(--hairline);
             border-radius:var(--r-md); color:var(--ink); font-family:var(--font); font-size:14px; padding:9px 14px; }
   .search:focus { outline:none; border-color:var(--hhg-yellow); }
@@ -52,7 +52,8 @@
   .sizerow input[type="range"] { width:90px; accent-color:var(--hhg-yellow); }
 
   /* 섹션 */
-  .section { width:100%; max-width:960px; }
+  #sections { width:100%; max-width:1400px; }
+  .section { width:100%; }
   .section h2 { font-size:11px; font-weight:700; margin:18px 0 10px; text-transform:uppercase; letter-spacing:.1em;
                 color:var(--hhg-yellow-deep); }
   .section[hidden] { display:none; }
@@ -288,6 +289,32 @@
   function showBanner(html) {
     const b = document.getElementById("banner"); b.className = "banner show"; b.innerHTML = html;
   }
+</script>
+
+<!-- 부모 iframe 높이 보고 (icon_builder 와 동일 프로토콜: iconFrameHeight) -->
+<script>
+(function(){
+  function contentHeight(){
+    var b=document.body, max=0, k=b.children;
+    for(var i=0;i<k.length;i++){
+      var r=k[i].getBoundingClientRect();
+      if(r.bottom>max) max=r.bottom;
+    }
+    var pb=parseFloat(getComputedStyle(b).paddingBottom)||0;
+    return Math.ceil(max + pb + window.scrollY);
+  }
+  var last=0, raf=null;
+  function report(){
+    var h=contentHeight();
+    if(h && h!==last){ last=h; try{ parent.postMessage({type:'iconFrameHeight',height:h},'*'); }catch(e){} }
+  }
+  function schedule(){ if(raf) cancelAnimationFrame(raf); raf=requestAnimationFrame(report); }
+  window.addEventListener('load', schedule);
+  window.addEventListener('resize', schedule);
+  new ResizeObserver(schedule).observe(document.body);
+  new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,attributes:true,characterData:true});
+  [0,100,300,600,1200,2000].forEach(function(t){ setTimeout(schedule,t); });
+})();
 </script>
 </body>
 </html>

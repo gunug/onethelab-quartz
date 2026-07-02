@@ -70,9 +70,8 @@ body{font-family:var(--font);background:var(--canvas);color:var(--body);
   line-height:1.6;-webkit-font-smoothing:antialiased}
 
 /* layout */
-.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-aside{position:sticky;top:0;height:100vh;background:var(--surface);
-  border-right:1px solid var(--hairline);padding:var(--s6) var(--s5);overflow-y:auto}
+.layout{display:block;min-height:100vh}
+aside{display:none}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;
   color:var(--ink);margin-bottom:var(--s7)}
 .logo .mark{display:grid;place-items:center}
@@ -92,7 +91,7 @@ nav .nav-sec .tick{width:4px;height:15px;border-radius:2px;background:var(--hhg-
 nav .group{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   color:var(--muted);margin:var(--s3) 0 3px 10px}
 
-main{padding:var(--s8) var(--s8);max-width:980px}
+main{padding:var(--s8) var(--s8);max-width:100%;width:100%}
 .hero{margin-bottom:var(--s8)}
 .eyebrow{display:inline-block;background:var(--code-bg);color:var(--hhg-yellow);
   font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
