@@ -9,10 +9,10 @@ const footer = Component.Footer({
   },
 })
 
-// 파일을 폴더보다 먼저 표시 (모든 계층 재귀 적용)
+// 폴더를 파일보다 먼저 표시 (모든 계층 재귀 적용)
 const explorer = Component.Explorer({
   sortFn: (a, b) => {
-    if (a.isFolder !== b.isFolder) return a.isFolder ? 1 : -1 // 파일 먼저
+    if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1 // 폴더 먼저
     return a.displayName.localeCompare(b.displayName, undefined, {
       numeric: true,
       sensitivity: "base",
