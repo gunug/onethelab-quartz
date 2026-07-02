@@ -77,7 +77,7 @@ const config: QuartzConfig = {
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
-      // FolderPage 제거: 폴더 index 페이지 안 만듦. .md만 페이지 생성 → 파일/폴더 동명 충돌 방지
+      Plugin.FolderPage(),
       Plugin.TagPage(),
       Plugin.ContentIndex({
         enableSiteMap: true,
