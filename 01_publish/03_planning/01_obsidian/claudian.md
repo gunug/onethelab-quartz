@@ -107,7 +107,7 @@ Failed to update MCP servers
 ### Claude Code native binary not found 에러
 
 ```
-Error: Claude Code native binary not found at C:\Users\gunug\scoop\apps\nodejs\current\bin\claude.
+Error: Claude Code native binary not found at C:\Users\사용자명\scoop\apps\nodejs\current\bin\claude.
 Please ensure Claude Code is installed via native installer or specify a valid path with options.pathToClaudeCodeExecutable.
 ```
 
@@ -120,5 +120,5 @@ where claude
 ```
 2. Claudian 설정에서 경로 직접 지정:
    - Claudian Settings → `pathToClaudeCodeExecutable`에 확인한 경로 입력
-   - 예: `C:\Users\gunug\scoop\apps\nodejs\current\bin\claude`
+   - 예: `C:\Users\사용자명\scoop\apps\nodejs\current\bin\claude`
 

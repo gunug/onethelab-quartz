@@ -25,7 +25,8 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [],
-  footer: Component.Spacer(),
+  // 데스크탑/태블릿: 좌측 사이드바 하단에 표시. 모바일: 페이지 최하단(grid-footer)에 표시
+  footer: Component.MobileOnly(footer),
 }
 
 // components for pages that display a single page (e.g. a single note)
@@ -53,7 +54,7 @@ export const defaultContentPageLayout: PageLayout = {
       ],
     }),
     explorer,
-    footer,
+    Component.DesktopOnly(footer),
   ],
   right: [
     Component.DesktopOnly(Component.TableOfContents()),
@@ -78,7 +79,7 @@ export const defaultListPageLayout: PageLayout = {
       ],
     }),
     explorer,
-    footer,
+    Component.DesktopOnly(footer),
   ],
   right: [],
 }
