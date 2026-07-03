@@ -12,7 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = "https://pstpexrnusiwrkcdypjq.supabase.co";
-  const SUPABASE_ANON_KEY = "PASTE_ANON_KEY_HERE";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzdHBleHJudXNpd3JrY2R5cGpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMTQ2MTMsImV4cCI6MjA5ODU5MDYxM30._913UewzlbfF8lumTSlwzBd6748QWYHtfjXA8f1pLus";
   window.SB_CLIENT = (window.supabase && SUPABASE_ANON_KEY !== "PASTE_ANON_KEY_HERE")
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
