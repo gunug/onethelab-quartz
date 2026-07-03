@@ -8,6 +8,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Supabase (OAuth 로그인 + generated 업로드) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // anon key 는 공개용(브라우저 노출 전제) — 실제 권한은 Storage RLS 정책이 통제.
+  // 업로드는 OAuth 로그인 + RLS(authenticated/허용 이메일)로만 허용됨.
+  // 아래 ANON KEY 를 실제 값으로 채우면 업로드/갤러리가 동작함.
+  const SUPABASE_URL = "https://pstpexrnusiwrkcdypjq.supabase.co";
+  const SUPABASE_ANON_KEY = "PASTE_ANON_KEY_HERE";
+  window.SB_CLIENT = (window.supabase && SUPABASE_ANON_KEY !== "PASTE_ANON_KEY_HERE")
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+</script>
 <style>
   :root {
     /* Brand */
@@ -64,6 +76,15 @@
   .export-btn { font-family: var(--font); font-size: 13px; font-weight: 600; padding: 8px 18px; border: none;
                 border-radius: var(--r-md); background: var(--brand-yellow); color: var(--on-brand); cursor: pointer; transition: .12s; }
   .export-btn:hover { background: var(--brand-yellow-deep); color: #fff; }
+  .export-btn:disabled { opacity: .5; cursor: default; }
+  .preview-actions { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+  .export-btn.upload { background: var(--surface-soft); color: var(--ink); border: 1px solid var(--hairline); }
+  .export-btn.upload:hover { border-color: var(--brand-yellow); background: var(--surface); color: var(--brand-yellow); }
+  .auth-line { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+  .auth-status { font-family: var(--mono); flex: 1; word-break: break-all; }
+  .auth-btn { font-family: var(--font); font-size: 11px; font-weight: 600; padding: 4px 10px; border: 1px solid var(--hairline);
+              border-radius: var(--r-sm); background: var(--surface-soft); color: var(--body); cursor: pointer; transition: .12s; }
+  .auth-btn:hover { border-color: var(--brand-yellow); color: var(--ink); }
 
   /* 섹션 */
   .sections { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; max-width: 600px; }
@@ -197,7 +218,14 @@
       </g>
     </svg>
   </div>
-    <button id="c-export" type="button" class="export-btn">export svg</button>
+    <div class="preview-actions">
+      <button id="c-export" type="button" class="export-btn">export svg</button>
+      <button id="c-upload" type="button" class="export-btn upload">☁ generated 업로드</button>
+      <div class="auth-line">
+        <span id="auth-status" class="auth-status">로그인 확인 중…</span>
+        <button id="auth-btn" type="button" class="auth-btn">로그인</button>
+      </div>
+    </div>
   </div>
 
   <!-- 탭: frame / front / back / guide (미리보기 아래) -->
@@ -867,6 +895,61 @@
       a.download = exportFilename();
       a.click();
       URL.revokeObjectURL(url);
+    });
+
+    // ───────── Supabase 인증 + generated 업로드 ─────────
+    // 로그인(OAuth Google)한 사용자만 svg/generated/ 로 업로드. 실권한은 Storage RLS 가 통제.
+    const sb = window.SB_CLIENT;
+    const authStatus = document.getElementById("auth-status");
+    const authBtn = document.getElementById("auth-btn");
+    const uploadBtn = document.getElementById("c-upload");
+
+    async function currentUser() {
+      if (!sb) return null;
+      const { data } = await sb.auth.getUser();
+      return (data && data.user) || null;
+    }
+    async function refreshAuth() {
+      if (!sb) { authStatus.textContent = "supabase 미설정 (ANON KEY 필요)"; authBtn.disabled = true; return null; }
+      const user = await currentUser();
+      if (user) { authStatus.textContent = user.email || "로그인됨"; authBtn.textContent = "로그아웃"; }
+      else { authStatus.textContent = "로그인 필요"; authBtn.textContent = "로그인"; }
+      return user;
+    }
+    async function signIn() {
+      await sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.href.split("#")[0] } });
+    }
+    if (authBtn) authBtn.addEventListener("click", async () => {
+      if (!sb) return;
+      if (await currentUser()) { await sb.auth.signOut(); refreshAuth(); }
+      else signIn();
+    });
+    if (sb) sb.auth.onAuthStateChange(() => refreshAuth());
+    refreshAuth();
+
+    // 타임스탬프 (파일명 뒤에 붙임)
+    const stamp = () => {
+      const d = new Date(), p = n => String(n).padStart(2, "0");
+      return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) +
+             "-" + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds());
+    };
+
+    if (uploadBtn) uploadBtn.addEventListener("click", async () => {
+      if (!sb) { alert("Supabase 미설정: HTML 상단 SUPABASE_ANON_KEY 를 채우세요."); return; }
+      let user = await currentUser();
+      if (!user) { alert("업로드하려면 먼저 로그인하세요. Google 로그인 창으로 이동합니다."); signIn(); return; }
+      const nameIn = prompt("아이콘 이름 입력 (뒤에 타임스탬프 자동 추가):", "");
+      if (nameIn === null) return;                       // 취소
+      const filename = sanitize(nameIn) + "_" + stamp() + ".svg";
+      const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' + buildStandaloneSvg();
+      const blob = new Blob([xml], { type: "image/svg+xml" });
+      uploadBtn.disabled = true;
+      const orig = uploadBtn.textContent; uploadBtn.textContent = "업로드 중…";
+      const { error } = await sb.storage.from("icons")
+        .upload("svg/generated/" + filename, blob, { contentType: "image/svg+xml", upsert: false });
+      uploadBtn.disabled = false; uploadBtn.textContent = orig;
+      if (error) { alert("업로드 실패: " + error.message); return; }
+      alert("업로드 완료 → svg/generated/" + filename);
     });
 
     // ───────── 설정값 영속화 (localStorage) ─────────
