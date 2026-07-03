@@ -10,3 +10,8 @@
 quartz/node_modules/
 quartz/public/
 quartz/.quartz-cache/
+
+# Supabase CLI local state (contains DB password in .temp — never commit)
+supabase/.temp/
+supabase/.branches/
+supabase/config.toml

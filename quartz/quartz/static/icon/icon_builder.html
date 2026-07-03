@@ -904,16 +904,30 @@
     const authBtn = document.getElementById("auth-btn");
     const uploadBtn = document.getElementById("c-upload");
 
+    let canEdit = false;
     async function currentUser() {
       if (!sb) return null;
       const { data } = await sb.auth.getUser();
       return (data && data.user) || null;
     }
+    async function checkPermission() {
+      try { const { data } = await sb.rpc("can_edit_generated"); return data === true; }
+      catch (e) { return false; }
+    }
     async function refreshAuth() {
-      if (!sb) { authStatus.textContent = "supabase 미설정 (ANON KEY 필요)"; authBtn.disabled = true; return null; }
+      if (!sb) { authStatus.textContent = "supabase 미설정 (ANON KEY 필요)"; authBtn.disabled = true; if (uploadBtn) uploadBtn.disabled = true; return null; }
       const user = await currentUser();
-      if (user) { authStatus.textContent = user.email || "로그인됨"; authBtn.textContent = "로그아웃"; }
-      else { authStatus.textContent = "로그인 필요"; authBtn.textContent = "로그인"; }
+      if (user) {
+        authBtn.textContent = "로그아웃";
+        canEdit = await checkPermission();
+        authStatus.textContent = (user.email || "로그인됨") + (canEdit ? " · 편집 가능" : " · 권한 없음");
+        if (uploadBtn) uploadBtn.disabled = !canEdit;
+      } else {
+        canEdit = false;
+        authStatus.textContent = "로그인 필요";
+        authBtn.textContent = "로그인";
+        if (uploadBtn) uploadBtn.disabled = false; // 눌러서 로그인 유도
+      }
       return user;
     }
     async function signIn() {
@@ -938,6 +952,7 @@
       if (!sb) { alert("Supabase 미설정: HTML 상단 SUPABASE_ANON_KEY 를 채우세요."); return; }
       let user = await currentUser();
       if (!user) { alert("업로드하려면 먼저 로그인하세요. Google 로그인 창으로 이동합니다."); signIn(); return; }
+      if (!(await checkPermission())) { alert("업로드 권한이 없습니다. 관리자에게 editors 테이블 등록을 요청하세요."); return; }
       const nameIn = prompt("아이콘 이름 입력 (뒤에 타임스탬프 자동 추가):", "");
       if (nameIn === null) return;                       // 취소
       const filename = sanitize(nameIn) + "_" + stamp() + ".svg";

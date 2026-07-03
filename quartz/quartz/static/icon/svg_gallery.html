@@ -98,6 +98,20 @@
            border-radius:9999px; box-shadow:var(--sh-md); opacity:0; pointer-events:none; transition:.18s; z-index:50; }
   .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
   .count { font-size:12px; color:var(--muted); font-family:var(--mono); }
+
+  /* 로그인 / 업로드 컨트롤 */
+  .auth-status { font-size:11px; font-family:var(--mono); color:var(--muted); max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .auth-btn { font-family:var(--font); font-size:12px; font-weight:600; padding:8px 14px; border:1px solid var(--hairline);
+              border-radius:var(--r-md); background:var(--surface); color:var(--body); cursor:pointer; transition:.12s; }
+  .auth-btn:hover { border-color:var(--brand-yellow); color:var(--ink); }
+  .upload-lbl { display:none; align-items:center; font-family:var(--font); font-size:12px; font-weight:700; padding:8px 14px;
+                border:1px solid var(--brand-yellow); border-radius:var(--r-md); background:var(--brand-yellow); color:var(--on-brand); cursor:pointer; transition:.12s; }
+  .upload-lbl:hover { background:var(--brand-yellow-deep); color:#fff; }
+  body.edit-on .upload-lbl { display:inline-flex; }
+  /* 삭제 버튼: 편집 모드에서만 노출 */
+  .btn.del { display:none; background:#3a1a1a; border-color:#6b3a2a; color:#ffc9bd; }
+  .btn.del:hover { border-color:#ff8a6a; color:#fff; }
+  body.edit-on .btn.del { display:block; }
 </style>
 </head>
 <body>
@@ -114,6 +128,10 @@
     <div class="filters" id="filters"></div>
     <div class="sizerow">size <input type="range" id="size" min="32" max="120" step="4" value="64"></div>
     <span class="count" id="count"></span>
+    <label class="upload-lbl" id="upload-lbl" title="svg 파일 업로드">
+      <input type="file" id="file-input" accept=".svg,image/svg+xml" multiple hidden>＋ 업로드</label>
+    <span class="auth-status" id="auth-status">로그인 확인 중…</span>
+    <button class="auth-btn" id="auth-btn" type="button">로그인</button>
   </div>
 
   <div id="sections"></div>
@@ -190,8 +208,8 @@
     }
     document.getElementById("count").textContent = items.length + " icons";
 
-    // 폴더별 그룹
-    const byFolder = {};
+    // 폴더별 그룹 (generated 섹션은 비어도 항상 생성 → 업로드 카드 append 대상 확보)
+    const byFolder = { generated: [] };
     items.forEach(it => (byFolder[it.folder] = byFolder[it.folder] || []).push(it));
     const folders = FOLDER_ORDER.filter(f => byFolder[f]).concat(
       Object.keys(byFolder).filter(f => !FOLDER_ORDER.includes(f)));
@@ -231,6 +249,8 @@
     const size = document.getElementById("size");
     const applySize = () => document.documentElement.style.setProperty("--thumb", size.value + "px");
     size.addEventListener("input", applySize); applySize();
+
+    wireAuth(); // 로그인 · 편집 UI
   })();
 
   function buildCard(it) {
@@ -244,7 +264,8 @@
     const btns = document.createElement("div"); btns.className = "btns";
     const bSvg = document.createElement("button"); bSvg.className = "btn primary"; bSvg.textContent = "SVG";
     const bUrl = document.createElement("button"); bUrl.className = "btn"; bUrl.textContent = "URL";
-    btns.appendChild(bSvg); btns.appendChild(bUrl);
+    const bDel = document.createElement("button"); bDel.className = "btn del"; bDel.textContent = "삭제";
+    btns.appendChild(bSvg); btns.appendChild(bUrl); btns.appendChild(bDel);
     card.appendChild(thumb); card.appendChild(nm); card.appendChild(btns);
 
     const rec = { folder: it.folder, name: it.name, path: it.path, el: card, thumb, markup: null, url: publicUrl(it.path) };
@@ -253,6 +274,7 @@
       copy(rec.markup, bSvg, "SVG");
     });
     bUrl.addEventListener("click", () => copy(rec.url, bUrl, "URL"));
+    bDel.addEventListener("click", () => removeIcon(rec, bDel));
     cards.push(rec);
     return card;
   }
@@ -314,6 +336,71 @@
   }
   function showBanner(html) {
     const b = document.getElementById("banner"); b.className = "banner show"; b.innerHTML = html;
+  }
+
+  // ───────── 인증 · 편집(업로드/삭제) ─────────
+  // 열람/다운로드는 공개. 추가/삭제는 로그인 + editors.can_edit=true 인 사람만.
+  const SB = window.SB_CLIENT;
+  let galCanEdit = false;
+  const sanitize = s => (s || "").toLowerCase().replace(/\.svg$/, "")
+    .replace(/[^a-z0-9가-힣]+/g, "-").replace(/^-+|-+$/g, "") || "x";
+  const stamp = () => { const d = new Date(), p = n => String(n).padStart(2, "0");
+    return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) +
+           "-" + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()); };
+
+  async function galUser() { if (!SB) return null; const { data } = await SB.auth.getUser(); return (data && data.user) || null; }
+  async function galPerm() { try { const { data } = await SB.rpc("can_edit_generated"); return data === true; } catch (e) { return false; } }
+  async function refreshGalAuth() {
+    const st = document.getElementById("auth-status"), bt = document.getElementById("auth-btn");
+    if (!SB) { st.textContent = "supabase 미설정 (ANON KEY 필요)"; bt.disabled = true; return; }
+    const u = await galUser();
+    if (u) {
+      bt.textContent = "로그아웃";
+      galCanEdit = await galPerm();
+      st.textContent = (u.email || "로그인됨") + (galCanEdit ? " · 편집 가능" : " · 권한 없음");
+    } else { bt.textContent = "로그인"; galCanEdit = false; st.textContent = "로그인 필요"; }
+    document.body.classList.toggle("edit-on", galCanEdit);
+  }
+  function wireAuth() {
+    const bt = document.getElementById("auth-btn");
+    bt.addEventListener("click", async () => {
+      if (!SB) return;
+      if (await galUser()) { await SB.auth.signOut(); refreshGalAuth(); }
+      else await SB.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.href.split("#")[0] } });
+    });
+    if (SB) SB.auth.onAuthStateChange(() => refreshGalAuth());
+    const fi = document.getElementById("file-input");
+    if (fi) fi.addEventListener("change", onUploadFiles);
+    refreshGalAuth();
+  }
+  async function onUploadFiles(e) {
+    const files = [...(e.target.files || [])]; e.target.value = "";
+    if (!files.length) return;
+    if (!SB) { toast("supabase 미설정"); return; }
+    if (!(await galPerm())) { toast("업로드 권한 없음"); return; }
+    const grid = document.querySelector('.section[data-folder="generated"] .grid');
+    let ok = 0;
+    for (const f of files) {
+      const name = sanitize(f.name) + "_" + stamp();
+      const path = "svg/generated/" + name + ".svg";
+      const { error } = await SB.storage.from("icons").upload(path, f, { contentType: "image/svg+xml", upsert: false });
+      if (error) { toast("업로드 실패: " + error.message); continue; }
+      ok++;
+      if (grid) { const card = buildCard({ folder: "generated", name, path }); grid.appendChild(card); hydrate(cards[cards.length - 1]); }
+    }
+    if (ok) toast(ok + "개 업로드됨");
+  }
+  async function removeIcon(rec, btn) {
+    if (!SB) { toast("supabase 미설정"); return; }
+    if (!galCanEdit) { toast("삭제 권한 없음"); return; }
+    if (!confirm("삭제할까요?\n" + rec.name)) return;
+    btn.disabled = true;
+    const { error } = await SB.storage.from("icons").remove([rec.path]);
+    btn.disabled = false;
+    if (error) { toast("삭제 실패: " + error.message); return; }
+    rec.el.remove();
+    const i = cards.indexOf(rec); if (i >= 0) cards.splice(i, 1);
+    toast("삭제됨");
   }
 </script>
 
