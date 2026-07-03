@@ -10,6 +10,12 @@
 - [ ] 문해력을 키우는것이 중요 - 단어를 알아야하는 이유
 - [ ] 바이브 코딩하는 방식 자체
 
+# AI 바이브코딩
+* Mutex
+* Hashmap
+* database index
+* cache invalidation
+
 # 앱
 - [ ] 코드생성기
 - [ ] Suno AI 리듬액션
