@@ -795,15 +795,6 @@
     function buildStandaloneSvg() {
       const src = document.querySelector(".preview svg");
       const clone = src.cloneNode(true);
-      const cs = getComputedStyle(document.documentElement);
-      const v = n => cs.getPropertyValue(n).trim();
-      const main = v("--brand-main"), point = v("--brand-point"), back = v("--brand-back");
-      const fill = hexToRgba(cFill.value, cFillA.value);
-      // 레이어별 선두께 — 그룹 안에서 --stroke-w 로 풀리게 (inline calc 도 반영)
-      const swFrame = v("--sw-frame") || "0.75";
-      const swFront = v("--sw-front") || "0.75";
-      const swBack = v("--sw-back") || "0.75";
-
       clone.setAttribute("xmlns", SVGNS);
       clone.setAttribute("width", "512");
       clone.setAttribute("height", "512");
@@ -831,23 +822,37 @@
         }
       } catch (e) { /* getBBox 실패 시 원본 viewBox 유지 */ }
 
-      // 클래스 규칙을 실제 값으로 주입 (선두께는 그룹별 --stroke-w 로 분리)
-      const style = document.createElementNS(SVGNS, "style");
-      style.textContent =
-        "#frame-group{--stroke-w:" + swFrame + "}" +
-        "#slot-ins-front,#slot-ins-front-outline{--stroke-w:" + swFront + "}" +
-        "#slot-ins-back,#slot-ins-back-outline{--stroke-w:" + swBack + "}" +
-        ".arc{fill:" + fill + ";stroke:" + main + ";stroke-width:var(--stroke-w);stroke-linecap:round;stroke-linejoin:round}" +
-        ".edge{fill:none;stroke:" + main + ";stroke-width:var(--stroke-w);stroke-linecap:round;stroke-linejoin:round}" +
-        ".fill{fill:" + fill + ";stroke:none}" +
-        ".dot{fill:" + main + ";stroke:none}" +
-        ".ins{fill:none;stroke:" + point + ";stroke-width:calc(var(--stroke-w)*0.7);stroke-linecap:round;stroke-linejoin:round}" +
-        ".ins-dot{fill:" + point + ";stroke:none}" +
-        ".ins-solid{fill:" + point + "}" +
-        ".ins-text{fill:" + point + ";font-family:'Inter',-apple-system,sans-serif;font-weight:800}" +
-        "#slot-ins-back .ins{stroke:" + back + "}" +
-        "#slot-ins-back .ins-dot,#slot-ins-back .ins-text,#slot-ins-back .ins-solid{fill:" + back + "}";
-      clone.insertBefore(style, clone.firstChild);
+      // ── flatten: 계산된 색·두께를 각 요소에 presentation 속성으로 직접 박는다.
+      //    style/class/CSS변수를 안 쓰므로 Obsidian·Quartz·GitHub 등이 <style> 를 sanitize 로
+      //    지워도 색이 유지됨(과거 "검은 덩어리" 원인 제거). src(라이브)의 computed 값을 clone 에 복사. ──
+      const SHAPE_SEL = "path,circle,line,rect,polygon,polyline,ellipse,text,tspan";
+      const srcShapes = src.querySelectorAll(SHAPE_SEL);
+      const clShapes = clone.querySelectorAll(SHAPE_SEL);
+      const isNone = c => !c || c === "none" || c === "rgba(0, 0, 0, 0)";
+      clShapes.forEach((el, i) => {
+        const ecs = getComputedStyle(srcShapes[i]);
+        el.setAttribute("fill", isNone(ecs.fill) ? "none" : ecs.fill);
+        if (isNone(ecs.stroke)) {
+          el.setAttribute("stroke", "none");
+        } else {
+          el.setAttribute("stroke", ecs.stroke);
+          const m = ecs.strokeWidth.match(/(-?[\d.]+)px/);
+          el.setAttribute("stroke-width", m ? m[1] : ecs.strokeWidth);
+          el.setAttribute("stroke-linecap", ecs.strokeLinecap || "round");
+          el.setAttribute("stroke-linejoin", ecs.strokeLinejoin || "round");
+        }
+        const tag = el.tagName.toLowerCase();
+        if (tag === "text" || tag === "tspan") {
+          el.setAttribute("font-family", ecs.fontFamily);
+          el.setAttribute("font-weight", ecs.fontWeight);
+          if (!el.getAttribute("font-size")) el.setAttribute("font-size", ecs.fontSize);
+        }
+        el.removeAttribute("class");
+        el.removeAttribute("style");
+      });
+      // 그룹 등에 남은 class 잔재 제거 + 혹시 있는 <style> 제거
+      clone.querySelectorAll("[class]").forEach(el => el.removeAttribute("class"));
+      clone.querySelectorAll("style").forEach(el => el.remove());
       return new XMLSerializer().serializeToString(clone);
     }
 
