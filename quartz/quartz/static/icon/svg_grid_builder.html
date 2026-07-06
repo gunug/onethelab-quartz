@@ -57,6 +57,12 @@
   .btn.primary { background:var(--brand-yellow); color:var(--on-brand); border-color:var(--brand-yellow); }
   .btn.primary:hover { background:var(--brand-yellow-deep); color:#fff; }
   .auth-row { display:flex; align-items:center; gap:8px; width:100%; max-width:640px; justify-content:flex-end; }
+
+  /* 하단 제목 + 범례 */
+  .grid-meta { display:flex; flex-direction:column; gap:8px; width:100%; max-width:560px; }
+  .grid-meta textarea { width:100%; resize:vertical; min-height:60px; background:var(--surface-soft); border:1px solid var(--hairline);
+                         border-radius:var(--r-md); color:var(--ink); font-family:var(--font); font-size:13px; line-height:1.4; padding:9px 14px; }
+  .grid-meta textarea:focus { outline:none; border-color:var(--brand-yellow); }
   .auth-status { font-size:11px; font-family:var(--mono); color:var(--muted); max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
   /* 그리드 전체 이동 십자키 */
@@ -156,6 +162,12 @@
   </div>
 
   <div class="gridwrap" id="gridwrap"></div>
+
+  <!-- 하단 제목 + 범례(그리드 전체 설명 목록). 둘 다 export svg 에도 텍스트로 포함됨 -->
+  <div class="grid-meta">
+    <input type="text" class="name-input" id="grid-title" placeholder="하단 제목 (선택, export 에 포함됨)">
+    <textarea id="grid-legend" rows="3" placeholder="범례·설명 목록 (한 줄에 하나씩, 선택, export 에 포함됨)"></textarea>
+  </div>
 
   <!-- svg 선택 모달: connector(하위 레이어) / icon(상위 레이어) 탭으로 각각 배치 -->
   <div class="modal-bg" id="picker-bg">
@@ -486,18 +498,35 @@
     clone.querySelectorAll("style").forEach(el => el.remove());
     while (clone.firstChild) destSvg.appendChild(clone.firstChild);
   }
+  // 하단 제목/범례 텍스트 블록 크기 계산 (없으면 0) — export svg 하단에 얹힘
+  const TITLE_FONT = 16, TITLE_GAP = 10, LEGEND_FONT = 10, LEGEND_LINE_H = 13, LEGEND_GAP = 8, META_PAD_BOTTOM = 8;
+  function metaLines() {
+    const title = document.getElementById("grid-title").value.trim();
+    const legend = document.getElementById("grid-legend").value.split("\n").map(l => l.trim()).filter(l => l.length);
+    return { title, legend };
+  }
+  function metaHeight(meta) {
+    let h = 0;
+    if (meta.title) h += TITLE_GAP + TITLE_FONT;
+    if (meta.legend.length) h += LEGEND_GAP + meta.legend.length * LEGEND_LINE_H;
+    if (h) h += META_PAD_BOTTOM;
+    return h;
+  }
   async function buildGridSvg() {
     const used = usedCells();
     if (!used.length) return null;
     const minR = Math.min(...used.map(u => u.r)), maxR = Math.max(...used.map(u => u.r));
     const minC = Math.min(...used.map(u => u.c)), maxC = Math.max(...used.map(u => u.c));
     const outRows = maxR - minR + 1, outCols = maxC - minC + 1;
+    const gridW = outCols * CELL, gridH = outRows * CELL;
+    const meta = metaLines();
+    const extraH = metaHeight(meta);
 
     const outer = document.createElementNS(SVGNS, "svg");
     outer.setAttribute("xmlns", SVGNS);
-    outer.setAttribute("viewBox", "0 0 " + (outCols * CELL) + " " + (outRows * CELL));
-    outer.setAttribute("width", outCols * CELL);
-    outer.setAttribute("height", outRows * CELL);
+    outer.setAttribute("viewBox", "0 0 " + gridW + " " + (gridH + extraH));
+    outer.setAttribute("width", gridW);
+    outer.setAttribute("height", gridH + extraH);
 
     // 색 계산용 숨김 호스트 (문서에 붙어야 getComputedStyle 정상 동작)
     const host = document.createElement("div");
@@ -529,6 +558,38 @@
     } finally {
       document.body.removeChild(host);
     }
+
+    // 하단 제목/범례 — 아이콘 격자 바로 아래에 <text> 로 추가
+    if (extraH) {
+      let y = gridH;
+      if (meta.title) {
+        y += TITLE_GAP + TITLE_FONT * 0.85;
+        const t = document.createElementNS(SVGNS, "text");
+        t.setAttribute("x", gridW / 2); t.setAttribute("y", y);
+        t.setAttribute("text-anchor", "middle");
+        t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
+        t.setAttribute("font-weight", "800");
+        t.setAttribute("font-size", TITLE_FONT);
+        t.setAttribute("fill", "#F5F4EC");
+        t.textContent = meta.title;
+        outer.appendChild(t);
+        y += TITLE_FONT - TITLE_FONT * 0.85;
+      }
+      if (meta.legend.length) {
+        y += LEGEND_GAP;
+        meta.legend.forEach(line => {
+          y += LEGEND_LINE_H;
+          const t = document.createElementNS(SVGNS, "text");
+          t.setAttribute("x", 6); t.setAttribute("y", y - LEGEND_LINE_H * 0.25);
+          t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
+          t.setAttribute("font-weight", "400");
+          t.setAttribute("font-size", LEGEND_FONT);
+          t.setAttribute("fill", "#F5F4EC");
+          t.textContent = line;
+          outer.appendChild(t);
+        });
+      }
+    }
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(outer);
   }
 
@@ -548,7 +609,11 @@
     const used = usedCells();
     if (!used.length) { toast("빈 grid 는 저장 못함"); return; }
     const strip = item => item ? { path: item.path, name: item.name } : null;
-    const payload = { rows: ROWS, cols: COLS, cells: used.map(u => ({ r: u.r, c: u.c, connector: strip(u.connector), icon: strip(u.icon) })) };
+    const meta = metaLines();
+    const payload = {
+      rows: ROWS, cols: COLS, title: meta.title, legend: meta.legend,
+      cells: used.map(u => ({ r: u.r, c: u.c, connector: strip(u.connector), icon: strip(u.icon) }))
+    };
     const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
     const path = "grid/" + sanitize(name) + ".json";
     const { error } = await SB.storage.from("icons").upload(path, blob, { contentType: "application/json", upsert: true });
@@ -601,6 +666,8 @@
           }
         }
       });
+      document.getElementById("grid-title").value = data.title || "";
+      document.getElementById("grid-legend").value = (data.legend || []).join("\n");
       updateArrowState();
       document.getElementById("grid-name").value = label;
       document.getElementById("load-bg").classList.remove("show");
@@ -625,6 +692,8 @@
     if (!confirm("현재 grid 를 비울까요? (저장 안 한 내용은 사라짐)")) return;
     clearAllCells();
     document.getElementById("grid-name").value = "";
+    document.getElementById("grid-title").value = "";
+    document.getElementById("grid-legend").value = "";
   });
   document.getElementById("btn-save").addEventListener("click", saveGrid);
   document.getElementById("btn-download").addEventListener("click", async () => {
