@@ -60,9 +60,18 @@
 
   /* 하단 제목 + 범례 */
   .grid-meta { display:flex; flex-direction:column; gap:8px; width:100%; max-width:560px; }
+  .grid-meta-row { display:flex; gap:8px; }
+  .grid-meta-row .name-input { flex:1; }
   .grid-meta textarea { width:100%; resize:vertical; min-height:60px; background:var(--surface-soft); border:1px solid var(--hairline);
-                         border-radius:var(--r-md); color:var(--ink); font-family:var(--font); font-size:13px; line-height:1.4; padding:9px 14px; }
-  .grid-meta textarea:focus { outline:none; border-color:var(--brand-yellow); }
+                         border-radius:var(--r-md); color:var(--ink); font-family:var(--font); line-height:1.4; padding:9px 14px; }
+  .grid-meta textarea:focus, .grid-meta-row .name-input:focus { outline:none; border-color:var(--brand-yellow); }
+
+  /* 텍스트 스타일 전역 설정 패널 */
+  .style-row { display:flex; align-items:center; gap:10px; }
+  .style-label { width:36px; font-size:12px; font-weight:700; color:var(--body); }
+  .style-row input[type="color"] { width:32px; height:32px; padding:0; border:1px solid var(--hairline); border-radius:var(--r-sm); background:var(--surface-soft); cursor:pointer; }
+  .style-row input[type="range"] { flex:1; accent-color:var(--brand-yellow); }
+  .style-row .val { font-family:var(--mono); font-size:12px; color:var(--muted); min-width:30px; text-align:right; }
   .auth-status { font-size:11px; font-family:var(--mono); color:var(--muted); max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
   /* 10x10 격자 */
@@ -153,10 +162,36 @@
 
   <div class="gridwrap" id="gridwrap"></div>
 
-  <!-- 하단 제목 + 범례(그리드 전체 설명 목록). 둘 다 export svg 에도 텍스트로 포함됨 -->
+  <!-- 하단 제목 + 범례(그리드 전체 설명 목록). 둘 다 export svg 에도 텍스트로 포함됨.
+       글자 색·크기는 전역 설정(텍스트 스타일 패널)에서 한번에 조절 → localStorage 저장, 모든 grid 공통 적용 -->
   <div class="grid-meta">
-    <input type="text" class="name-input" id="grid-title" placeholder="하단 제목 (선택, export 에 포함됨)">
+    <div class="grid-meta-row">
+      <input type="text" class="name-input" id="grid-title" placeholder="하단 제목 (선택, export 에 포함됨)">
+      <button class="btn" id="btn-textstyle" type="button">텍스트 스타일</button>
+    </div>
     <textarea id="grid-legend" rows="3" placeholder="범례·설명 목록 (한 줄에 하나씩, 선택, export 에 포함됨)"></textarea>
+  </div>
+
+  <!-- 텍스트 스타일 전역 설정 패널: 제목/목록 색·크기 각각 독립, localStorage 유지 -->
+  <div class="modal-bg" id="textstyle-bg">
+    <div class="modal" style="width:min(420px,100%)">
+      <div class="modal-head">
+        <h3>텍스트 스타일 (모든 grid 공통)</h3>
+        <button class="close" id="textstyle-close" type="button">&times;</button>
+      </div>
+      <div class="style-row">
+        <span class="style-label">제목</span>
+        <input type="color" id="style-title-color">
+        <input type="range" id="style-title-size" min="8" max="40" step="1">
+        <span class="val" id="style-title-size-v"></span>
+      </div>
+      <div class="style-row">
+        <span class="style-label">목록</span>
+        <input type="color" id="style-legend-color">
+        <input type="range" id="style-legend-size" min="6" max="28" step="1">
+        <span class="val" id="style-legend-size-v"></span>
+      </div>
+    </div>
   </div>
 
   <!-- svg 선택 모달: connector(하위 레이어) / icon(상위 레이어) 탭으로 각각 배치 -->
@@ -488,8 +523,27 @@
     clone.querySelectorAll("style").forEach(el => el.remove());
     while (clone.firstChild) destSvg.appendChild(clone.firstChild);
   }
+  // ───────── 텍스트 스타일 (제목/목록, 전역 공유, localStorage 유지) ─────────
+  // grid 마다 title/legend "내용"은 각자 다름(payload 로 개별 저장). 여기 스타일(색·크기)만 전역 1세트씩.
+  const TITLE_STYLE_KEY = "svg-grid-title-style";
+  const LEGEND_STYLE_KEY = "svg-grid-legend-style";
+  function loadStyle(key, def) {
+    try { const v = JSON.parse(localStorage.getItem(key)); if (v && v.color && v.size) return v; } catch (e) {}
+    return { ...def };
+  }
+  function saveStyle(key, style) { try { localStorage.setItem(key, JSON.stringify(style)); } catch (e) {} }
+  let titleStyle = loadStyle(TITLE_STYLE_KEY, { color: "#F5F4EC", size: 16 });
+  let legendStyle = loadStyle(LEGEND_STYLE_KEY, { color: "#F5F4EC", size: 10 });
+  const titleGap = () => Math.round(titleStyle.size * 0.6);
+  const legendGap = () => Math.round(legendStyle.size * 0.8);
+  const legendLineH = () => Math.round(legendStyle.size * 1.3);
+  function applyMetaStyles() {
+    const ti = document.getElementById("grid-title"), le = document.getElementById("grid-legend");
+    ti.style.color = titleStyle.color; ti.style.fontSize = titleStyle.size + "px";
+    le.style.color = legendStyle.color; le.style.fontSize = legendStyle.size + "px";
+  }
+
   // 하단 제목/범례 텍스트 블록 크기 계산 (없으면 0) — export svg 하단에 얹힘
-  const TITLE_FONT = 16, TITLE_GAP = 10, LEGEND_FONT = 10, LEGEND_LINE_H = 13, LEGEND_GAP = 8, META_PAD_BOTTOM = 8;
   function metaLines() {
     const title = document.getElementById("grid-title").value.trim();
     const legend = document.getElementById("grid-legend").value.split("\n").map(l => l.trim()).filter(l => l.length);
@@ -497,9 +551,9 @@
   }
   function metaHeight(meta) {
     let h = 0;
-    if (meta.title) h += TITLE_GAP + TITLE_FONT;
-    if (meta.legend.length) h += LEGEND_GAP + meta.legend.length * LEGEND_LINE_H;
-    if (h) h += META_PAD_BOTTOM;
+    if (meta.title) h += titleGap() + titleStyle.size;
+    if (meta.legend.length) h += legendGap() + meta.legend.length * legendLineH();
+    if (h) h += 8;
     return h;
   }
   async function buildGridSvg() {
@@ -549,32 +603,33 @@
       document.body.removeChild(host);
     }
 
-    // 하단 제목/범례 — 아이콘 격자 바로 아래에 <text> 로 추가
+    // 하단 제목/범례 — 아이콘 격자 바로 아래에 <text> 로 추가. 색·크기는 전역 스타일(titleStyle/legendStyle) 따름
     if (extraH) {
       let y = gridH;
       if (meta.title) {
-        y += TITLE_GAP + TITLE_FONT * 0.85;
+        y += titleGap() + titleStyle.size * 0.85;
         const t = document.createElementNS(SVGNS, "text");
         t.setAttribute("x", gridW / 2); t.setAttribute("y", y);
         t.setAttribute("text-anchor", "middle");
         t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
         t.setAttribute("font-weight", "800");
-        t.setAttribute("font-size", TITLE_FONT);
-        t.setAttribute("fill", "#F5F4EC");
+        t.setAttribute("font-size", titleStyle.size);
+        t.setAttribute("fill", titleStyle.color);
         t.textContent = meta.title;
         outer.appendChild(t);
-        y += TITLE_FONT - TITLE_FONT * 0.85;
+        y += titleStyle.size - titleStyle.size * 0.85;
       }
       if (meta.legend.length) {
-        y += LEGEND_GAP;
+        y += legendGap();
+        const lh = legendLineH();
         meta.legend.forEach(line => {
-          y += LEGEND_LINE_H;
+          y += lh;
           const t = document.createElementNS(SVGNS, "text");
-          t.setAttribute("x", 6); t.setAttribute("y", y - LEGEND_LINE_H * 0.25);
+          t.setAttribute("x", 6); t.setAttribute("y", y - lh * 0.25);
           t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
           t.setAttribute("font-weight", "400");
-          t.setAttribute("font-size", LEGEND_FONT);
-          t.setAttribute("fill", "#F5F4EC");
+          t.setAttribute("font-size", legendStyle.size);
+          t.setAttribute("fill", legendStyle.color);
           t.textContent = line;
           outer.appendChild(t);
         });
@@ -746,11 +801,43 @@
   });
   if (SB) SB.auth.onAuthStateChange(() => refreshGalAuth());
 
+  // ───────── 텍스트 스타일 패널 (전역, localStorage) ─────────
+  function openTextStylePanel() {
+    document.getElementById("style-title-color").value = titleStyle.color;
+    document.getElementById("style-title-size").value = titleStyle.size;
+    document.getElementById("style-title-size-v").textContent = titleStyle.size + "px";
+    document.getElementById("style-legend-color").value = legendStyle.color;
+    document.getElementById("style-legend-size").value = legendStyle.size;
+    document.getElementById("style-legend-size-v").textContent = legendStyle.size + "px";
+    document.getElementById("textstyle-bg").classList.add("show");
+  }
+  function closeTextStylePanel() { document.getElementById("textstyle-bg").classList.remove("show"); }
+  document.getElementById("btn-textstyle").addEventListener("click", openTextStylePanel);
+  document.getElementById("textstyle-close").addEventListener("click", closeTextStylePanel);
+  document.getElementById("textstyle-bg").addEventListener("click", e => { if (e.target.id === "textstyle-bg") closeTextStylePanel(); });
+  document.getElementById("style-title-color").addEventListener("input", e => {
+    titleStyle.color = e.target.value; applyMetaStyles(); saveStyle(TITLE_STYLE_KEY, titleStyle);
+  });
+  document.getElementById("style-title-size").addEventListener("input", e => {
+    titleStyle.size = parseInt(e.target.value, 10);
+    document.getElementById("style-title-size-v").textContent = titleStyle.size + "px";
+    applyMetaStyles(); saveStyle(TITLE_STYLE_KEY, titleStyle);
+  });
+  document.getElementById("style-legend-color").addEventListener("input", e => {
+    legendStyle.color = e.target.value; applyMetaStyles(); saveStyle(LEGEND_STYLE_KEY, legendStyle);
+  });
+  document.getElementById("style-legend-size").addEventListener("input", e => {
+    legendStyle.size = parseInt(e.target.value, 10);
+    document.getElementById("style-legend-size-v").textContent = legendStyle.size + "px";
+    applyMetaStyles(); saveStyle(LEGEND_STYLE_KEY, legendStyle);
+  });
+
   // ───────── 초기화 ─────────
   buildGrid();
   updateArrowState();
   loadGenerated();
   refreshGalAuth();
+  applyMetaStyles();
 </script>
 
 <!-- 부모 iframe 높이 보고 -->
