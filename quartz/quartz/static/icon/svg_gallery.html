@@ -211,7 +211,8 @@
   }
 
   // ───────── 로드 & 렌더 ─────────
-  const FOLDER_ORDER = ["generated"];
+  // grid = SVG Grid Builder 에서 export 한 10x10 합성 svg (svg/grid/*.svg). generated 와 동일하게 열람/삭제.
+  const FOLDER_ORDER = ["generated", "grid"];
   const state = { filter: "all", q: "" };
   const cards = []; // {folder, name, el}
 
@@ -221,30 +222,34 @@
       showBanner("Supabase 미설정: HTML 상단 <code>SUPABASE_ANON_KEY</code> 를 채우세요.");
       return;
     }
-    let files;
-    try {
-      const { data, error } = await sb.storage.from("icons").list("svg/generated", {
-        limit: 1000, sortBy: { column: "created_at", order: "desc" }
-      });
-      if (error) throw error;
-      files = (data || []).filter(f => f.name && /\.svg$/i.test(f.name));
-    } catch (e) {
-      showBanner("generated 목록을 못 읽음: <code>" + (e.message || e) + "</code><br>" +
-        "Storage 의 <code>icons/svg/generated</code> SELECT(list) 정책을 확인하세요.");
-      return;
+    let items = [];
+    let anyFolderFailed = false;
+    for (const folder of FOLDER_ORDER) {
+      try {
+        const { data, error } = await sb.storage.from("icons").list("svg/" + folder, {
+          limit: 1000, sortBy: { column: "created_at", order: "desc" }
+        });
+        if (error) throw error;
+        const files = (data || []).filter(f => f.name && /\.svg$/i.test(f.name));
+        files.forEach(f => items.push({
+          folder,
+          name: f.name.replace(/\.svg$/i, ""),
+          path: "svg/" + folder + "/" + f.name
+        }));
+      } catch (e) {
+        anyFolderFailed = true;
+        showBanner("<code>svg/" + folder + "</code> 목록을 못 읽음: <code>" + (e.message || e) + "</code><br>" +
+          "Storage 의 <code>icons/svg/" + folder + "</code> SELECT(list) 정책을 확인하세요.");
+      }
     }
-    const items = files.map(f => ({
-      folder: "generated",
-      name: f.name.replace(/\.svg$/i, ""),
-      path: "svg/generated/" + f.name
-    }));
-    if (!items.length) {
+    if (!items.length && !anyFolderFailed) {
       showBanner("generated 아이콘이 아직 없음. Icon Builder 에서 <b>☁ generated 업로드</b> 로 추가하세요.");
     }
     document.getElementById("count").textContent = items.length + " icons";
 
-    // 폴더별 그룹 (generated 섹션은 비어도 항상 생성 → 업로드 카드 append 대상 확보)
-    const byFolder = { generated: [] };
+    // 폴더별 그룹 (각 폴더 섹션은 비어도 항상 생성 → 업로드 카드 append 대상 확보)
+    const byFolder = {};
+    FOLDER_ORDER.forEach(f => (byFolder[f] = []));
     items.forEach(it => (byFolder[it.folder] = byFolder[it.folder] || []).push(it));
     const folders = FOLDER_ORDER.filter(f => byFolder[f]).concat(
       Object.keys(byFolder).filter(f => !FOLDER_ORDER.includes(f)));
