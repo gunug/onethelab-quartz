@@ -207,7 +207,7 @@
     });
     clone.querySelectorAll("[class]").forEach(el => el.removeAttribute("class"));
     clone.querySelectorAll("style").forEach(el => el.remove());
-    return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(clone);
+    return new XMLSerializer().serializeToString(clone);
   }
 
   // ───────── 로드 & 렌더 ─────────

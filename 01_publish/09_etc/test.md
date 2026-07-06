@@ -100,6 +100,7 @@ A --> D
 
 
 
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 24" width="512" height="512" role="img" aria-label="grid_20260706-174415"><svg x="0" y="0" width="24" height="24" viewBox="-0.075 -0.075 24.150 24.150">
       <g id="frame-group">
         <g id="slot-full"><path xmlns="http://www.w3.org/2000/svg" d="M 2.5 5.8 H 21.5 A 1.5 1.5 0 0 1 23 7.3 V 16.7 A 1.5 1.5 0 0 1 21.5 18.2 H 2.5 A 1.5 1.5 0 0 1 1 16.7 V 7.3 A 1.5 1.5 0 0 1 2.5 5.8 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
@@ -161,4 +162,4 @@ A --> D
   </g></g>
       </g>
     </svg></svg>
-    dfdfd
+    
