@@ -241,6 +241,7 @@
   const publicUrl = path => SB_BASE + path;
   const SVGNS = "http://www.w3.org/2000/svg";
   const ROWS = 10, COLS = 10, CELL = 24; // export 시 칸당 단위(icon 콘텐츠 영역과 동일)
+  const EXPORT_SCALE = 32; // viewBox(추상 좌표) 는 CELL 기준 그대로, width/height(실제 렌더링 px) 만 이 배율만큼 키움
 
   // generated 아이콘 색 없는 원본을 위한 폴백 팔레트 (이미 색이 박힌 generated svg 는 그대로 씀)
   const PAL = { main:"#F5F4EC", point:"#FFD400", back:"#8E8C82", fill:"none" };
@@ -621,8 +622,10 @@
     const outer = document.createElementNS(SVGNS, "svg");
     outer.setAttribute("xmlns", SVGNS);
     outer.setAttribute("viewBox", "0 0 " + gridW + " " + gridH);
-    outer.setAttribute("width", gridW);
-    outer.setAttribute("height", gridH);
+    // width/height 는 viewBox(추상 좌표) 와 별개 — 실제 렌더링 해상도. EXPORT_SCALE 안 곱하면
+    // 3칸짜리 grid 가 72x24px 짜리로 나가서 잔글씨(제목/목록)가 다 뭉개짐.
+    outer.setAttribute("width", gridW * EXPORT_SCALE);
+    outer.setAttribute("height", gridH * EXPORT_SCALE);
 
     // 색 계산용 숨김 호스트 (문서에 붙어야 getComputedStyle 정상 동작)
     const host = document.createElement("div");
