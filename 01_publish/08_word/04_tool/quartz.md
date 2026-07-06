@@ -12,3 +12,9 @@
 
 1. 발행할 노트를 `01_publish` 로 복사
 2. 커밋 & 푸시 → GitHub Actions가 자동 빌드/배포
+
+---
+
+# 유의사항
+obsidian sync에서 md파일만 싱크해주는 이유로, html파일이 싱크되지 않았다.
+별도로 github push 해주어야 할 것.
