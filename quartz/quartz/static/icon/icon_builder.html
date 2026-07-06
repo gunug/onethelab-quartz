@@ -205,10 +205,6 @@
     <svg viewBox="-2 -2 28 28" xmlns="http://www.w3.org/2000/svg">
       <g id="frame-group">
         <g id="slot-full"></g>
-        <g id="slot-tl"></g>
-        <g id="slot-tr"></g>
-        <g id="slot-bl"></g>
-        <g id="slot-br"></g>
       </g>
       <g id="slot-ins-wrap">
         <g id="slot-ins-back-outline"></g>
@@ -293,10 +289,7 @@
   <div class="panel" data-panel="frame">
     <div class="sections">
       <div class="section center"><h2>full frame</h2><div class="parts" data-full="1"></div></div>
-      <div class="section"><h2>tl</h2><div class="parts" data-quad="tl"></div></div>
-      <div class="section"><h2>tr</h2><div class="parts" data-quad="tr"></div></div>
-      <div class="section"><h2>bl</h2><div class="parts" data-quad="bl"></div></div>
-      <div class="section"><h2>br</h2><div class="parts" data-quad="br"></div></div>
+      <div class="section center"><h2>simple frame</h2><div class="parts" data-simple="1"></div></div>
     </div>
   </div>
 
@@ -320,7 +313,8 @@
       <tr><th>rect-cut 깊이</th><td>cut = 3 / cut-deep = 6</td></tr>
       <tr><th>stroke</th><td>표시 1~2 (실제 0.25~1.25, +0.75 보정) · linecap/join round</td></tr>
       <tr><th>최대영역 보장</th><td>stroke 2 시 외곽 0~24, viewBox -2~26 내 여유 2 (초과 없음)</td></tr>
-      <tr><th>full frame vs 분면</th><td>상호배타 — full 선택 시 tl/tr/bl/br 해제</td></tr>
+      <tr><th>full frame vs simple frame</th><td>상호배타 — 같은 <code>slot-full</code> 공유, 한쪽 선택 시 다른쪽 해제</td></tr>
+      <tr><th>simple frame</th><td>분면 조합(TL/TR/BL/BR 믹스) 폐기 → 도형별 4방향 통일본을 정적 svg로 미리 병합해 등록(이음매 틈 문제 원천 차단). tail 계열만 예외로 tail-long 하나만 한쪽 방향에 붙여 4방향(tl/tr/bl/br) variant 생성 (말풍선 꼬리처럼 방향성)</td></tr>
       <tr><th>insert 영역, logo 영역</th><td>반경 6 (중심 12, 또는 frame ic) · 로고 scale 0.5, 공통 영역 scale 0.85 적용</td></tr>
       <tr><th>조항 1 · frame</th><td>frame · full frame 은 insert/logo 영역(반경 6)을 침범 불가 → 가장 안쪽 꼭지가 ≥6</td></tr>
       <tr><th>조항 2 · insert/logo</th><td>insert · logo 는 자기 영역(반경 6) 밖으로 나갈 수 없음 → 콘텐츠에 scale 0.85 적용해 반경 내 유지</td></tr>
@@ -331,7 +325,7 @@
     <h2 style="margin-top:22px">SVG 외부 파일 구조</h2>
     <table>
       <tr><th>파일 위치</th><td>frame → <code>svg/frame/</code> · insert → <code>svg/insert/</code> · logo → <code>svg/logo/</code></td></tr>
-      <tr><th>파일명 = id</th><td><code>frm_{quad}_bold_{name}.svg</code> · full <code>frm_full_bold_*.svg</code> · <code>ins_bold_{cat}_{name}.svg</code> · <code>logo_*.svg</code></td></tr>
+      <tr><th>파일명 = id</th><td>full/simple 공통 <code>frm_full_bold_{name}.svg</code> (simple 은 <code>simple-{family}</code> · tail 은 <code>simple-{family}-tail-{tl|tr|bl|br}</code>) · <code>ins_bold_{cat}_{name}.svg</code> · <code>logo_*.svg</code></td></tr>
       <tr><th>모양 변경</th><td>해당 <code>.svg</code> 1개만 단독 수정 → HTML 손 안 댐</td></tr>
       <tr><th>새 파츠 추가</th><td>① <code>.svg</code> 파일 생성 → ② HTML <code>MANIFEST</code> 배열에 id 한 줄 추가 (HTML 수정은 이 1곳뿐)</td></tr>
       <tr><th>파츠 제거</th><td><code>MANIFEST</code> 에서 id 삭제 (파일은 둬도 무방)</td></tr>
@@ -345,7 +339,7 @@
 
 <script>
   // ───────── 파츠 목록 (새 파츠 추가 시 여기만 수정) ─────────
-  // id = 파일명(확장자 제외). full/tl/tr/bl/br → svg/frame/, insert → svg/insert/, logo → svg/logo/
+  // id = 파일명(확장자 제외). full/simple → svg/frame/, insert → svg/insert/, logo → svg/logo/
   const MANIFEST = {
     full: [
       "frm_full_bold_cloud-asym", "frm_full_bold_ratio-16-9", "frm_full_bold_ratio-9-16",
@@ -356,37 +350,13 @@
       "frm_full_bold_arrow-ur", "frm_full_bold_arrow-ul", "frm_full_bold_arrow-dr", "frm_full_bold_arrow-dl",
       "frm_full_bold_circle-trio"
     ],
-    tl: [
-      "frm_tl_bold_arc-quarter", "frm_tl_bold_arc-tail", "frm_tl_bold_arc-tail-long",
-      "frm_tl_bold_rect-quarter", "frm_tl_bold_rect-cut", "frm_tl_bold_rect-cut-deep",
-      "frm_tl_bold_oct-quarter", "frm_tl_bold_oct-tail", "frm_tl_bold_oct-tail-long",
-      "frm_tl_bold_dia-quarter", "frm_tl_bold_dia-tail", "frm_tl_bold_dia-tail-long",
-      "frm_tl_bold_flower4", "frm_tl_bold_flower8",
-      "frm_tl_bold_hexagon", "frm_tl_bold_hexagon-v"
-    ],
-    tr: [
-      "frm_tr_bold_arc-quarter", "frm_tr_bold_arc-tail", "frm_tr_bold_arc-tail-long",
-      "frm_tr_bold_rect-quarter", "frm_tr_bold_rect-cut", "frm_tr_bold_rect-cut-deep",
-      "frm_tr_bold_oct-quarter", "frm_tr_bold_oct-tail", "frm_tr_bold_oct-tail-long",
-      "frm_tr_bold_dia-quarter", "frm_tr_bold_dia-tail", "frm_tr_bold_dia-tail-long",
-      "frm_tr_bold_flower4", "frm_tr_bold_flower8",
-      "frm_tr_bold_hexagon", "frm_tr_bold_hexagon-v"
-    ],
-    bl: [
-      "frm_bl_bold_arc-quarter", "frm_bl_bold_arc-tail", "frm_bl_bold_arc-tail-long",
-      "frm_bl_bold_rect-quarter", "frm_bl_bold_rect-cut", "frm_bl_bold_rect-cut-deep",
-      "frm_bl_bold_oct-quarter", "frm_bl_bold_oct-tail", "frm_bl_bold_oct-tail-long",
-      "frm_bl_bold_dia-quarter", "frm_bl_bold_dia-tail", "frm_bl_bold_dia-tail-long",
-      "frm_bl_bold_flower4", "frm_bl_bold_flower8",
-      "frm_bl_bold_hexagon", "frm_bl_bold_hexagon-v"
-    ],
-    br: [
-      "frm_br_bold_arc-quarter", "frm_br_bold_arc-tail", "frm_br_bold_arc-tail-long",
-      "frm_br_bold_rect-quarter", "frm_br_bold_rect-cut", "frm_br_bold_rect-cut-deep",
-      "frm_br_bold_oct-quarter", "frm_br_bold_oct-tail", "frm_br_bold_oct-tail-long",
-      "frm_br_bold_dia-quarter", "frm_br_bold_dia-tail", "frm_br_bold_dia-tail-long",
-      "frm_br_bold_flower4", "frm_br_bold_flower8",
-      "frm_br_bold_hexagon", "frm_br_bold_hexagon-v"
+    // 도형별 4방향 통일 조합을 정적으로 미리 병합한 완성본 (분면 믹스매치 폐기 → 이음매 틈 문제 없음)
+    simple: [
+      "frm_full_bold_simple-arc", "frm_full_bold_simple-rect", "frm_full_bold_simple-oct", "frm_full_bold_simple-dia",
+      "frm_full_bold_simple-flower4", "frm_full_bold_simple-flower8", "frm_full_bold_simple-hexagon", "frm_full_bold_simple-hexagon-v",
+      "frm_full_bold_simple-arc-tail-tl", "frm_full_bold_simple-arc-tail-tr", "frm_full_bold_simple-arc-tail-bl", "frm_full_bold_simple-arc-tail-br",
+      "frm_full_bold_simple-oct-tail-tl", "frm_full_bold_simple-oct-tail-tr", "frm_full_bold_simple-oct-tail-bl", "frm_full_bold_simple-oct-tail-br",
+      "frm_full_bold_simple-dia-tail-tl", "frm_full_bold_simple-dia-tail-tr", "frm_full_bold_simple-dia-tail-bl", "frm_full_bold_simple-dia-tail-br"
     ],
     insert: [
       "ins_bold_text_lines", "ins_bold_list_rows", "ins_bold_object_table", "ins_bold_text_code", "ins_bold_sign_plus", "ins_bold_sign_minus",
@@ -406,8 +376,8 @@
            "face_surprise", "face_wink", "face_love"]
   };
 
-  // 그룹 → 폴더 (full/분면 frame 은 같은 폴더)
-  const FOLDER = { full:"frame", tl:"frame", tr:"frame", bl:"frame", br:"frame", insert:"insert", logo:"logo", face:"face" };
+  // 그룹 → 폴더 (full/simple frame 은 같은 폴더)
+  const FOLDER = { full:"frame", simple:"frame", insert:"insert", logo:"logo", face:"face" };
 
   const SVGNS = "http://www.w3.org/2000/svg";
   const VIEWBOX = "-2 -2 28 28";
@@ -424,6 +394,7 @@
     let res;
     try {
       res = await fetch(SVG_BASE + path);
+      if (!res.ok) throw new Error("remote " + res.status); // 원격 404 도 로컬 폴백 타도록
     } catch (e) {
       res = await fetch("svg/" + path); // 폴백: 로컬 상대경로
     }
@@ -445,21 +416,6 @@
   }
 
   // ───────── 슬롯 제어 ─────────
-  function markNone(container) {
-    const parts = container.querySelectorAll(".part");
-    parts.forEach(p => p.classList.remove("active"));
-    if (parts[0]) parts[0].classList.add("active"); // none 강조
-  }
-  function clearFull() {
-    document.getElementById("slot-full").innerHTML = "";
-    const c = document.querySelector('.parts[data-full="1"]');
-    if (c) markNone(c);
-  }
-  function clearQuads() {
-    ["tl", "tr", "bl", "br"].forEach(q => document.getElementById("slot-" + q).innerHTML = "");
-    document.querySelectorAll('.parts[data-quad]').forEach(c => markNone(c));
-  }
-
   // insert/logo 를 frame 빈공간 중심에 정렬 + 영역(반경≈6) 안으로 scale 0.85
   const INS_SCALE = 0.85;
   function applyInsCenter(cx, cy) {
@@ -467,18 +423,12 @@
       "translate(" + (cx - 12) + "," + (cy - 12) + ") translate(12,12) scale(" + INS_SCALE + ") translate(-12,-12)");
   }
 
-  function selectPart(quad, part, partEl) {
-    document.getElementById("slot-" + quad).innerHTML = part.inner;
-    partEl.parentNode.querySelectorAll(".part").forEach(p => p.classList.remove("active"));
-    partEl.classList.add("active");
-    clearFull(); // full frame 과 상호배타
-    applyInsCenter(12, 12); // 분면 frame은 대칭 → 중앙
-  }
-  function selectFull(part, el) {
+  // full frame / simple frame 은 같은 slot-full 공유 → 상호배타
+  function selectWhole(part, el) {
     document.getElementById("slot-full").innerHTML = part.inner;
-    el.parentNode.querySelectorAll(".part").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll('.parts[data-full="1"] .part, .parts[data-simple="1"] .part')
+      .forEach(p => p.classList.remove("active"));
     el.classList.add("active");
-    clearQuads(); // 분면 frame 선택 해제
     const c = part.ic || [12, 12]; // frame 빈공간 중심
     applyInsCenter(c[0], c[1]);
   }
@@ -514,7 +464,7 @@
   (async function init() {
     let DATA;
     try {
-      const keys = ["full", "tl", "tr", "bl", "br", "insert", "logo", "face"];
+      const keys = ["full", "simple", "insert", "logo", "face"];
       const loaded = await Promise.all(keys.map(loadGroup));
       DATA = {};
       keys.forEach((k, i) => DATA[k] = loaded[i]);
@@ -528,23 +478,21 @@
       return;
     }
 
-    // 분면 frame
-    ["tl", "tr", "bl", "br"].forEach(quad => {
-      const container = document.querySelector('.parts[data-quad="' + quad + '"]');
-      DATA[quad].forEach(part => {
-        const el = thumb(part);
-        el.addEventListener("click", () => selectPart(quad, part, el));
-        container.appendChild(el);
-        if (part.name === "arc") selectPart(quad, part, el); // 기본 arc
-      });
-    });
-
     // full frame
     const fullContainer = document.querySelector('.parts[data-full="1"]');
     DATA.full.forEach((part, i) => {
       const el = thumb(part);
-      el.addEventListener("click", () => selectFull(part, el));
+      el.addEventListener("click", () => selectWhole(part, el));
       fullContainer.appendChild(el);
+      if (i === 0) el.classList.add("active"); // 기본 none
+    });
+
+    // simple frame
+    const simpleContainer = document.querySelector('.parts[data-simple="1"]');
+    DATA.simple.forEach((part, i) => {
+      const el = thumb(part);
+      el.addEventListener("click", () => selectWhole(part, el));
+      simpleContainer.appendChild(el);
       if (i === 0) el.classList.add("active"); // 기본 none
     });
 
@@ -861,18 +809,12 @@
     const sanitize = s => (s || "").toLowerCase()
       .replace(/[^a-z0-9가-힣]+/g, "-").replace(/^-+|-+$/g, "") || "x";
     const stripPrefix = id => id
-      .replace(/^frm_full_bold_/, "").replace(/^frm_(tl|tr|bl|br)_bold_/, "")
+      .replace(/^frm_full_bold_/, "")
       .replace(/^ins_bold_/, "").replace(/^logo_/, "").replace(/^face_/, "");
     function frameName() {
-      const full = document.querySelector('.parts[data-full="1"] .part.active');
-      if (full && full.dataset.id !== "none") return sanitize(stripPrefix(full.dataset.id));
-      const ids = ["tl", "tr", "bl", "br"].map(q => {
-        const a = document.querySelector('.parts[data-quad="' + q + '"] .part.active');
-        return a ? a.dataset.id : "none";
-      });
-      if (ids.every(i => i === "none")) return "x";
-      const shapes = ids.map(i => i === "none" ? "x" : sanitize(stripPrefix(i)));
-      return shapes.every(s => s === shapes[0]) ? shapes[0] + "x4" : shapes.join("-");
+      const a = document.querySelector('.parts[data-full="1"] .part.active, .parts[data-simple="1"] .part.active');
+      if (a && a.dataset.id !== "none") return sanitize(stripPrefix(a.dataset.id));
+      return "x";
     }
     function layerName(L) {
       if (textApplied[L]) {
@@ -996,21 +938,18 @@
         tsize: ts ? ts.value : "6"
       };
     };
-    const quadId = q => {
-      const a = document.querySelector('.parts[data-quad="' + q + '"] .part.active');
-      return a ? a.dataset.id : "none";
-    };
     function gatherState() {
       const ctl = {};
       CTL_IDS.forEach(id => { const e = document.getElementById(id); if (e) ctl[id] = e.value; });
       const fullA = document.querySelector('.parts[data-full="1"] .part.active');
+      const simpleA = document.querySelector('.parts[data-simple="1"] .part.active');
       const tabA = document.querySelector(".tab.active");
       return {
         ctl,
         aFront: activeAnchor("c-front-anchor"),
         aBack: activeAnchor("c-back-anchor"),
         tab: tabA ? tabA.dataset.tab : "frame",
-        frame: { full: fullA ? fullA.dataset.id : "none", tl: quadId("tl"), tr: quadId("tr"), bl: quadId("bl"), br: quadId("br") },
+        frame: { full: fullA ? fullA.dataset.id : "none", simple: simpleA ? simpleA.dataset.id : "none" },
         front: layerState("front"),
         back: layerState("back")
       };
@@ -1043,10 +982,10 @@
         };
         if (s.aFront) clickAnchor("c-front-anchor", s.aFront);
         if (s.aBack) clickAnchor("c-back-anchor", s.aBack);
-        // frame (full 우선, 없으면 분면)
+        // frame (full 우선, 없으면 simple)
         if (s.frame) {
           if (s.frame.full && s.frame.full !== "none") clickById('.parts[data-full="1"]', s.frame.full);
-          else ["tl", "tr", "bl", "br"].forEach(q => clickById('.parts[data-quad="' + q + '"]', s.frame[q]));
+          else if (s.frame.simple && s.frame.simple !== "none") clickById('.parts[data-simple="1"]', s.frame.simple);
         }
         // center 레이어
         ["front", "back"].forEach(L => {
