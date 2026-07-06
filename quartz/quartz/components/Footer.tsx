@@ -9,7 +9,18 @@ interface Options {
 
 export default ((opts?: Options) => {
   const Footer: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
-    const year = new Date().getFullYear()
+    // 빌드 실행 시점(KST) — Date.now()는 SSG 빌드 타임에 평가됨
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).formatToParts(new Date())
+    const get = (type: string) => parts.find((p) => p.type === type)?.value
+    const buildTime = `${get("year")}-${get("month")}-${get("day")} ${get("hour")}:${get("minute")}`
     const links = opts?.links ?? []
     return (
       <footer class={`${displayClass ?? ""}`}>
@@ -18,7 +29,7 @@ export default ((opts?: Options) => {
           <a href="https://quartz.jzhao.xyz/" target="_blank" rel="noopener noreferrer">
             Quartz v{version}
           </a>{" "}
-          © {year}
+          © {buildTime}
         </p>
         <ul>
           {Object.entries(links).map(([text, link]) => (
