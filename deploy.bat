@@ -7,7 +7,18 @@ echo  One The Lab - Quartz deploy
 echo ============================================
 
 echo.
-echo [1/4] Local Quartz build check...
+echo [1/5] Build prerequisites check (node/npm/node_modules)...
+python check_build_deps.py
+if not "%ERRORLEVEL%"=="0" (
+  echo.
+  echo [FAIL] prerequisite check failed. abort. no build/commit/push.
+  echo.
+  pause
+  exit /b 1
+)
+
+echo.
+echo [2/5] Local Quartz build check...
 echo ---------- BUILD LOG START (copy from here on failure) ----------
 pushd quartz
 call npx quartz build -d ../01_publish 2>&1
@@ -25,17 +36,17 @@ if not "%BUILD_ERR%"=="0" (
 )
 
 echo.
-echo [2/4] Staging changes...
+echo [3/5] Staging changes...
 git add -A
 
 echo.
-echo [3/4] Commit...
+echo [4/5] Commit...
 set "MSG=%~1"
 if "%MSG%"=="" set "MSG=Update notes"
 git diff --cached --quiet && echo  - no changes, skip commit || git commit -m "%MSG%"
 
 echo.
-echo [4/4] Push...
+echo [5/5] Push...
 git push
 if not "%ERRORLEVEL%"=="0" echo [FAIL] push error.& exit /b 1
 
