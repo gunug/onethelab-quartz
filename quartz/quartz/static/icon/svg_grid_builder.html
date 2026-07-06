@@ -65,14 +65,6 @@
   .grid-meta textarea:focus { outline:none; border-color:var(--brand-yellow); }
   .auth-status { font-size:11px; font-family:var(--mono); color:var(--muted); max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
-  /* 그리드 전체 이동 십자키 */
-  .dpad { display:grid; grid-template-columns:repeat(3,34px); grid-template-rows:repeat(3,34px); gap:3px; }
-  .dpad-btn { background:var(--surface-soft); border:1px solid var(--hairline); border-radius:6px;
-              color:var(--body); cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center;
-              transition:.12s; padding:0; }
-  .dpad-btn:hover:not(:disabled) { border-color:var(--brand-yellow); color:var(--ink); }
-  .dpad-btn:disabled { opacity:.25; cursor:default; }
-
   /* 10x10 격자 */
   /* grid-template-rows 명시 + min-width/height:0 → 칸 안 svg 고유크기 때문에 트랙이 늘어나는 그리드 blowout 방지 */
   .gridwrap { display:grid; grid-template-columns:repeat(10,1fr); grid-template-rows:repeat(10,1fr);
@@ -148,17 +140,15 @@
     <button class="btn" id="btn-load" type="button">불러오기</button>
     <button class="btn" id="btn-download" type="button">svg 다운로드</button>
     <button class="btn primary" id="btn-upload" type="button">☁ grid 갤러리 업로드</button>
+    <!-- 그리드 전체 이동. 바깥쪽 svg 가 경계에 닿으면 해당 방향 비활성 -->
+    <button class="btn" id="arrow-up" type="button" title="전체 위로 이동">▲</button>
+    <button class="btn" id="arrow-down" type="button" title="전체 아래로 이동">▼</button>
+    <button class="btn" id="arrow-left" type="button" title="전체 왼쪽으로 이동">◀</button>
+    <button class="btn" id="arrow-right" type="button" title="전체 오른쪽으로 이동">▶</button>
   </div>
   <div class="auth-row">
     <span class="auth-status" id="auth-status">로그인 확인 중…</span>
     <button class="btn" id="auth-btn" type="button">로그인</button>
-  </div>
-
-  <!-- 그리드 전체 이동 십자키. 바깥쪽 svg 가 경계에 닿으면 해당 방향 비활성 -->
-  <div class="dpad" id="dpad">
-    <span></span><button type="button" class="dpad-btn" id="arrow-up" title="전체 위로 이동">▲</button><span></span>
-    <button type="button" class="dpad-btn" id="arrow-left" title="전체 왼쪽으로 이동">◀</button><span></span><button type="button" class="dpad-btn" id="arrow-right" title="전체 오른쪽으로 이동">▶</button>
-    <span></span><button type="button" class="dpad-btn" id="arrow-down" title="전체 아래로 이동">▼</button><span></span>
   </div>
 
   <div class="gridwrap" id="gridwrap"></div>
@@ -244,7 +234,7 @@
   const CONNECTOR_ITEMS = [
     "con_line_h", "con_line_v",
     "con_elbow_lt", "con_elbow_tr", "con_elbow_rb", "con_elbow_bl",
-    "con_cross",
+    "con_cross", "con_cross_arrow_up", "con_cross_arrow_down", "con_cross_arrow_left", "con_cross_arrow_right",
     "con_t_no_bottom", "con_t_no_left", "con_t_no_top", "con_t_no_right",
     "con_stub_up", "con_stub_down", "con_stub_left", "con_stub_right",
     "con_arrow_lr", "con_arrow_rl", "con_arrow_ud", "con_arrow_du",
