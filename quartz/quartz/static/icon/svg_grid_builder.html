@@ -174,8 +174,9 @@
   <div class="toolbar">
     <input type="text" class="name-input" id="grid-name" readonly
            placeholder="저장하면 칸 내용으로 이름 자동생성됨" title="자동생성됨 — 직접 입력 안 함">
-    <button class="btn" id="btn-new" type="button">새 grid</button>
+    <button class="btn" id="btn-new" type="button">새로 만들기</button>
     <button class="btn primary" id="btn-save" type="button" title="grid 정의 저장 + SVG Gallery 썸네일도 같이 갱신됨">☁ 저장 (갤러리 동기화)</button>
+    <button class="btn" id="btn-save-as" type="button" title="현재 이름과 상관없이 새 파일로 따로 저장">새 파일로 저장</button>
     <button class="btn" id="btn-load" type="button">불러오기</button>
     <button class="btn" id="btn-download" type="button">svg 다운로드</button>
     <!-- 그리드 전체 이동. 바깥쪽 svg 가 경계에 닿으면 해당 방향 비활성 -->
@@ -897,8 +898,23 @@
   }
 
   // ───────── 이름/파일명 helper ─────────
-  const sanitize = s => (s || "").toLowerCase().replace(/\.json$|\.svg$/i, "")
-    .replace(/[^a-z0-9가-힣]+/g, "-").replace(/^-+|-+$/g, "") || "grid";
+  // Supabase Storage 서버가 key 검증할 때 \w(ASCII 문자/숫자)만 허용함 — 한글 그대로 넣으면
+  // 업로드 즉시 "Invalid key" 로 거부됨. 그래서 파일명(key)에 쓰기 전 한글을 로마자로 변환.
+  const HANGUL_BASE = 0xAC00;
+  const HANGUL_CHO = ["g", "kk", "n", "d", "tt", "r", "m", "b", "pp", "s", "ss", "", "j", "jj", "ch", "k", "t", "p", "h"];
+  const HANGUL_JUNG = ["a", "ae", "ya", "yae", "eo", "e", "yeo", "ye", "o", "wa", "wae", "oe", "yo", "u", "wo", "we", "wi", "yu", "eu", "ui", "i"];
+  const HANGUL_JONG = ["", "g", "kk", "gs", "n", "nj", "nh", "d", "l", "lg", "lm", "lb", "ls", "lt", "lp", "lh", "m", "b", "bs", "s", "ss", "ng", "j", "ch", "k", "t", "p", "h"];
+  function hangulToRoman(s) {
+    return s.replace(/[가-힣]/g, ch => {
+      const code = ch.charCodeAt(0) - HANGUL_BASE;
+      const cho = Math.floor(code / (21 * 28));
+      const jung = Math.floor((code % (21 * 28)) / 28);
+      const jong = code % 28;
+      return HANGUL_CHO[cho] + HANGUL_JUNG[jung] + HANGUL_JONG[jong];
+    });
+  }
+  const sanitize = s => hangulToRoman((s || "").toLowerCase()).replace(/\.json$|\.svg$/i, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "grid";
   const stamp = () => { const d = new Date(), p = n => String(n).padStart(2, "0");
     return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) +
            "-" + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()); };
@@ -927,24 +943,29 @@
   // 갤러리 svg 는 이름 고정(svg/grid/<name>.svg, upsert)이라 다시 저장하면 같은 항목이 최신 내용으로 갱신됨
   // (이전처럼 타임스탬프 붙여 매번 새 항목 만들지 않음).
   function gallerySvgPath(name) { return "svg/grid/" + sanitize(name) + ".svg"; }
-  async function saveGrid() {
-    if (!galCanEdit) { toast("저장 권한 없음"); return; }
-    const used = usedCells();
-    if (!used.length) { toast("빈 grid 는 저장 못함"); return; }
-    const name = ensureGridName();
+  function gridJsonFilename(name) { return sanitize(name) + ".json"; }
+  async function gridFileExists(filename) {
+    const { data, error } = await SB.storage.from("icons").list("grid", { search: filename });
+    if (error) return false;
+    return (data || []).some(f => f.name === filename);
+  }
+  function buildGridPayload() {
     const strip = item => item ? { path: item.path, name: item.name } : null;
-    const payload = {
+    return {
       rows: ROWS, cols: COLS,
-      cells: used.map(u => ({
+      cells: usedCells().map(u => ({
         r: u.r, c: u.c, connector: strip(u.connector), icon: strip(u.icon),
         title: u.title || "", legend: u.legend || []
       }))
     };
-    const btn = document.getElementById("btn-save");
+  }
+  // 실제 업로드(json 정의 + 갤러리 svg). 존재확인/덮어쓰기 확인은 호출부(saveGrid/saveGridAs)에서 끝내고 옴.
+  async function uploadGrid(btn, name) {
     btn.disabled = true; const orig = btn.textContent; btn.textContent = "저장 중…";
     try {
+      const payload = buildGridPayload();
       const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-      const path = "grid/" + sanitize(name) + ".json";
+      const path = "grid/" + gridJsonFilename(name);
       const { error } = await SB.storage.from("icons").upload(path, blob, { contentType: "application/json", upsert: true });
       if (error) { toast("저장 실패: " + error.message); return; }
 
@@ -955,10 +976,34 @@
       const { error: svgErr } = await SB.storage.from("icons")
         .upload(svgPath, svgBlob, { contentType: "image/svg+xml", upsert: true });
       if (svgErr) { toast("저장됨(정의만) → " + path + " · 갤러리 갱신 실패: " + svgErr.message); return; }
+      document.getElementById("grid-name").value = name;
       toast("저장됨 → " + path + " · 갤러리 → " + svgPath);
     } finally {
       btn.disabled = !galCanEdit; btn.textContent = orig;
     }
+  }
+
+  // "저장": 이름칸 그대로 씀 — 같은 이름 파일 있으면 덮어쓸지 확인, 취소하면 아무것도 안 함.
+  async function saveGrid() {
+    if (!galCanEdit) { toast("저장 권한 없음"); return; }
+    if (!usedCells().length) { toast("빈 grid 는 저장 못함"); return; }
+    const name = ensureGridName();
+    const filename = gridJsonFilename(name);
+    if (await gridFileExists(filename)) {
+      if (!confirm("'" + filename + "' 이미 있음. 덮어쓸까요?")) { toast("저장 취소"); return; }
+    }
+    await uploadGrid(document.getElementById("btn-save"), name);
+  }
+
+  // "새 파일로 저장": 현재 이름칸 값과 무관하게 내용 기준으로 새 이름을 뽑음.
+  // 같은 이름 파일이 이미 있으면(내용 안 바뀌어 원래 파일과 이름 겹치는 경우 포함) 타임스탬프 붙여
+  // 무조건 새 파일로 만듦 — 확인창 없이 바로 "새 파일" 의도를 보장.
+  async function saveGridAs() {
+    if (!galCanEdit) { toast("저장 권한 없음"); return; }
+    if (!usedCells().length) { toast("빈 grid 는 저장 못함"); return; }
+    let name = autoGridName();
+    if (await gridFileExists(gridJsonFilename(name))) name = name + "-" + stamp();
+    await uploadGrid(document.getElementById("btn-save-as"), name);
   }
 
   // ───────── 불러오기 (json 목록) ─────────
@@ -1039,6 +1084,7 @@
     document.getElementById("grid-name").value = "";
   });
   document.getElementById("btn-save").addEventListener("click", saveGrid);
+  document.getElementById("btn-save-as").addEventListener("click", saveGridAs);
   document.getElementById("btn-download").addEventListener("click", async () => {
     const xml = await buildGridSvg();
     if (!xml) { toast("빈 grid 는 export 못함"); return; }
@@ -1076,6 +1122,7 @@
     } else { bt.textContent = "로그인"; galCanEdit = false; st.textContent = "로그인 필요"; }
     document.body.classList.toggle("edit-on", galCanEdit);
     document.getElementById("btn-save").disabled = !galCanEdit;
+    document.getElementById("btn-save-as").disabled = !galCanEdit;
   }
   document.getElementById("auth-btn").addEventListener("click", async () => {
     if (!SB) return;
