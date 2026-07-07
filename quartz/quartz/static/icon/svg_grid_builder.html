@@ -76,8 +76,7 @@
   .gcell.filled { border-style:solid; background:var(--surface-soft); cursor:grab; }
   .gcell.dragging { opacity:.35; }
   .gcell.dragover { border-color:var(--brand-yellow); background:rgba(255,212,0,.15); }
-  /* 하위(connector) / 상위(icon) 2개 레이어를 같은 칸에 겹쳐 그림. icon 이 나중(위)에 그려짐.
-     제목은 칸 하단에 얇은 캡션으로. 목록 칸은 connector/icon/제목과 배타적(대신 텍스트 여러 줄로 채움) */
+  /* connector(하위)/icon(상위)/목록/제목 4개 다 자유 조합(배타적 아님) — connector→icon→목록→제목 순으로 겹쳐 그림 */
   .gcell .layer { position:absolute; inset:3px; display:flex; align-items:center; justify-content:center; pointer-events:none; }
   .gcell svg { width:100%; height:100%; max-width:100%; max-height:100%; display:block; pointer-events:none; }
   .gcell .plus { color:var(--hairline); font-size:16px; pointer-events:none; }
@@ -87,7 +86,7 @@
                       overflow:hidden; text-overflow:ellipsis; white-space:nowrap; background:rgba(18,18,16,.55);
                       padding:0 2px; border-radius:2px; }
   .layer-list { position:absolute; inset:2px; display:flex; flex-direction:column; align-items:center; justify-content:center;
-                gap:1px; overflow:hidden; text-align:center; }
+                gap:1px; overflow:hidden; text-align:center; pointer-events:none; z-index:1; }
   .cell-list-line { font-size:5.5px; font-family:var(--font); line-height:1.15; max-width:100%;
                      overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
@@ -144,7 +143,7 @@
   <div class="head">
     <span class="eyebrow">SVG Grid Builder</span>
     <h1>SVG Grid Builder</h1>
-    <div class="sub">각 칸 = <b>connector</b>(하위)+<b>icon</b>(상위)+<b>제목</b> 조합(1~3개 자유) 또는 <b>목록</b>(단독) 중 하나. 10×10 칸에 배치해 저장·불러오기·export.</div>
+    <div class="sub">각 칸 = <b>connector</b>(하위)+<b>icon</b>(상위)+<b>제목</b>+<b>목록</b> 자유 조합(0~4개, 원하는 대로). 10×10 칸에 배치해 저장·불러오기·export.</div>
   </div>
 
   <div class="banner" id="banner"></div>
@@ -192,7 +191,7 @@
     </div>
   </div>
 
-  <!-- svg 선택 모달: 칸 하나에 connector(하위)/icon(상위)/제목/목록 4가지 탭. 목록은 나머지 3개와 배타적 -->
+  <!-- svg 선택 모달: 칸 하나에 connector(하위)/icon(상위)/제목/목록 4가지 탭. 4개 다 자유 조합 가능(배타적 아님) -->
   <div class="modal-bg" id="picker-bg">
     <div class="modal">
       <div class="modal-head">
@@ -365,15 +364,10 @@
     }
     el.className = "gcell filled";
     el.draggable = true;
-    if (cell.legend && cell.legend.length) {
-      // 목록 칸: connector/icon/제목과 배타적 — 텍스트 여러 줄로 채움
-      el.innerHTML = '<div class="layer-list"></div>';
-      const ll = el.querySelector(".layer-list");
-      ll.style.color = legendStyle.color;
-      ll.innerHTML = cell.legend.map(line => '<div class="cell-list-line">' + escapeHtml(line) + '</div>').join("");
-      return;
-    }
+    // connector/icon/제목/목록 4개 다 자유 조합 가능(배타적 아님) — 겹쳐 그림: connector→icon→목록→제목 순(나중이 위)
+    const hasList = cell.legend && cell.legend.length;
     el.innerHTML = '<div class="layer layer-connector"></div><div class="layer layer-icon"></div>' +
+      (hasList ? '<div class="layer-list"></div>' : '') +
       (cell.title ? '<div class="layer layer-title"><span class="cell-title-text"></span></div>' : '');
     const lc = el.querySelector(".layer-connector"), li = el.querySelector(".layer-icon");
     const paint = async (item, host) => {
@@ -387,6 +381,11 @@
       }
     };
     await Promise.all([paint(cell.connector, lc), paint(cell.icon, li)]);
+    if (hasList) {
+      const ll = el.querySelector(".layer-list");
+      ll.style.color = legendStyle.color;
+      ll.innerHTML = cell.legend.map(line => '<div class="cell-list-line">' + escapeHtml(line) + '</div>').join("");
+    }
     if (cell.title) {
       const tt = el.querySelector(".cell-title-text");
       tt.textContent = cell.title;
@@ -494,7 +493,6 @@
         const cell = ensureCell(r, c);
         const item = { name: it.name, path: it.path, src: it.src };
         if (pickerTab === "connector") cell.connector = item; else cell.icon = item;
-        cell.legend = []; // connector/icon 선택 → 목록과 배타적, 비움
         renderCell(r, c);
         updateArrowState();
       });
@@ -508,7 +506,6 @@
     const { r, c } = activeCell;
     const cell = ensureCell(r, c);
     cell.title = e.target.value;
-    if (cell.title.trim()) cell.legend = []; // 제목 입력 → 목록과 배타적, 비움
     cleanupCell(r, c);
     renderCell(r, c);
     updateArrowState();
@@ -518,7 +515,6 @@
     const { r, c } = activeCell;
     const cell = ensureCell(r, c);
     cell.legend = e.target.value.split("\n").map(l => l.trim()).filter(l => l.length);
-    if (cell.legend.length) { cell.connector = null; cell.icon = null; cell.title = ""; } // 목록 입력 → 나머지 3개 비움
     cleanupCell(r, c);
     renderCell(r, c);
     updateArrowState();
@@ -668,28 +664,6 @@
     try {
       for (const u of used) {
         const cellX = (u.c - minC) * CELL, cellY = (u.r - minR) * CELL;
-        if (u.legend && u.legend.length) {
-          // 목록 칸: connector/icon/제목과 배타적 — 칸 안에 텍스트 여러 줄로 채움. 칸 밖으로 안 나가게 클립 + 폭 초과시 축소
-          const g = document.createElementNS(SVGNS, "g");
-          g.setAttribute("transform", "translate(" + cellX + "," + cellY + ")");
-          g.setAttribute("clip-path", "url(#cellClip)");
-          const lh = legendStyle.size * 1.15;
-          let ty = Math.max(lh, (CELL - u.legend.length * lh) / 2 + lh * 0.8);
-          u.legend.forEach(line => {
-            const fit = fitFontSize(line, legendStyle.size, "400", CELL - 2);
-            const t = document.createElementNS(SVGNS, "text");
-            t.setAttribute("x", CELL / 2); t.setAttribute("y", ty);
-            t.setAttribute("text-anchor", "middle");
-            t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
-            t.setAttribute("font-size", fit.size);
-            t.setAttribute("fill", legendStyle.color);
-            t.textContent = line;
-            g.appendChild(t);
-            ty += lh;
-          });
-          outer.appendChild(g);
-          continue;
-        }
         // connector(0 0 24 24, 경계까지 꽉 참) 와 icon(-2 -2 28 28, 자체 여백) 은 좌표계가 달라서
         // 같은 nested <svg> 를 공유할 수 없음 → 같은 x/y 위치에 각자 viewBox 로 따로 얹음(connector 먼저, icon 나중=위).
         for (const item of [u.connector, u.icon]) {
@@ -709,6 +683,27 @@
           flattenInto(live, nested);
           outer.appendChild(nested);
           host.innerHTML = "";
+        }
+        if (u.legend && u.legend.length) {
+          // 목록: connector/icon 위에 겹쳐 그림(배타적 아님). 칸 밖으로 안 나가게 클립 + 폭 초과시 축소
+          const g = document.createElementNS(SVGNS, "g");
+          g.setAttribute("transform", "translate(" + cellX + "," + cellY + ")");
+          g.setAttribute("clip-path", "url(#cellClip)");
+          const lh = legendStyle.size * 1.15;
+          let ty = Math.max(lh, (CELL - u.legend.length * lh) / 2 + lh * 0.8);
+          u.legend.forEach(line => {
+            const fit = fitFontSize(line, legendStyle.size, "400", CELL - 2);
+            const t = document.createElementNS(SVGNS, "text");
+            t.setAttribute("x", CELL / 2); t.setAttribute("y", ty);
+            t.setAttribute("text-anchor", "middle");
+            t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
+            t.setAttribute("font-size", fit.size);
+            t.setAttribute("fill", legendStyle.color);
+            t.textContent = line;
+            g.appendChild(t);
+            ty += lh;
+          });
+          outer.appendChild(g);
         }
         if (u.title) {
           // 아이콘/connector 가 칸을 거의 꽉 채우므로 제목 글자 뒤에 배경판을 깔아야 겹쳐도 구분됨.

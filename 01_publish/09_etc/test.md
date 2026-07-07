@@ -191,3 +191,32 @@ A --> D
   <path d="M 12 0 A 12 12 0 0 0 18.25 10.53" fill="none" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="miter"/>
   <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
 </svg></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 72" width="512" height="512" role="img" aria-label="grid_20260707-102757"><defs><clipPath id="cellClip"><rect x="0" y="0" width="24" height="24" fill="rgb(0, 0, 0)" stroke="none"/></clipPath></defs><svg x="24" y="0" width="24" height="24" viewBox="0 0 24 24">
+  <path d="M 18.25 13.47 A 12 12 0 0 0 12 24" fill="none" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><svg x="0" y="24" width="24" height="24" viewBox="1.875 1.385 22.430 22.430">
+      <g id="frame-group">
+        <g id="slot-full"><path xmlns="http://www.w3.org/2000/svg" d="M 2.5 23 C 2.5 16.5 7 15 12 15 C 17 15 21.5 16.5 21.5 23 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="8.5" r="6.3" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 12 14.6 L 8.5 13.1 L 8.5 16.1 Z M 12 14.6 L 15.5 13.1 L 15.5 16.1 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse xmlns="http://www.w3.org/2000/svg" cx="19" cy="19" rx="4.68" ry="1.43" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 14.32 19 A 4.68 4.68 0 0 1 23.68 19 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="19" cy="13.87" r="1.04" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+      <g id="slot-ins-wrap" transform="translate(0,-3.5) translate(12,12) scale(0.85) translate(-12,-12)">
+        <g id="slot-ins-back-outline" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-back" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front-outline" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="5.2" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="9.9" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="14.1" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 9.6 15.2 Q 12 12.9 14.4 15.2" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+    </svg><g transform="translate(0,24)" clip-path="url(#cellClip)"><rect x="0.16320059571890155" y="18.46500549273021" width="23.673598808562197" height="5.56998901453958" rx="0.5732084006462035" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="3.8213893376413566" fill="rgb(245, 244, 236)" stroke="none">불쌍한 웨이터</text></g><svg x="24" y="24" width="24" height="24" viewBox="0 0 24 24">
+  <line x1="12" y1="0" x2="12" y2="24" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <line x1="0.0" y1="12.0" x2="18.0" y2="12.0" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><svg x="24" y="48" width="24" height="24" viewBox="0 0 24 24">
+  <path d="M 12 0 A 12 12 0 0 0 18.25 10.53" fill="none" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg></svg>
