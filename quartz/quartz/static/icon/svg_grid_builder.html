@@ -316,6 +316,16 @@
   function ensureCell(r, c) { return grid[r][c] || (grid[r][c] = { connector: null, icon: null, title: "", legend: [] }); }
   function cellIsEmpty(cell) { return !cell || (!cell.connector && !cell.icon && !cell.title && !(cell.legend && cell.legend.length)); }
   function cleanupCell(r, c) { if (cellIsEmpty(grid[r][c])) grid[r][c] = null; }
+  // 드래그 복제(ctrl+드래그)용 — 참조로 옮기면 두 칸이 같은 객체를 공유해서 한쪽만 고쳐도 같이 바뀌는 버그 생김
+  function cloneCell(cell) {
+    if (!cell) return null;
+    return {
+      connector: cell.connector ? { ...cell.connector } : null,
+      icon: cell.icon ? { ...cell.icon } : null,
+      title: cell.title || "",
+      legend: (cell.legend || []).slice()
+    };
+  }
   const escapeHtml = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   let generatedItems = []; // [{name, path, src:"generated"}] — supabase svg/generated
   // connector: 로컬 정적 파일(svg/connector/*.svg), supabase 업로드 불필요, 상대경로로 바로 fetch
@@ -330,7 +340,8 @@
     "con_arrow_lr_bi", "con_arrow_ud_bi",
     "con_corner_lt_up", "con_corner_lt_left", "con_corner_tr_right", "con_corner_tr_up",
     "con_corner_rb_down", "con_corner_rb_right", "con_corner_bl_left", "con_corner_bl_down",
-    "con_sign_plus", "con_sign_minus", "con_sign_times", "con_sign_divide", "con_sign_equals"
+    "con_sign_plus", "con_sign_minus", "con_sign_times", "con_sign_divide", "con_sign_equals",
+    "con_sign_equals_v", "con_sign_not_equal", "con_sign_not_equal_v", "con_sign_approx", "con_sign_approx_v"
   ].map(name => ({ name, path: "svg/connector/" + name + ".svg", src: "connector" }));
   // icon 탭에 generated(supabase) 뿐 아니라 icon_builder 기본 파츠(frame/insert/logo/face, 로컬 정적 파일)도 같이 보여줌.
   // 색 없는 원본이라 styledSvg() 의 PAL 폴백 스타일로 자동 채색됨.
@@ -348,7 +359,7 @@
     "frm_full_bold_simple-flower8","frm_full_bold_simple-hexagon-v","frm_full_bold_simple-hexagon",
     "frm_full_bold_simple-hexagon6-h","frm_full_bold_simple-hexagon6-v","frm_full_bold_simple-oct-tail-bl",
     "frm_full_bold_simple-oct-tail-br","frm_full_bold_simple-oct-tail-tl","frm_full_bold_simple-oct-tail-tr",
-    "frm_full_bold_simple-oct","frm_full_bold_simple-rect","frm_full_bold_waiter"
+    "frm_full_bold_simple-oct","frm_full_bold_simple-rect","frm_full_bold_waiter","frm_full_bold_warehouse"
   ];
   const INSERT_NAMES = [
     "ins_bold_chart_bar","ins_bold_chart_line","ins_bold_chart_pie","ins_bold_chart_stock","ins_bold_hand_like",
@@ -422,7 +433,7 @@
         el.addEventListener("dragstart", e => {
           if (!grid[r][c]) { e.preventDefault(); return; }
           dragSrc = { r, c };
-          e.dataTransfer.effectAllowed = "move";
+          e.dataTransfer.effectAllowed = "copyMove"; // ctrl 누르면 copy 커서 보이게(실제 분기는 drop 에서 ctrlKey 로 판단)
           e.dataTransfer.setData("text/plain", r + "," + c); // Firefox 는 setData 없으면 drag 자체를 취소함
           el.classList.add("dragging");
         });
@@ -430,6 +441,7 @@
         el.addEventListener("dragover", e => {
           if (!dragSrc) return;
           e.preventDefault(); // drop 허용
+          e.dataTransfer.dropEffect = e.ctrlKey ? "copy" : "move";
           el.classList.add("dragover");
         });
         el.addEventListener("dragleave", () => el.classList.remove("dragover"));
@@ -440,11 +452,16 @@
           const { r: r1, c: c1 } = dragSrc;
           dragSrc = null;
           if (r1 === r && c1 === c) return;
-          const tmp = grid[r][c];
-          grid[r][c] = grid[r1][c1];
-          grid[r1][c1] = tmp;
+          if (e.ctrlKey) {
+            // ctrl+드래그 = 복제. 원본 칸은 그대로 두고 대상 칸에 복사(참조 아님, cloneCell)
+            grid[r][c] = cloneCell(grid[r1][c1]);
+          } else {
+            const tmp = grid[r][c];
+            grid[r][c] = grid[r1][c1];
+            grid[r1][c1] = tmp;
+            renderCell(r1, c1);
+          }
           renderCell(r, c);
-          renderCell(r1, c1);
           updateArrowState();
         });
         host.appendChild(el);
