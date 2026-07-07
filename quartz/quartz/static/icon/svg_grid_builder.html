@@ -126,6 +126,7 @@
   .llist { overflow:auto; display:flex; flex-direction:column; gap:6px; }
   .litem { display:flex; align-items:center; gap:8px; background:var(--surface-soft); border:1px solid var(--hairline);
            border-radius:var(--r-md); padding:8px 12px; }
+  .litem-thumb { width:40px; height:40px; object-fit:contain; border-radius:6px; background:#26261f; flex-shrink:0; }
   .litem .nm { flex:1; font-family:var(--mono); font-size:12.5px; color:var(--ink); word-break:break-all; }
   .litem .btn { padding:5px 10px; font-size:11px; }
   .litem .btn.del { display:none; background:#3a1a1a; border-color:#6b3a2a; color:#ffc9bd; }
@@ -151,10 +152,9 @@
   <div class="toolbar">
     <input type="text" class="name-input" id="grid-name" placeholder="grid 이름 (예: dashboard-icons)">
     <button class="btn" id="btn-new" type="button">새 grid</button>
-    <button class="btn" id="btn-save" type="button">저장</button>
+    <button class="btn primary" id="btn-save" type="button" title="grid 정의 저장 + SVG Gallery 썸네일도 같이 갱신됨">☁ 저장 (갤러리 동기화)</button>
     <button class="btn" id="btn-load" type="button">불러오기</button>
     <button class="btn" id="btn-download" type="button">svg 다운로드</button>
-    <button class="btn primary" id="btn-upload" type="button">☁ grid 갤러리 업로드</button>
     <!-- 그리드 전체 이동. 바깥쪽 svg 가 경계에 닿으면 해당 방향 비활성 -->
     <button class="btn" id="arrow-up" type="button" title="전체 위로 이동">▲</button>
     <button class="btn" id="arrow-down" type="button" title="전체 아래로 이동">▼</button>
@@ -663,6 +663,7 @@
       const size = baseSize * (maxWidth / bbox.width);
       return { size, bbox: measureTextBBox(text, size, weight) };
     }
+    const missing = []; // svg gallery 에서 나중에 삭제된 아이콘/connector — export 전체를 막지 않고 그 칸만 건너뜀
     try {
       for (const u of used) {
         const cellX = (u.c - minC) * CELL, cellY = (u.r - minR) * CELL;
@@ -670,7 +671,9 @@
         // 같은 nested <svg> 를 공유할 수 없음 → 같은 x/y 위치에 각자 viewBox 로 따로 얹음(connector 먼저, icon 나중=위).
         for (const item of [u.connector, u.icon]) {
           if (!item) continue;
-          const raw = await getRaw(item);
+          let raw;
+          try { raw = await getRaw(item); }
+          catch (e) { missing.push(item.name || item.path); continue; }
           const markup = styledSvg(raw, item.name);
           if (!markup) continue;
           host.innerHTML = markup;
@@ -740,6 +743,7 @@
       document.body.removeChild(host);
       document.body.removeChild(measureHost);
     }
+    if (missing.length) toast("일부 칸 못 불러옴(gallery 에서 삭제됨?): " + missing.join(", "));
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(outer);
   }
 
@@ -751,7 +755,11 @@
            "-" + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()); };
   function currentName() { return document.getElementById("grid-name").value.trim(); }
 
-  // ───────── 저장 (json) ─────────
+  // ───────── 저장 (json 정의 + SVG Gallery 썸네일 동시 갱신) ─────────
+  // "저장"과 "갤러리 업로드"는 사용자 입장에서 같은 행동(이 grid 를 보관한다) 이라 버튼 하나로 합침.
+  // 갤러리 svg 는 이름 고정(svg/grid/<name>.svg, upsert)이라 다시 저장하면 같은 항목이 최신 내용으로 갱신됨
+  // (이전처럼 타임스탬프 붙여 매번 새 항목 만들지 않음).
+  function gallerySvgPath(name) { return "svg/grid/" + sanitize(name) + ".svg"; }
   async function saveGrid() {
     if (!galCanEdit) { toast("저장 권한 없음"); return; }
     const name = currentName();
@@ -766,11 +774,25 @@
         title: u.title || "", legend: u.legend || []
       }))
     };
-    const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-    const path = "grid/" + sanitize(name) + ".json";
-    const { error } = await SB.storage.from("icons").upload(path, blob, { contentType: "application/json", upsert: true });
-    if (error) { toast("저장 실패: " + error.message); return; }
-    toast("저장됨 → " + path);
+    const btn = document.getElementById("btn-save");
+    btn.disabled = true; const orig = btn.textContent; btn.textContent = "저장 중…";
+    try {
+      const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+      const path = "grid/" + sanitize(name) + ".json";
+      const { error } = await SB.storage.from("icons").upload(path, blob, { contentType: "application/json", upsert: true });
+      if (error) { toast("저장 실패: " + error.message); return; }
+
+      const xml = await buildGridSvg();
+      if (!xml) { toast("저장됨(정의만) → " + path + " · 갤러리 svg 는 못 만듦"); return; }
+      const svgBlob = new Blob([xml], { type: "image/svg+xml" });
+      const svgPath = gallerySvgPath(name);
+      const { error: svgErr } = await SB.storage.from("icons")
+        .upload(svgPath, svgBlob, { contentType: "image/svg+xml", upsert: true });
+      if (svgErr) { toast("저장됨(정의만) → " + path + " · 갤러리 갱신 실패: " + svgErr.message); return; }
+      toast("저장됨 → " + path + " · 갤러리 → " + svgPath);
+    } finally {
+      btn.disabled = !galCanEdit; btn.textContent = orig;
+    }
   }
 
   // ───────── 불러오기 (json 목록) ─────────
@@ -791,7 +813,9 @@
         const label = f.name.replace(/\.json$/i, "");
         const row = document.createElement("div");
         row.className = "litem";
-        row.innerHTML = '<span class="nm">' + label + '</span>' +
+        // json 디코딩 없이, 저장할 때 같이 만든 gallery svg(고정 경로)를 그대로 썸네일로 씀
+        row.innerHTML = '<img class="litem-thumb" src="' + publicUrl(gallerySvgPath(label)) + '" alt="" onerror="this.style.display=\'none\'">' +
+          '<span class="nm">' + label + '</span>' +
           '<button type="button" class="btn load">불러오기</button>' +
           '<button type="button" class="btn del">삭제</button>';
         row.querySelector(".load").addEventListener("click", () => loadGridFile("grid/" + f.name, label));
@@ -856,21 +880,6 @@
     a.click();
     URL.revokeObjectURL(url);
   });
-  document.getElementById("btn-upload").addEventListener("click", async () => {
-    if (!SB) { toast("supabase 미설정"); return; }
-    if (!galCanEdit) { toast("업로드 권한 없음"); return; }
-    const xml = await buildGridSvg();
-    if (!xml) { toast("빈 grid 는 export 못함"); return; }
-    const filename = sanitize(currentName() || "grid") + "_" + stamp() + ".svg";
-    const blob = new Blob([xml], { type: "image/svg+xml" });
-    const btn = document.getElementById("btn-upload");
-    btn.disabled = true; const orig = btn.textContent; btn.textContent = "업로드 중…";
-    const { error } = await SB.storage.from("icons").upload("svg/grid/" + filename, blob, { contentType: "image/svg+xml", upsert: false });
-    btn.disabled = false; btn.textContent = orig;
-    if (error) { toast("업로드 실패: " + error.message); return; }
-    toast("업로드됨 → svg/grid/" + filename);
-  });
-
   // ───────── 토스트 / 배너 ─────────
   let toastTimer = null;
   function toast(msg) {
@@ -897,7 +906,7 @@
       st.textContent = (u.email || "로그인됨") + (galCanEdit ? " · 편집 가능" : " · 권한 없음");
     } else { bt.textContent = "로그인"; galCanEdit = false; st.textContent = "로그인 필요"; }
     document.body.classList.toggle("edit-on", galCanEdit);
-    ["btn-save", "btn-upload"].forEach(id => document.getElementById(id).disabled = !galCanEdit);
+    document.getElementById("btn-save").disabled = !galCanEdit;
   }
   document.getElementById("auth-btn").addEventListener("click", async () => {
     if (!SB) return;
