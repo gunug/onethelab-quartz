@@ -180,13 +180,13 @@
       <div class="style-row">
         <span class="style-label">제목</span>
         <input type="color" id="style-title-color">
-        <input type="range" id="style-title-size" min="4" max="24" step="1">
+        <input type="range" id="style-title-size" min="4" max="14" step="1">
         <span class="val" id="style-title-size-v"></span>
       </div>
       <div class="style-row">
         <span class="style-label">목록</span>
         <input type="color" id="style-legend-color">
-        <input type="range" id="style-legend-size" min="3" max="16" step="1">
+        <input type="range" id="style-legend-size" min="3" max="10" step="1">
         <span class="val" id="style-legend-size-v"></span>
       </div>
     </div>
@@ -627,6 +627,17 @@
     outer.setAttribute("width", gridW * EXPORT_SCALE);
     outer.setAttribute("height", gridH * EXPORT_SCALE);
 
+    // 제목/목록 텍스트가 칸 폭보다 커지면 옆칸까지 삐져나가던 문제 → 칸 크기(24x24) 클립 + 폭 초과시 글자 자동 축소
+    const defs = document.createElementNS(SVGNS, "defs");
+    const clip = document.createElementNS(SVGNS, "clipPath");
+    clip.setAttribute("id", "cellClip");
+    const clipRect = document.createElementNS(SVGNS, "rect");
+    clipRect.setAttribute("x", 0); clipRect.setAttribute("y", 0);
+    clipRect.setAttribute("width", CELL); clipRect.setAttribute("height", CELL);
+    clip.appendChild(clipRect);
+    defs.appendChild(clip);
+    outer.appendChild(defs);
+
     // 색 계산용 숨김 호스트 (문서에 붙어야 getComputedStyle 정상 동작)
     const host = document.createElement("div");
     host.style.cssText = "position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none;";
@@ -647,24 +658,36 @@
       measureSvg.appendChild(t);
       return t.getBBox();
     }
+    // 폭이 maxWidth 넘으면 그 비율만큼 font-size 줄임 (그래도 남는 초과분은 clipPath 가 마저 자름)
+    function fitFontSize(text, baseSize, weight, maxWidth) {
+      const bbox = measureTextBBox(text, baseSize, weight);
+      if (bbox.width <= maxWidth || bbox.width === 0) return { size: baseSize, bbox };
+      const size = baseSize * (maxWidth / bbox.width);
+      return { size, bbox: measureTextBBox(text, size, weight) };
+    }
     try {
       for (const u of used) {
         const cellX = (u.c - minC) * CELL, cellY = (u.r - minR) * CELL;
         if (u.legend && u.legend.length) {
-          // 목록 칸: connector/icon/제목과 배타적 — 칸 안에 텍스트 여러 줄로 채움
+          // 목록 칸: connector/icon/제목과 배타적 — 칸 안에 텍스트 여러 줄로 채움. 칸 밖으로 안 나가게 클립 + 폭 초과시 축소
+          const g = document.createElementNS(SVGNS, "g");
+          g.setAttribute("transform", "translate(" + cellX + "," + cellY + ")");
+          g.setAttribute("clip-path", "url(#cellClip)");
           const lh = legendStyle.size * 1.15;
-          let ty = cellY + Math.max(lh, (CELL - u.legend.length * lh) / 2 + lh * 0.8);
+          let ty = Math.max(lh, (CELL - u.legend.length * lh) / 2 + lh * 0.8);
           u.legend.forEach(line => {
+            const fit = fitFontSize(line, legendStyle.size, "400", CELL - 2);
             const t = document.createElementNS(SVGNS, "text");
-            t.setAttribute("x", cellX + CELL / 2); t.setAttribute("y", ty);
+            t.setAttribute("x", CELL / 2); t.setAttribute("y", ty);
             t.setAttribute("text-anchor", "middle");
             t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
-            t.setAttribute("font-size", legendStyle.size);
+            t.setAttribute("font-size", fit.size);
             t.setAttribute("fill", legendStyle.color);
             t.textContent = line;
-            outer.appendChild(t);
+            g.appendChild(t);
             ty += lh;
           });
+          outer.appendChild(g);
           continue;
         }
         // connector(0 0 24 24, 경계까지 꽉 참) 와 icon(-2 -2 28 28, 자체 여백) 은 좌표계가 달라서
@@ -688,28 +711,32 @@
           host.innerHTML = "";
         }
         if (u.title) {
-          // 아이콘/connector 가 칸을 거의 꽉 채우므로 제목 글자 뒤에 배경판을 깔아야 겹쳐도 구분됨
-          // (화면 미리보기의 .cell-title-text 반투명 배경과 동일한 처리 — 이게 빠지면 export 에서 글씨가 그림과 뒤섞임)
-          const textX = cellX + CELL / 2, textY = cellY + CELL - 1.5;
-          const bbox = measureTextBBox(u.title, titleStyle.size, "700");
-          const padX = titleStyle.size * 0.22, padY = titleStyle.size * 0.14;
+          // 아이콘/connector 가 칸을 거의 꽉 채우므로 제목 글자 뒤에 배경판을 깔아야 겹쳐도 구분됨.
+          // 칸 밖으로 안 나가게 클립 + 폭 초과시 자동 축소(그래도 남으면 clipPath 가 마저 자름)
+          const localX = CELL / 2, localY = CELL - 1.5;
+          const fit = fitFontSize(u.title, titleStyle.size, "700", CELL - 2);
+          const padX = fit.size * 0.22, padY = fit.size * 0.14;
+          const g = document.createElementNS(SVGNS, "g");
+          g.setAttribute("transform", "translate(" + cellX + "," + cellY + ")");
+          g.setAttribute("clip-path", "url(#cellClip)");
           const rect = document.createElementNS(SVGNS, "rect");
-          rect.setAttribute("x", textX - bbox.width / 2 - padX);
-          rect.setAttribute("y", textY + bbox.y - padY);
-          rect.setAttribute("width", bbox.width + padX * 2);
-          rect.setAttribute("height", bbox.height + padY * 2);
-          rect.setAttribute("rx", Math.min(2, titleStyle.size * 0.15));
+          rect.setAttribute("x", localX - fit.bbox.width / 2 - padX);
+          rect.setAttribute("y", localY + fit.bbox.y - padY);
+          rect.setAttribute("width", fit.bbox.width + padX * 2);
+          rect.setAttribute("height", fit.bbox.height + padY * 2);
+          rect.setAttribute("rx", Math.min(2, fit.size * 0.15));
           rect.setAttribute("fill", "rgba(18,18,16,.55)");
-          outer.appendChild(rect);
+          g.appendChild(rect);
           const t = document.createElementNS(SVGNS, "text");
-          t.setAttribute("x", textX); t.setAttribute("y", textY);
+          t.setAttribute("x", localX); t.setAttribute("y", localY);
           t.setAttribute("text-anchor", "middle");
           t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
           t.setAttribute("font-weight", "700");
-          t.setAttribute("font-size", titleStyle.size);
+          t.setAttribute("font-size", fit.size);
           t.setAttribute("fill", titleStyle.color);
           t.textContent = u.title;
-          outer.appendChild(t);
+          g.appendChild(t);
+          outer.appendChild(g);
         }
       }
     } finally {
