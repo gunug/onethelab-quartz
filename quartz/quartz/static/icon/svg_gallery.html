@@ -118,7 +118,7 @@
   <div class="head">
     <span class="eyebrow">SVG Gallery</span>
     <h1>SVG Gallery</h1>
-    <div class="sub">Icon Builder 에서 업로드한 <b>generated</b> 아이콘만 표시. <b>SVG</b> = 색 박힌 인라인 svg 복사 · <b>URL</b> = 이미지 링크 · <b>HTML TAG</b> = &lt;img&gt; 태그</div>
+    <div class="sub">Icon Builder 에서 업로드한 <b>generated</b> 아이콘만 표시. <b>RAW HTML TAG</b> = 색 박힌 인라인 svg 복사 · <b>URL</b> = 이미지 링크 · <b>DOWN LOAD</b> = svg 파일 다운로드 · <b>HTML TAG</b> = &lt;img&gt; 태그</div>
   </div>
 
   <div class="banner" id="banner"></div>
@@ -142,7 +142,7 @@
   // ───────── 설정 ─────────
   const SB_BASE = "https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/";
   const publicUrl = path => SB_BASE + path; // path = "svg/<folder>/<id>.svg"
-  const IMG_W = 64; // HTML TAG 버튼이 넣는 <img> 기본 width
+  const IMG_W = "100%"; // HTML TAG 버튼이 넣는 <img> 기본 width
 
   // 원본 svg 는 색 없이 클래스만 → 인라인 표시용 팔레트 주입 (icon_builder 기본색)
   const PAL = { main:"#F5F4EC", point:"#FFD400", back:"#8E8C82", fill:"none" };
@@ -302,11 +302,12 @@
     thumb.innerHTML = '<svg viewBox="-2 -2 28 28"></svg>'; // placeholder, hydrate 가 교체
     const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = it.name;
     const btns = document.createElement("div"); btns.className = "btns";
-    const bSvg = document.createElement("button"); bSvg.className = "btn primary"; bSvg.textContent = "SVG";
+    const bSvg = document.createElement("button"); bSvg.className = "btn primary"; bSvg.textContent = "RAW HTML TAG";
     const bUrl = document.createElement("button"); bUrl.className = "btn"; bUrl.textContent = "URL";
+    const bDown = document.createElement("button"); bDown.className = "btn"; bDown.textContent = "DOWN LOAD";
     const bTag = document.createElement("button"); bTag.className = "btn"; bTag.textContent = "HTML TAG";
     const bDel = document.createElement("button"); bDel.className = "btn del"; bDel.textContent = "삭제";
-    btns.appendChild(bSvg); btns.appendChild(bUrl); btns.appendChild(bTag); btns.appendChild(bDel);
+    btns.appendChild(bSvg); btns.appendChild(bUrl); btns.appendChild(bDown); btns.appendChild(bTag); btns.appendChild(bDel);
     card.appendChild(thumb); card.appendChild(nm); card.appendChild(btns);
 
     const rec = { folder: it.folder, name: it.name, path: it.path, el: card, thumb, markup: null, url: publicUrl(it.path) };
@@ -314,9 +315,10 @@
     bSvg.addEventListener("click", () => {
       const live = rec.thumb.querySelector("svg");
       if (!rec.markup || !live) { toast("아직 로딩 중…"); return; }
-      copy(flattenLiveSvg(live), bSvg, "SVG"); // 색을 속성으로 박은 portable svg
+      copy(flattenLiveSvg(live), bSvg, "RAW HTML TAG"); // 색을 속성으로 박은 portable svg
     });
     bUrl.addEventListener("click", () => copy(rec.url, bUrl, "URL"));
+    bDown.addEventListener("click", () => downloadSvg(rec, bDown));
     bTag.addEventListener("click", () => copy(imgTag(), bTag, "HTML TAG"));
     bDel.addEventListener("click", () => removeIcon(rec, bDel));
     cards.push(rec);
@@ -353,6 +355,21 @@
     });
     const total = Object.values(secCount).reduce((a, b) => a + b, 0);
     document.getElementById("count").textContent = total + " icons";
+  }
+
+  // ───────── svg 파일 다운로드 ─────────
+  async function downloadSvg(rec, btn) {
+    try {
+      const res = await fetch(rec.url, { cache: "force-cache" });
+      if (!res.ok) throw new Error(res.status);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = rec.name + ".svg";
+      a.click();
+      URL.revokeObjectURL(url);
+      toast("다운로드됨");
+    } catch (e) { toast("다운로드 실패"); }
   }
 
   // ───────── 복사 & 토스트 ─────────

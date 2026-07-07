@@ -49,6 +49,8 @@
   .name-input { flex:1; min-width:140px; background:var(--surface-soft); border:1px solid var(--hairline);
             border-radius:var(--r-md); color:var(--ink); font-family:var(--font); font-size:14px; padding:9px 14px; }
   .name-input:focus { outline:none; border-color:var(--brand-yellow); }
+  .name-input[readonly] { color:var(--muted); cursor:default; }
+  .name-input[readonly]:focus { border-color:var(--hairline); }
   .btn { font-family:var(--font); font-size:12px; font-weight:700; padding:9px 14px; border:1px solid var(--hairline);
          border-radius:var(--r-md); background:var(--surface); color:var(--body); cursor:pointer; transition:.12s; white-space:nowrap; }
   .btn:hover { border-color:var(--brand-yellow); color:var(--ink); }
@@ -60,7 +62,7 @@
 
   /* 텍스트 스타일 전역 설정 패널 (제목/목록 색·크기 — 모든 칸 공통, localStorage) */
   .style-row { display:flex; align-items:center; gap:10px; }
-  .style-label { width:36px; font-size:12px; font-weight:700; color:var(--body); }
+  .style-label { width:60px; font-size:12px; font-weight:700; color:var(--body); }
   .style-row input[type="color"] { width:32px; height:32px; padding:0; border:1px solid var(--hairline); border-radius:var(--r-sm); background:var(--surface-soft); cursor:pointer; }
   .style-row input[type="range"] { flex:1; accent-color:var(--brand-yellow); }
   .style-row .val { font-family:var(--mono); font-size:12px; color:var(--muted); min-width:30px; text-align:right; }
@@ -77,6 +79,14 @@
   .gcell.dragging { opacity:.35; }
   .gcell.dragover { border-color:var(--brand-yellow); background:rgba(255,212,0,.15); }
   /* connector(하위)/icon(상위)/목록/제목 4개 다 자유 조합(배타적 아님) — connector→icon→목록→제목 순으로 겹쳐 그림 */
+  .cell-content { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  /* 호버시만 보이는 4버튼(connector/icon/title/textfield) — 마우스 아웃하면 숨김. 클릭시 그 종류 전용 모달만 엶 */
+  .cell-btns { position:absolute; inset:0; display:none; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; z-index:5; }
+  .gcell:hover .cell-btns { display:grid; }
+  .cbtn { border:none; background:rgba(18,18,16,.78); color:var(--ink); font-family:var(--font); font-size:8px;
+          font-weight:700; text-transform:uppercase; letter-spacing:.02em; cursor:pointer;
+          display:flex; align-items:center; justify-content:center; padding:0; transition:.1s; }
+  .cbtn:hover { background:var(--brand-yellow); color:var(--on-brand); }
   .gcell .layer { position:absolute; inset:3px; display:flex; align-items:center; justify-content:center; pointer-events:none; }
   .gcell svg { width:100%; height:100%; max-width:100%; max-height:100%; display:block; pointer-events:none; }
   .gcell .plus { color:var(--hairline); font-size:16px; pointer-events:none; }
@@ -102,11 +112,6 @@
   .modal-head .search:focus { outline:none; border-color:var(--brand-yellow); }
   .modal .close { cursor:pointer; background:none; border:none; color:var(--muted); font-size:20px; line-height:1; padding:2px 6px; }
   .modal .close:hover { color:var(--ink); }
-  .modal-tabs { display:flex; gap:6px; }
-  .ptab { flex:1; font-family:var(--font); font-size:12px; font-weight:700; padding:8px 0; border:1px solid var(--hairline);
-          border-radius:var(--r-md); background:var(--surface-soft); color:var(--muted); cursor:pointer; transition:.12s; }
-  .ptab:hover { color:var(--body); }
-  .ptab.active { background:var(--brand-yellow); color:var(--on-brand); border-color:var(--brand-yellow); }
   .modal-toolrow { display:flex; gap:8px; }
   .modal-toolrow .search { flex:1; }
 
@@ -123,15 +128,26 @@
   .picker-text input:focus, .picker-text textarea:focus { outline:none; border-color:var(--brand-yellow); }
   .modal-foot { display:flex; justify-content:flex-end; }
 
-  .llist { overflow:auto; display:flex; flex-direction:column; gap:6px; }
-  .litem { display:flex; align-items:center; gap:8px; background:var(--surface-soft); border:1px solid var(--hairline);
-           border-radius:var(--r-md); padding:8px 12px; }
-  .litem-thumb { width:40px; height:40px; object-fit:contain; border-radius:6px; background:#26261f; flex-shrink:0; }
-  .litem .nm { flex:1; font-family:var(--mono); font-size:12.5px; color:var(--ink); word-break:break-all; }
-  .litem .btn { padding:5px 10px; font-size:11px; }
-  .litem .btn.del { display:none; background:#3a1a1a; border-color:#6b3a2a; color:#ffc9bd; }
-  .litem .btn.del:hover { border-color:#ff8a6a; color:#fff; }
-  body.edit-on .litem .btn.del { display:inline-block; }
+  /* 불러오기 모달 — SVG Gallery 카드 형식 그대로 (썸네일+이름+버튼) */
+  .load-grid { overflow:auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:12px; }
+  .load-card { background:var(--surface-soft); border:1px solid var(--hairline); border-radius:var(--r-md);
+               padding:10px; display:flex; flex-direction:column; align-items:center; gap:8px; transition:.12s; }
+  .load-card:hover { border-color:var(--brand-yellow); }
+  .load-thumb { width:100%; height:96px; display:flex; align-items:center; justify-content:center;
+                border-radius:var(--r-sm); background-color:#26261f; overflow:hidden;
+                background-image:
+                  linear-gradient(45deg, #1c1c17 25%, transparent 25%),
+                  linear-gradient(-45deg, #1c1c17 25%, transparent 25%),
+                  linear-gradient(45deg, transparent 75%, #1c1c17 75%),
+                  linear-gradient(-45deg, transparent 75%, #1c1c17 75%);
+                background-size:14px 14px; background-position:0 0,0 7px,7px -7px,-7px 0; }
+  .load-thumb img { max-width:100%; max-height:100%; object-fit:contain; }
+  .load-nm { font-size:10.5px; font-family:var(--mono); color:var(--muted); text-align:center; word-break:break-all; line-height:1.3; width:100%; }
+  .load-btns { display:flex; gap:6px; width:100%; }
+  .load-btns .btn { flex:1; font-size:11px; font-weight:600; padding:6px 0; }
+  .load-btns .btn.del { display:none; background:#3a1a1a; border-color:#6b3a2a; color:#ffc9bd; }
+  .load-btns .btn.del:hover { border-color:#ff8a6a; color:#fff; }
+  body.edit-on .load-btns .btn.del { display:inline-block; }
   .empty-msg { color:var(--muted); font-size:12.5px; padding:12px 4px; }
 
   .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
@@ -144,13 +160,14 @@
   <div class="head">
     <span class="eyebrow">SVG Grid Builder</span>
     <h1>SVG Grid Builder</h1>
-    <div class="sub">각 칸 = <b>connector</b>(하위)+<b>icon</b>(상위)+<b>제목</b>+<b>목록</b> 자유 조합(0~4개, 원하는 대로). 10×10 칸에 배치해 저장·불러오기·export.</div>
+    <div class="sub">각 칸 = <b>connector</b>(하위)+<b>icon</b>(상위)+<b>title</b>+<b>textfield</b> 자유 조합(0~4개, 원하는 대로). 칸에 마우스 올리면 4버튼 나옴. 10×10 칸에 배치해 저장·불러오기·export.</div>
   </div>
 
   <div class="banner" id="banner"></div>
 
   <div class="toolbar">
-    <input type="text" class="name-input" id="grid-name" placeholder="grid 이름 (예: dashboard-icons)">
+    <input type="text" class="name-input" id="grid-name" readonly
+           placeholder="저장하면 칸 내용으로 이름 자동생성됨" title="자동생성됨 — 직접 입력 안 함">
     <button class="btn" id="btn-new" type="button">새 grid</button>
     <button class="btn primary" id="btn-save" type="button" title="grid 정의 저장 + SVG Gallery 썸네일도 같이 갱신됨">☁ 저장 (갤러리 동기화)</button>
     <button class="btn" id="btn-load" type="button">불러오기</button>
@@ -160,7 +177,7 @@
     <button class="btn" id="arrow-down" type="button" title="전체 아래로 이동">▼</button>
     <button class="btn" id="arrow-left" type="button" title="전체 왼쪽으로 이동">◀</button>
     <button class="btn" id="arrow-right" type="button" title="전체 오른쪽으로 이동">▶</button>
-    <button class="btn" id="btn-textstyle" type="button">텍스트 스타일</button>
+    <button class="btn" id="btn-textstyle" type="button">스타일</button>
   </div>
   <div class="auth-row">
     <span class="auth-status" id="auth-status">로그인 확인 중…</span>
@@ -173,8 +190,12 @@
   <div class="modal-bg" id="textstyle-bg">
     <div class="modal" style="width:min(420px,100%)">
       <div class="modal-head">
-        <h3>텍스트 스타일 (모든 칸 공통)</h3>
+        <h3>스타일 (모든 칸 공통)</h3>
         <button class="close" id="textstyle-close" type="button">&times;</button>
+      </div>
+      <div class="style-row">
+        <span class="style-label">connector</span>
+        <input type="color" id="style-connector-color">
       </div>
       <div class="style-row">
         <span class="style-label">제목</span>
@@ -183,7 +204,7 @@
         <span class="val" id="style-title-size-v"></span>
       </div>
       <div class="style-row">
-        <span class="style-label">목록</span>
+        <span class="style-label">textfield</span>
         <input type="color" id="style-legend-color">
         <input type="range" id="style-legend-size" min="3" max="10" step="1">
         <span class="val" id="style-legend-size-v"></span>
@@ -191,18 +212,13 @@
     </div>
   </div>
 
-  <!-- svg 선택 모달: 칸 하나에 connector(하위)/icon(상위)/제목/목록 4가지 탭. 4개 다 자유 조합 가능(배타적 아님) -->
+  <!-- 칸 위 4개 호버 버튼(connector/icon/title/textfield) 중 하나를 누르면 그 종류 전용으로 이 모달이 열림.
+       탭 이동 없음 — 버튼 선택 자체가 종류 선택. -->
   <div class="modal-bg" id="picker-bg">
     <div class="modal">
       <div class="modal-head">
         <h3 id="picker-title">칸에 넣을 svg 선택</h3>
         <button class="close" id="picker-close" type="button">&times;</button>
-      </div>
-      <div class="modal-tabs" id="picker-tabs">
-        <button type="button" class="ptab active" data-tab="connector">connector · 하위</button>
-        <button type="button" class="ptab" data-tab="icon">icon · 상위</button>
-        <button type="button" class="ptab" data-tab="title">제목</button>
-        <button type="button" class="ptab" data-tab="list">목록</button>
       </div>
       <div class="modal-toolrow">
         <input type="search" class="search" id="picker-search" placeholder="이름 검색">
@@ -210,10 +226,10 @@
       </div>
       <div class="plist" id="picker-list"></div>
       <div class="picker-text" id="picker-text-title" hidden>
-        <input type="text" id="picker-title-input" placeholder="이 칸 제목">
+        <input type="text" id="picker-title-input" placeholder="이 칸 title">
       </div>
       <div class="picker-text" id="picker-text-list" hidden>
-        <textarea id="picker-legend-textarea" rows="7" placeholder="이 칸에 넣을 목록 (한 줄에 하나씩)"></textarea>
+        <textarea id="picker-legend-textarea" rows="7" placeholder="이 칸 textfield 내용 (한 줄에 하나씩)"></textarea>
       </div>
       <div class="modal-foot">
         <button class="btn primary" id="picker-done" type="button">완료</button>
@@ -221,14 +237,14 @@
     </div>
   </div>
 
-  <!-- 불러오기 모달 -->
+  <!-- 불러오기 모달: SVG Gallery 카드 형식 -->
   <div class="modal-bg" id="load-bg">
-    <div class="modal">
+    <div class="modal" style="width:min(720px,100%)">
       <div class="modal-head">
         <h3>저장된 grid 불러오기</h3>
         <button class="close" id="load-close" type="button">&times;</button>
       </div>
-      <div class="llist" id="load-list"></div>
+      <div class="load-grid" id="load-list"></div>
     </div>
   </div>
 
@@ -254,7 +270,7 @@
     ".ins-solid{fill:" + PAL.point + "}" +
     ".ins-text{fill:" + PAL.point + ";font-family:'Inter',-apple-system,sans-serif;font-weight:800}";
 
-  function styledSvg(rawText, name) {
+  function styledSvg(rawText, name, connectorColor) {
     const doc = new DOMParser().parseFromString(rawText, "image/svg+xml");
     const svg = doc.querySelector("svg");
     if (!svg || doc.querySelector("parsererror")) return null;
@@ -262,6 +278,11 @@
     if (!svg.getAttribute("viewBox")) svg.setAttribute("viewBox", "-2 -2 28 28");
     svg.setAttribute("role", "img");
     if (name) svg.setAttribute("aria-label", name);
+    if (connectorColor) {
+      // connector 파일은 항상 단색으로 구워짐 → stroke/fill 있는 요소 전부 새 색으로 일괄 교체
+      svg.querySelectorAll("[stroke]").forEach(el => { if (el.getAttribute("stroke") !== "none") el.setAttribute("stroke", connectorColor); });
+      svg.querySelectorAll("[fill]").forEach(el => { if (el.getAttribute("fill") !== "none") el.setAttribute("fill", connectorColor); });
+    }
     if (!svg.querySelector("style")) {
       const style = doc.createElementNS(SVGNS, "style");
       style.textContent = STYLE_CSS;
@@ -311,7 +332,13 @@
   // ───────── 격자 렌더 ─────────
   const cellEls = [];
   let dragSrc = null;   // {r,c} 드래그 시작 칸
-  let suppressClick = false; // drop 직후 click(picker 오픈) 오발동 방지
+  // 호버시 뜨는 4개 버튼 — 각각 자기 종류 전용 모달만 엶(기존 탭이동 없앰)
+  const CELL_BTNS = [
+    { kind: "connector", label: "connector" },
+    { kind: "icon", label: "icon" },
+    { kind: "title", label: "title" },
+    { kind: "list", label: "textfield" }
+  ];
   function buildGrid() {
     const host = document.getElementById("gridwrap");
     for (let r = 0; r < ROWS; r++) {
@@ -319,8 +346,19 @@
       for (let c = 0; c < COLS; c++) {
         const el = document.createElement("div");
         el.className = "gcell";
-        el.innerHTML = '<span class="plus">+</span>';
-        el.addEventListener("click", () => { if (suppressClick) return; openPicker(r, c); });
+        const content = document.createElement("div");
+        content.className = "cell-content";
+        content.innerHTML = '<span class="plus">+</span>';
+        el.appendChild(content);
+        const btns = document.createElement("div");
+        btns.className = "cell-btns";
+        CELL_BTNS.forEach(b => {
+          const bt = document.createElement("button");
+          bt.type = "button"; bt.className = "cbtn"; bt.dataset.kind = b.kind; bt.textContent = b.label;
+          bt.addEventListener("click", e => { e.stopPropagation(); openPicker(r, c, b.kind); });
+          btns.appendChild(bt);
+        });
+        el.appendChild(btns);
         el.addEventListener("dragstart", e => {
           if (!grid[r][c]) { e.preventDefault(); return; }
           dragSrc = { r, c };
@@ -348,7 +386,6 @@
           renderCell(r, c);
           renderCell(r1, c1);
           updateArrowState();
-          suppressClick = true; setTimeout(() => { suppressClick = false; }, 0);
         });
         host.appendChild(el);
         cellEls[r].push(el);
@@ -357,26 +394,27 @@
   }
   async function renderCell(r, c) {
     const el = cellEls[r][c];
+    const content = el.querySelector(".cell-content");
     const cell = grid[r][c];
     if (cellIsEmpty(cell)) {
       el.className = "gcell";
       el.draggable = false;
-      el.innerHTML = '<span class="plus">+</span>';
+      content.innerHTML = '<span class="plus">+</span>';
       return;
     }
     el.className = "gcell filled";
     el.draggable = true;
     // connector/icon/제목/목록 4개 다 자유 조합 가능(배타적 아님) — 겹쳐 그림: connector→icon→목록→제목 순(나중이 위)
     const hasList = cell.legend && cell.legend.length;
-    el.innerHTML = '<div class="layer layer-connector"></div><div class="layer layer-icon"></div>' +
+    content.innerHTML = '<div class="layer layer-connector"></div><div class="layer layer-icon"></div>' +
       (hasList ? '<div class="layer-list"></div>' : '') +
       (cell.title ? '<div class="layer layer-title"><span class="cell-title-text"></span></div>' : '');
-    const lc = el.querySelector(".layer-connector"), li = el.querySelector(".layer-icon");
+    const lc = content.querySelector(".layer-connector"), li = content.querySelector(".layer-icon");
     const paint = async (item, host) => {
       if (!item) return;
       try {
         const raw = await getRaw(item);
-        const markup = styledSvg(raw, item.name);
+        const markup = styledSvg(raw, item.name, item.src === "connector" ? connectorStyle.color : undefined);
         if (markup) host.innerHTML = markup;
       } catch (e) {
         host.innerHTML = '<span class="plus" title="load fail">×</span>';
@@ -384,12 +422,12 @@
     };
     await Promise.all([paint(cell.connector, lc), paint(cell.icon, li)]);
     if (hasList) {
-      const ll = el.querySelector(".layer-list");
+      const ll = content.querySelector(".layer-list");
       ll.style.color = legendStyle.color;
       ll.innerHTML = cell.legend.map(line => '<div class="cell-list-line">' + escapeHtml(line) + '</div>').join("");
     }
     if (cell.title) {
-      const tt = el.querySelector(".cell-title-text");
+      const tt = content.querySelector(".cell-title-text");
       tt.textContent = cell.title;
       tt.style.color = titleStyle.color;
     }
@@ -436,20 +474,21 @@
   document.getElementById("arrow-right").addEventListener("click", () => shiftGrid(0, 1));
 
   // ───────── svg 선택 모달 (connector 하위 / icon 상위 / 제목 / 목록 4탭) ─────────
-  // connector+icon+title 은 자유 조합. legend(목록)는 단독 — 서로 선택시 반대편을 비움.
-  const CLEAR_LABEL = { connector: "connector 비우기", icon: "icon 비우기", title: "제목 비우기", list: "목록 비우기" };
+  // connector+icon+title 은 자유 조합. legend(textfield)는 단독 — 서로 선택시 반대편을 비움.
+  // 호버 버튼 4개가 각자 해당 종류 모달만 바로 여는 구조라 모달 안 탭이동 없음(칸당 버튼이 곧 종류 선택).
+  const CLEAR_LABEL = { connector: "connector 비우기", icon: "icon 비우기", title: "title 비우기", list: "textfield 비우기" };
+  const KIND_LABEL = { connector: "connector", icon: "icon", title: "title", list: "textfield" };
   function pickerSourceItems() { return pickerTab === "connector" ? CONNECTOR_ITEMS : generatedItems; }
-  function openPicker(r, c) {
+  function openPicker(r, c, kind) {
     activeCell = { r, c };
-    document.getElementById("picker-title").textContent = "칸 (" + (r + 1) + "," + (c + 1) + ")";
+    document.getElementById("picker-title").textContent = "칸 (" + (r + 1) + "," + (c + 1) + ") · " + KIND_LABEL[kind];
     document.getElementById("picker-search").value = "";
-    switchPickerTab("connector");
+    switchPickerTab(kind);
     document.getElementById("picker-bg").classList.add("show");
   }
   function closePicker() { document.getElementById("picker-bg").classList.remove("show"); activeCell = null; }
   function switchPickerTab(tab) {
     pickerTab = tab;
-    document.querySelectorAll(".ptab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
     document.getElementById("picker-clear").textContent = CLEAR_LABEL[tab];
     const isGraphic = tab === "connector" || tab === "icon";
     document.getElementById("picker-search").hidden = !isGraphic;
@@ -486,7 +525,7 @@
       el.innerHTML = '<svg viewBox="' + vb + '"></svg><div class="nm">' + it.name + "</div>";
       host.appendChild(el);
       getRaw(it).then(raw => {
-        const markup = styledSvg(raw, it.name);
+        const markup = styledSvg(raw, it.name, it.src === "connector" ? connectorStyle.color : undefined);
         if (markup) el.querySelector("svg").outerHTML = markup;
       }).catch(() => {});
       el.addEventListener("click", () => {
@@ -500,7 +539,6 @@
       });
     });
   }
-  document.querySelectorAll(".ptab").forEach(tab => tab.addEventListener("click", () => switchPickerTab(tab.dataset.tab)));
   document.getElementById("picker-search").addEventListener("input", e =>
     renderPickerList(e.target.value.trim().toLowerCase()));
   document.getElementById("picker-title-input").addEventListener("input", e => {
@@ -596,13 +634,22 @@
   // 칸마다 title/legend "내용"은 각자 다름(칸별 payload 로 개별 저장). 여기 스타일(색·크기)만 전역 1세트씩.
   const TITLE_STYLE_KEY = "svg-grid-title-style";
   const LEGEND_STYLE_KEY = "svg-grid-legend-style";
+  const CONNECTOR_COLOR_KEY = "svg-grid-connector-color";
   function loadStyle(key, def) {
     try { const v = JSON.parse(localStorage.getItem(key)); if (v && v.color && v.size) return v; } catch (e) {}
     return { ...def };
   }
   function saveStyle(key, style) { try { localStorage.setItem(key, JSON.stringify(style)); } catch (e) {} }
+  function loadColor(key, def) {
+    try { const v = localStorage.getItem(key); if (v) return v; } catch (e) {}
+    return def;
+  }
+  function saveColor(key, color) { try { localStorage.setItem(key, color); } catch (e) {} }
   let titleStyle = loadStyle(TITLE_STYLE_KEY, { color: "#F5F4EC", size: 8 });
   let legendStyle = loadStyle(LEGEND_STYLE_KEY, { color: "#F5F4EC", size: 5 });
+  // connector(배선) 색은 각각 따로 안 바꾸고 한번에 전역으로만 바꿈 — 모든 connector 파일이 원래 단색(#F5F4EC)
+  // 이라 styledSvg() 가 stroke/fill 있는 요소를 통째로 이 색으로 덮어씀
+  let connectorStyle = { color: loadColor(CONNECTOR_COLOR_KEY, "#F5F4EC") };
   function applyMetaStyles() {
     const ti = document.getElementById("picker-title-input"), le = document.getElementById("picker-legend-textarea");
     if (ti) { ti.style.color = titleStyle.color; ti.style.fontSize = titleStyle.size + "px"; }
@@ -674,7 +721,7 @@
           let raw;
           try { raw = await getRaw(item); }
           catch (e) { missing.push(item.name || item.path); continue; }
-          const markup = styledSvg(raw, item.name);
+          const markup = styledSvg(raw, item.name, item.src === "connector" ? connectorStyle.color : undefined);
           if (!markup) continue;
           host.innerHTML = markup;
           const live = host.querySelector("svg");
@@ -753,7 +800,25 @@
   const stamp = () => { const d = new Date(), p = n => String(n).padStart(2, "0");
     return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) +
            "-" + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()); };
-  function currentName() { return document.getElementById("grid-name").value.trim(); }
+  // icon builder 의 exportFilename() 처럼(파츠 선택 내용으로 파일명 자동생성, 타이핑 안 시킴) —
+  // grid 이름도 칸 내용에서 자동으로 뽑음. 우선순위: 제목 있는 칸 → 사용된 icon/connector 이름 → 그래도 없으면 타임스탬프.
+  // 내용 기반으로 고정 이름을 뽑아야 재저장할 때 같은 파일을 계속 덮어씀(매번 새 이름이면 덮어쓰기 개념이 깨짐).
+  function autoGridName() {
+    const used = usedCells();
+    const titled = used.find(u => u.title && u.title.trim());
+    if (titled) return sanitize(titled.title);
+    const names = [];
+    used.forEach(u => { if (u.icon && u.icon.name && !names.includes(u.icon.name)) names.push(u.icon.name); });
+    if (!names.length) used.forEach(u => { if (u.connector && u.connector.name && !names.includes(u.connector.name)) names.push(u.connector.name); });
+    if (names.length) return sanitize(names.slice(0, 2).join("-"));
+    return "grid-" + stamp();
+  }
+  // 이름칸은 읽기전용(자동생성 표시용) — 비어있을 때만 새로 채움, 있으면 그대로 재사용(같은 grid 계속 덮어쓰기 유지)
+  function ensureGridName() {
+    const input = document.getElementById("grid-name");
+    if (!input.value.trim()) input.value = autoGridName();
+    return input.value.trim();
+  }
 
   // ───────── 저장 (json 정의 + SVG Gallery 썸네일 동시 갱신) ─────────
   // "저장"과 "갤러리 업로드"는 사용자 입장에서 같은 행동(이 grid 를 보관한다) 이라 버튼 하나로 합침.
@@ -762,10 +827,9 @@
   function gallerySvgPath(name) { return "svg/grid/" + sanitize(name) + ".svg"; }
   async function saveGrid() {
     if (!galCanEdit) { toast("저장 권한 없음"); return; }
-    const name = currentName();
-    if (!name) { toast("grid 이름을 입력하세요"); return; }
     const used = usedCells();
     if (!used.length) { toast("빈 grid 는 저장 못함"); return; }
+    const name = ensureGridName();
     const strip = item => item ? { path: item.path, name: item.name } : null;
     const payload = {
       rows: ROWS, cols: COLS,
@@ -811,16 +875,19 @@
       if (!files.length) { host.innerHTML = '<div class="empty-msg">저장된 grid 없음</div>'; return; }
       files.forEach(f => {
         const label = f.name.replace(/\.json$/i, "");
-        const row = document.createElement("div");
-        row.className = "litem";
+        const card = document.createElement("div");
+        card.className = "load-card";
         // json 디코딩 없이, 저장할 때 같이 만든 gallery svg(고정 경로)를 그대로 썸네일로 씀
-        row.innerHTML = '<img class="litem-thumb" src="' + publicUrl(gallerySvgPath(label)) + '" alt="" onerror="this.style.display=\'none\'">' +
-          '<span class="nm">' + label + '</span>' +
-          '<button type="button" class="btn load">불러오기</button>' +
-          '<button type="button" class="btn del">삭제</button>';
-        row.querySelector(".load").addEventListener("click", () => loadGridFile("grid/" + f.name, label));
-        row.querySelector(".del").addEventListener("click", () => deleteGridFile("grid/" + f.name, label));
-        host.appendChild(row);
+        card.innerHTML =
+          '<div class="load-thumb"><img src="' + publicUrl(gallerySvgPath(label)) + '" alt="" onerror="this.style.display=\'none\'"></div>' +
+          '<div class="load-nm">' + label + '</div>' +
+          '<div class="load-btns">' +
+            '<button type="button" class="btn primary load">불러오기</button>' +
+            '<button type="button" class="btn del">삭제</button>' +
+          '</div>';
+        card.querySelector(".load").addEventListener("click", () => loadGridFile("grid/" + f.name, label));
+        card.querySelector(".del").addEventListener("click", () => deleteGridFile("grid/" + f.name, label));
+        host.appendChild(card);
       });
     } catch (e) {
       host.innerHTML = '<div class="empty-msg">목록을 못 읽음: ' + (e.message || e) + '</div>';
@@ -876,7 +943,7 @@
     const url = URL.createObjectURL(new Blob([xml], { type: "image/svg+xml" }));
     const a = document.createElement("a");
     a.href = url;
-    a.download = sanitize(currentName() || "grid") + "_" + stamp() + ".svg";
+    a.download = sanitize(ensureGridName()) + "_" + stamp() + ".svg";
     a.click();
     URL.revokeObjectURL(url);
   });
@@ -915,8 +982,9 @@
   });
   if (SB) SB.auth.onAuthStateChange(() => refreshGalAuth());
 
-  // ───────── 텍스트 스타일 패널 (전역, localStorage) ─────────
+  // ───────── 스타일 패널 (connector/제목/목록, 전역, localStorage) ─────────
   function openTextStylePanel() {
+    document.getElementById("style-connector-color").value = connectorStyle.color;
     document.getElementById("style-title-color").value = titleStyle.color;
     document.getElementById("style-title-size").value = titleStyle.size;
     document.getElementById("style-title-size-v").textContent = titleStyle.size + "px";
@@ -936,6 +1004,16 @@
       if (cell && (cell.title || (cell.legend && cell.legend.length))) renderCell(r, c);
     }
   }
+  // connector 가진 칸만 다시 그려 새 색상 즉시 반영
+  function refreshConnectorCells() {
+    for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+      const cell = grid[r][c];
+      if (cell && cell.connector) renderCell(r, c);
+    }
+  }
+  document.getElementById("style-connector-color").addEventListener("input", e => {
+    connectorStyle.color = e.target.value; saveColor(CONNECTOR_COLOR_KEY, connectorStyle.color); refreshConnectorCells();
+  });
   document.getElementById("style-title-color").addEventListener("input", e => {
     titleStyle.color = e.target.value; applyMetaStyles(); saveStyle(TITLE_STYLE_KEY, titleStyle); refreshTextStyledCells();
   });
