@@ -332,11 +332,68 @@
     "con_corner_rb_down", "con_corner_rb_right", "con_corner_bl_left", "con_corner_bl_down",
     "con_sign_plus", "con_sign_minus", "con_sign_times", "con_sign_divide", "con_sign_equals"
   ].map(name => ({ name, path: "svg/connector/" + name + ".svg", src: "connector" }));
+  // icon 탭에 generated(supabase) 뿐 아니라 icon_builder 기본 파츠(frame/insert/logo/face, 로컬 정적 파일)도 같이 보여줌.
+  // 색 없는 원본이라 styledSvg() 의 PAL 폴백 스타일로 자동 채색됨.
+  const FRAME_NAMES = [
+    "frm_bl_bold_arc-quarter","frm_bl_bold_arc-tail-long","frm_bl_bold_arc-tail","frm_bl_bold_dia-quarter",
+    "frm_bl_bold_dia-tail-long","frm_bl_bold_dia-tail","frm_bl_bold_flower4","frm_bl_bold_flower8",
+    "frm_bl_bold_hexagon-v","frm_bl_bold_hexagon","frm_bl_bold_oct-quarter","frm_bl_bold_oct-tail-long",
+    "frm_bl_bold_oct-tail","frm_bl_bold_rect-cut-deep","frm_bl_bold_rect-cut","frm_bl_bold_rect-quarter",
+    "frm_br_bold_arc-quarter","frm_br_bold_arc-tail-long","frm_br_bold_arc-tail","frm_br_bold_dia-quarter",
+    "frm_br_bold_dia-tail-long","frm_br_bold_dia-tail","frm_br_bold_flower4","frm_br_bold_flower8",
+    "frm_br_bold_hexagon-v","frm_br_bold_hexagon","frm_br_bold_oct-quarter","frm_br_bold_oct-tail-long",
+    "frm_br_bold_oct-tail","frm_br_bold_rect-cut-deep","frm_br_bold_rect-cut","frm_br_bold_rect-quarter",
+    "frm_full_bold_arrow-dl","frm_full_bold_arrow-down","frm_full_bold_arrow-dr","frm_full_bold_arrow-left",
+    "frm_full_bold_arrow-right","frm_full_bold_arrow-ul","frm_full_bold_arrow-up","frm_full_bold_arrow-ur",
+    "frm_full_bold_box-closed","frm_full_bold_box-open","frm_full_bold_circle-trio","frm_full_bold_cloud-asym",
+    "frm_full_bold_gift-box","frm_full_bold_monitor-4-3","frm_full_bold_person","frm_full_bold_photo-frame",
+    "frm_full_bold_ratio-10-16","frm_full_bold_ratio-16-10","frm_full_bold_ratio-16-9","frm_full_bold_ratio-9-16",
+    "frm_full_bold_server","frm_full_bold_simple-arc-tail-bl","frm_full_bold_simple-arc-tail-br",
+    "frm_full_bold_simple-arc-tail-tl","frm_full_bold_simple-arc-tail-tr","frm_full_bold_simple-arc",
+    "frm_full_bold_simple-dia-tail-bl","frm_full_bold_simple-dia-tail-br","frm_full_bold_simple-dia-tail-tl",
+    "frm_full_bold_simple-dia-tail-tr","frm_full_bold_simple-dia","frm_full_bold_simple-flower4",
+    "frm_full_bold_simple-flower8","frm_full_bold_simple-hexagon-v","frm_full_bold_simple-hexagon",
+    "frm_full_bold_simple-hexagon6-h","frm_full_bold_simple-hexagon6-v","frm_full_bold_simple-oct-tail-bl",
+    "frm_full_bold_simple-oct-tail-br","frm_full_bold_simple-oct-tail-tl","frm_full_bold_simple-oct-tail-tr",
+    "frm_full_bold_simple-oct","frm_full_bold_simple-rect","frm_full_bold_waiter",
+    "frm_tl_bold_arc-quarter","frm_tl_bold_arc-tail-long","frm_tl_bold_arc-tail","frm_tl_bold_dia-quarter",
+    "frm_tl_bold_dia-tail-long","frm_tl_bold_dia-tail","frm_tl_bold_flower4","frm_tl_bold_flower8",
+    "frm_tl_bold_hexagon-v","frm_tl_bold_hexagon","frm_tl_bold_oct-quarter","frm_tl_bold_oct-tail-long",
+    "frm_tl_bold_oct-tail","frm_tl_bold_rect-cut-deep","frm_tl_bold_rect-cut","frm_tl_bold_rect-quarter",
+    "frm_tr_bold_arc-quarter","frm_tr_bold_arc-tail-long","frm_tr_bold_arc-tail","frm_tr_bold_dia-quarter",
+    "frm_tr_bold_dia-tail-long","frm_tr_bold_dia-tail","frm_tr_bold_flower4","frm_tr_bold_flower8",
+    "frm_tr_bold_hexagon-v","frm_tr_bold_hexagon","frm_tr_bold_oct-quarter","frm_tr_bold_oct-tail-long",
+    "frm_tr_bold_oct-tail","frm_tr_bold_rect-cut-deep","frm_tr_bold_rect-cut","frm_tr_bold_rect-quarter"
+  ];
+  const INSERT_NAMES = [
+    "ins_bold_chart_bar","ins_bold_chart_line","ins_bold_chart_pie","ins_bold_chart_stock","ins_bold_hand_like",
+    "ins_bold_list_rows","ins_bold_mark_dots","ins_bold_mark_exclaim","ins_bold_mark_info","ins_bold_mark_question",
+    "ins_bold_mark_x","ins_bold_object_apps","ins_bold_object_chip","ins_bold_object_codewin","ins_bold_object_db",
+    "ins_bold_object_grad","ins_bold_object_interface","ins_bold_object_key","ins_bold_object_link",
+    "ins_bold_object_lock","ins_bold_object_mail","ins_bold_object_mailopen","ins_bold_object_nodes",
+    "ins_bold_object_refresh","ins_bold_object_remodel","ins_bold_object_search","ins_bold_object_server",
+    "ins_bold_object_sparkcode","ins_bold_object_table","ins_bold_object_token","ins_bold_shape_cloud",
+    "ins_bold_shape_flag","ins_bold_shape_gear","ins_bold_shape_heart","ins_bold_shape_o","ins_bold_shape_people",
+    "ins_bold_shape_person","ins_bold_shape_shuriken","ins_bold_shape_waiter","ins_bold_sign_divide",
+    "ins_bold_sign_equals","ins_bold_sign_minus","ins_bold_sign_plus","ins_bold_sign_times","ins_bold_text_code",
+    "ins_bold_text_lines","ins_bold_text_lines3"
+  ];
+  const LOGO_NAMES = [
+    "logo_android","logo_claude","logo_flutter","logo_gemini","logo_git","logo_github","logo_ios","logo_obsidian",
+    "logo_onethelab_v1-5","logo_onethelab_v2","logo_onethelab_v2_tight","logo_openai","logo_usb","logo_web","logo_wifi"
+  ];
+  const FACE_NAMES = ["face_angry","face_laugh","face_love","face_neutral","face_sad","face_smile","face_surprise","face_wink"];
+  const LOCAL_ICON_ITEMS = [
+    ...FRAME_NAMES.map(name => ({ name, path: "svg/frame/" + name + ".svg", src: "local" })),
+    ...INSERT_NAMES.map(name => ({ name, path: "svg/insert/" + name + ".svg", src: "local" })),
+    ...LOGO_NAMES.map(name => ({ name, path: "svg/logo/" + name + ".svg", src: "local" })),
+    ...FACE_NAMES.map(name => ({ name, path: "svg/face/" + name + ".svg", src: "local" }))
+  ];
   const rawCache = new Map(); // "src:path" -> raw svg text
   let activeCell = null; // {r,c} 현재 picker 대상
   let pickerTab = "connector"; // picker 모달에서 현재 보는 탭
 
-  function itemUrl(item) { return item.src === "connector" ? item.path : publicUrl(item.path); }
+  function itemUrl(item) { return (item.src === "connector" || item.src === "local") ? item.path : publicUrl(item.path); }
   async function getRaw(item) {
     const key = item.src + ":" + item.path;
     if (rawCache.has(key)) return rawCache.get(key);
@@ -498,7 +555,8 @@
   // 호버 버튼 4개가 각자 해당 종류 모달만 바로 여는 구조라 모달 안 탭이동 없음(칸당 버튼이 곧 종류 선택).
   const CLEAR_LABEL = { connector: "connector 비우기", icon: "icon 비우기", title: "title 비우기", list: "textfield 비우기" };
   const KIND_LABEL = { connector: "connector", icon: "icon", title: "title", list: "textfield" };
-  function pickerSourceItems() { return pickerTab === "connector" ? CONNECTOR_ITEMS : generatedItems; }
+  // icon 탭 = generated(supabase, 완성 아이콘) + frame/insert/logo/face(로컬, icon_builder 기본 파츠) 합침
+  function pickerSourceItems() { return pickerTab === "connector" ? CONNECTOR_ITEMS : generatedItems.concat(LOCAL_ICON_ITEMS); }
   function openPicker(r, c, kind) {
     activeCell = { r, c };
     document.getElementById("picker-title").textContent = "칸 (" + (r + 1) + "," + (c + 1) + ") · " + KIND_LABEL[kind];
