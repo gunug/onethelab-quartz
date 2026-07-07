@@ -631,6 +631,22 @@
     const host = document.createElement("div");
     host.style.cssText = "position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none;";
     document.body.appendChild(host);
+    // 제목 글자폭 측정용 (별도 host — 위 host 는 아이콘 렌더링에 innerHTML 통째로 갈아끼우므로 같이 쓰면 서로 지움)
+    const measureHost = document.createElement("div");
+    measureHost.style.cssText = "position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none;";
+    document.body.appendChild(measureHost);
+    const measureSvg = document.createElementNS(SVGNS, "svg");
+    measureHost.appendChild(measureSvg);
+    function measureTextBBox(text, fontSize, weight) {
+      measureSvg.innerHTML = "";
+      const t = document.createElementNS(SVGNS, "text");
+      t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
+      t.setAttribute("font-weight", weight);
+      t.setAttribute("font-size", fontSize);
+      t.textContent = text;
+      measureSvg.appendChild(t);
+      return t.getBBox();
+    }
     try {
       for (const u of used) {
         const cellX = (u.c - minC) * CELL, cellY = (u.r - minR) * CELL;
@@ -672,8 +688,21 @@
           host.innerHTML = "";
         }
         if (u.title) {
+          // 아이콘/connector 가 칸을 거의 꽉 채우므로 제목 글자 뒤에 배경판을 깔아야 겹쳐도 구분됨
+          // (화면 미리보기의 .cell-title-text 반투명 배경과 동일한 처리 — 이게 빠지면 export 에서 글씨가 그림과 뒤섞임)
+          const textX = cellX + CELL / 2, textY = cellY + CELL - 1.5;
+          const bbox = measureTextBBox(u.title, titleStyle.size, "700");
+          const padX = titleStyle.size * 0.22, padY = titleStyle.size * 0.14;
+          const rect = document.createElementNS(SVGNS, "rect");
+          rect.setAttribute("x", textX - bbox.width / 2 - padX);
+          rect.setAttribute("y", textY + bbox.y - padY);
+          rect.setAttribute("width", bbox.width + padX * 2);
+          rect.setAttribute("height", bbox.height + padY * 2);
+          rect.setAttribute("rx", Math.min(2, titleStyle.size * 0.15));
+          rect.setAttribute("fill", "rgba(18,18,16,.55)");
+          outer.appendChild(rect);
           const t = document.createElementNS(SVGNS, "text");
-          t.setAttribute("x", cellX + CELL / 2); t.setAttribute("y", cellY + CELL - 1.5);
+          t.setAttribute("x", textX); t.setAttribute("y", textY);
           t.setAttribute("text-anchor", "middle");
           t.setAttribute("font-family", "Inter,-apple-system,sans-serif");
           t.setAttribute("font-weight", "700");
@@ -685,6 +714,7 @@
       }
     } finally {
       document.body.removeChild(host);
+      document.body.removeChild(measureHost);
     }
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(outer);
   }
