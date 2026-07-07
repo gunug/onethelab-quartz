@@ -334,15 +334,8 @@
   ].map(name => ({ name, path: "svg/connector/" + name + ".svg", src: "connector" }));
   // icon 탭에 generated(supabase) 뿐 아니라 icon_builder 기본 파츠(frame/insert/logo/face, 로컬 정적 파일)도 같이 보여줌.
   // 색 없는 원본이라 styledSvg() 의 PAL 폴백 스타일로 자동 채색됨.
+  // tl/tr/bl/br 분면 frame 은 legacy — icon_builder 에서도 이미 뺀 상태라 여기도 안 실음(frm_full_* 만)
   const FRAME_NAMES = [
-    "frm_bl_bold_arc-quarter","frm_bl_bold_arc-tail-long","frm_bl_bold_arc-tail","frm_bl_bold_dia-quarter",
-    "frm_bl_bold_dia-tail-long","frm_bl_bold_dia-tail","frm_bl_bold_flower4","frm_bl_bold_flower8",
-    "frm_bl_bold_hexagon-v","frm_bl_bold_hexagon","frm_bl_bold_oct-quarter","frm_bl_bold_oct-tail-long",
-    "frm_bl_bold_oct-tail","frm_bl_bold_rect-cut-deep","frm_bl_bold_rect-cut","frm_bl_bold_rect-quarter",
-    "frm_br_bold_arc-quarter","frm_br_bold_arc-tail-long","frm_br_bold_arc-tail","frm_br_bold_dia-quarter",
-    "frm_br_bold_dia-tail-long","frm_br_bold_dia-tail","frm_br_bold_flower4","frm_br_bold_flower8",
-    "frm_br_bold_hexagon-v","frm_br_bold_hexagon","frm_br_bold_oct-quarter","frm_br_bold_oct-tail-long",
-    "frm_br_bold_oct-tail","frm_br_bold_rect-cut-deep","frm_br_bold_rect-cut","frm_br_bold_rect-quarter",
     "frm_full_bold_arrow-dl","frm_full_bold_arrow-down","frm_full_bold_arrow-dr","frm_full_bold_arrow-left",
     "frm_full_bold_arrow-right","frm_full_bold_arrow-ul","frm_full_bold_arrow-up","frm_full_bold_arrow-ur",
     "frm_full_bold_box-closed","frm_full_bold_box-open","frm_full_bold_circle-trio","frm_full_bold_cloud-asym",
@@ -355,15 +348,7 @@
     "frm_full_bold_simple-flower8","frm_full_bold_simple-hexagon-v","frm_full_bold_simple-hexagon",
     "frm_full_bold_simple-hexagon6-h","frm_full_bold_simple-hexagon6-v","frm_full_bold_simple-oct-tail-bl",
     "frm_full_bold_simple-oct-tail-br","frm_full_bold_simple-oct-tail-tl","frm_full_bold_simple-oct-tail-tr",
-    "frm_full_bold_simple-oct","frm_full_bold_simple-rect","frm_full_bold_waiter",
-    "frm_tl_bold_arc-quarter","frm_tl_bold_arc-tail-long","frm_tl_bold_arc-tail","frm_tl_bold_dia-quarter",
-    "frm_tl_bold_dia-tail-long","frm_tl_bold_dia-tail","frm_tl_bold_flower4","frm_tl_bold_flower8",
-    "frm_tl_bold_hexagon-v","frm_tl_bold_hexagon","frm_tl_bold_oct-quarter","frm_tl_bold_oct-tail-long",
-    "frm_tl_bold_oct-tail","frm_tl_bold_rect-cut-deep","frm_tl_bold_rect-cut","frm_tl_bold_rect-quarter",
-    "frm_tr_bold_arc-quarter","frm_tr_bold_arc-tail-long","frm_tr_bold_arc-tail","frm_tr_bold_dia-quarter",
-    "frm_tr_bold_dia-tail-long","frm_tr_bold_dia-tail","frm_tr_bold_flower4","frm_tr_bold_flower8",
-    "frm_tr_bold_hexagon-v","frm_tr_bold_hexagon","frm_tr_bold_oct-quarter","frm_tr_bold_oct-tail-long",
-    "frm_tr_bold_oct-tail","frm_tr_bold_rect-cut-deep","frm_tr_bold_rect-cut","frm_tr_bold_rect-quarter"
+    "frm_full_bold_simple-oct","frm_full_bold_simple-rect","frm_full_bold_waiter"
   ];
   const INSERT_NAMES = [
     "ins_bold_chart_bar","ins_bold_chart_line","ins_bold_chart_pie","ins_bold_chart_stock","ins_bold_hand_like",
