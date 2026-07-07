@@ -471,6 +471,7 @@
     }
   }
   async function renderCell(r, c) {
+    scheduleAutosave(); // 칸 내용 바뀔 때마다(호출 지점 다 여기 거침) localStorage 에 draft 기록
     const el = cellEls[r][c];
     const content = el.querySelector(".cell-content");
     const cell = grid[r][c];
@@ -800,11 +801,19 @@
       return t.getBBox();
     }
     // 폭이 maxWidth 넘으면 그 비율만큼 font-size 줄임 (그래도 남는 초과분은 clipPath 가 마저 자름)
-    function fitFontSize(text, baseSize, weight, maxWidth) {
-      const bbox = measureTextBBox(text, baseSize, weight);
-      if (bbox.width <= maxWidth || bbox.width === 0) return { size: baseSize, bbox };
-      const size = baseSize * (maxWidth / bbox.width);
-      return { size, bbox: measureTextBBox(text, size, weight) };
+    // maxHeight 주면 글자 짧아서 폭은 남아도(축소 안 걸려도) 높이가 그거 넘으면 추가로 줄임
+    function fitFontSize(text, baseSize, weight, maxWidth, maxHeight) {
+      let size = baseSize;
+      let bbox = measureTextBBox(text, size, weight);
+      if (bbox.width > maxWidth && bbox.width > 0) {
+        size = size * (maxWidth / bbox.width);
+        bbox = measureTextBBox(text, size, weight);
+      }
+      if (maxHeight && bbox.height > maxHeight && bbox.height > 0) {
+        size = size * (maxHeight / bbox.height);
+        bbox = measureTextBBox(text, size, weight);
+      }
+      return { size, bbox };
     }
     const missing = []; // svg gallery 에서 나중에 삭제된 아이콘/connector — export 전체를 막지 않고 그 칸만 건너뜀
     try {
@@ -864,7 +873,7 @@
           // 아이콘/connector 가 칸을 거의 꽉 채우므로 제목 글자 뒤에 배경판을 깔아야 겹쳐도 구분됨.
           // 칸 밖으로 안 나가게 클립 + 폭 초과시 자동 축소(그래도 남으면 clipPath 가 마저 자름)
           const localX = CELL / 2, localY = CELL - 1.5;
-          const fit = fitFontSize(u.title, titleStyle.size, "700", CELL - 2);
+          const fit = fitFontSize(u.title, titleStyle.size, "700", CELL - 2, CELL / 3);
           const padX = fit.size * 0.22, padY = fit.size * 0.14;
           const g = document.createElementNS(SVGNS, "g");
           g.setAttribute("transform", "translate(" + cellX + "," + cellY + ")");
@@ -958,6 +967,40 @@
         title: u.title || "", legend: u.legend || []
       }))
     };
+  }
+
+  // ───────── 자동저장 (localStorage, 새로고침해도 마지막 작업 grid 복원) ─────────
+  const AUTOSAVE_KEY = "gridBuilderAutosaveV1";
+  let autosaveTimer = null;
+  function scheduleAutosave() {
+    clearTimeout(autosaveTimer);
+    autosaveTimer = setTimeout(() => {
+      try {
+        const payload = buildGridPayload();
+        payload.name = document.getElementById("grid-name").value || "";
+        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(payload));
+      } catch (e) {}
+    }, 400);
+  }
+  function restoreAutosave() {
+    let data;
+    try { data = JSON.parse(localStorage.getItem(AUTOSAVE_KEY) || "null"); } catch (e) { return; }
+    if (!data || !(data.cells || []).length) return;
+    data.cells.forEach(cell => {
+      if (cell.r >= 0 && cell.r < ROWS && cell.c >= 0 && cell.c < COLS) {
+        const connector = cell.connector ? { ...cell.connector, src: "connector" } : null;
+        const icon = cell.icon ? { ...cell.icon, src: "generated" } : null;
+        const title = cell.title || "";
+        const legend = cell.legend || [];
+        if (connector || icon || title || legend.length) {
+          grid[cell.r][cell.c] = { connector, icon, title, legend };
+          renderCell(cell.r, cell.c);
+        }
+      }
+    });
+    updateArrowState();
+    if (data.name) document.getElementById("grid-name").value = data.name;
+    toast("마지막 작업 자동복원됨");
   }
   // 실제 업로드(json 정의 + 갤러리 svg). 존재확인/덮어쓰기 확인은 호출부(saveGrid/saveGridAs)에서 끝내고 옴.
   async function uploadGrid(btn, name) {
@@ -1205,6 +1248,7 @@
 
   // ───────── 초기화 ─────────
   buildGrid();
+  restoreAutosave();
   updateArrowState();
   loadGenerated();
   refreshGalAuth();

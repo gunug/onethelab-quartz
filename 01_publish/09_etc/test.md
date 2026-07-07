@@ -473,5 +473,18 @@ A --> D
   </g></g>
       </g>
     </svg></svg>
+
     <img src="https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/svg/grid/test23.svg" width="900">
 
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 24" width="512" height="512" role="img" aria-label="yocheong-request-20260707-172423"><defs><clipPath id="cellClip"><rect x="0" y="0" width="24" height="24" fill="rgb(0, 0, 0)" stroke="none"/></clipPath></defs><svg x="0" y="0" width="24" height="24" viewBox="0 0 24 24">
+  <line x1="0.0" y1="12.0" x2="18.0" y2="12.0" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><g transform="translate(0,0)" clip-path="url(#cellClip)"><rect x="0.15654276277438395" y="19.033995271867614" width="23.686914474451232" height="4.932009456264776" rx="0.499290780141844" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="3.328605200945627" fill="rgb(245, 244, 236)" stroke="none">요청(Request)</text></g><svg x="24" y="0" width="24" height="24" viewBox="-2 -2 28 28">
+  <path d="M 2.5 23 C 2.5 16.5 7 15 12 15 C 17 15 21.5 16.5 21.5 23 Z" fill="none" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="12" cy="8.5" r="6.3" fill="none" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><g transform="translate(24,0)" clip-path="url(#cellClip)"><rect x="-1.123913867118708" y="13.927446560435289" width="26.247827734237415" height="11.645106879129422" rx="1.1491643995336185" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="7.66109599689079" fill="rgb(245, 244, 236)" stroke="none">tester</text></g></svg>
+<img src="https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/svg/grid/yocheong-request-20260707-172423.svg" width="100%">
+
+
+<img src="https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/svg/grid/i.svg" width="100%">
