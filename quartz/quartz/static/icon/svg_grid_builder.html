@@ -27,6 +27,9 @@
     --font:"Inter",-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
   }
   * { box-sizing: border-box; }
+  /* [hidden] 이 .plist 같은 display:grid 규칙한테 명시도(specificity) 동률로 밀려서 안 먹히던 버그 →
+     title 모달 열었는데 connector 썸네일 그리드가 같이 보이던 원인. 항상 이기게 강제. */
+  [hidden] { display: none !important; }
   body {
     margin: 0; min-height: 100vh; padding: 40px 24px 64px;
     display: flex; flex-direction: column; align-items: center; gap: 20px;
@@ -71,7 +74,7 @@
   /* 10x10 격자 */
   /* grid-template-rows 명시 + min-width/height:0 → 칸 안 svg 고유크기 때문에 트랙이 늘어나는 그리드 blowout 방지 */
   .gridwrap { display:grid; grid-template-columns:repeat(10,1fr); grid-template-rows:repeat(10,1fr);
-              gap:4px; width:100%; max-width:560px; aspect-ratio:1; }
+              gap:4px; width:100%; max-width:840px; aspect-ratio:1; }
   .gcell { position:relative; min-width:0; min-height:0; border:1.5px dashed var(--hairline); border-radius:6px; background:var(--surface);
            display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.12s; overflow:hidden; }
   .gcell:hover { border-color:var(--brand-yellow); }
@@ -83,9 +86,12 @@
   /* 호버시만 보이는 4버튼(connector/icon/title/textfield) — 마우스 아웃하면 숨김. 클릭시 그 종류 전용 모달만 엶 */
   .cell-btns { position:absolute; inset:0; display:none; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; z-index:5; }
   .gcell:hover .cell-btns { display:grid; }
-  .cbtn { border:none; background:rgba(18,18,16,.78); color:var(--ink); font-family:var(--font); font-size:8px;
-          font-weight:700; text-transform:uppercase; letter-spacing:.02em; cursor:pointer;
-          display:flex; align-items:center; justify-content:center; padding:0; transition:.1s; }
+  /* min-width/height:0 없으면 버튼 글자(connector/textfield 등 긴 단어) 때문에 그리드 트랙이 늘어나
+     2x2 배치가 깨져 버튼 일부가 안 보이던 버그 — 아이콘 svg 때 겪은 것과 같은 grid blowout */
+  .cbtn { min-width:0; min-height:0; overflow:hidden; border:none; background:rgba(18,18,16,.78); color:var(--ink);
+          font-family:var(--font); font-size:8px; font-weight:700; letter-spacing:.01em; cursor:pointer;
+          white-space:nowrap; text-overflow:ellipsis;
+          display:flex; align-items:center; justify-content:center; padding:0 2px; transition:.1s; }
   .cbtn:hover { background:var(--brand-yellow); color:var(--on-brand); }
   .gcell .layer { position:absolute; inset:3px; display:flex; align-items:center; justify-content:center; pointer-events:none; }
   .gcell svg { width:100%; height:100%; max-width:100%; max-height:100%; display:block; pointer-events:none; }
