@@ -220,3 +220,110 @@ A --> D
   <path d="M 12 0 A 12 12 0 0 0 18.25 10.53" fill="none" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="miter"/>
   <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
 </svg></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 72" width="512" height="512" role="img" aria-label="grid_20260707-110742"><defs><clipPath id="cellClip"><rect x="0" y="0" width="24" height="24" fill="rgb(0, 0, 0)" stroke="none"/></clipPath></defs><svg x="24" y="0" width="24" height="24" viewBox="0 0 24 24">
+  <path d="M 18.25 13.47 L 12 24" fill="none" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><svg x="0" y="24" width="24" height="24" viewBox="1.875 1.385 22.430 22.430">
+      <g id="frame-group">
+        <g id="slot-full"><path xmlns="http://www.w3.org/2000/svg" d="M 2.5 23 C 2.5 16.5 7 15 12 15 C 17 15 21.5 16.5 21.5 23 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="8.5" r="6.3" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 12 14.6 L 8.5 13.1 L 8.5 16.1 Z M 12 14.6 L 15.5 13.1 L 15.5 16.1 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse xmlns="http://www.w3.org/2000/svg" cx="19" cy="19" rx="4.68" ry="1.43" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 14.32 19 A 4.68 4.68 0 0 1 23.68 19 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="19" cy="13.87" r="1.04" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+      <g id="slot-ins-wrap" transform="translate(0,-3.5) translate(12,12) scale(0.85) translate(-12,-12)">
+        <g id="slot-ins-back-outline" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-back" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front-outline" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="5.2" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="9.9" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="14.1" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 9.6 15.2 Q 12 12.9 14.4 15.2" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+    </svg><g transform="translate(0,24)" clip-path="url(#cellClip)"><rect x="0.16320059571890155" y="18.46500549273021" width="23.673598808562197" height="5.56998901453958" rx="0.5732084006462035" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="3.8213893376413566" fill="rgb(245, 244, 236)" stroke="none">불쌍한 웨이터</text></g><svg x="24" y="24" width="24" height="24" viewBox="0 0 24 24">
+  <line x1="12" y1="0" x2="12" y2="24" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <line x1="0.0" y1="12.0" x2="18.0" y2="12.0" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><svg x="24" y="48" width="24" height="24" viewBox="0 0 24 24">
+  <path d="M 12 0 L 18.25 10.53" fill="none" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 48" width="512" height="512" role="img" aria-label="grid_20260707-111812"><defs><clipPath id="cellClip"><rect x="0" y="0" width="24" height="24" fill="rgb(0, 0, 0)" stroke="none"/></clipPath></defs><svg x="0" y="0" width="24" height="24" viewBox="0.975 1.575 22.050 22.050">
+      <g id="frame-group">
+        <g id="slot-full"><path xmlns="http://www.w3.org/2000/svg" d="M 2.5 23 C 2.5 16.5 7 15 12 15 C 17 15 21.5 16.5 21.5 23 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="8.5" r="6.3" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+      <g id="slot-ins-wrap" transform="translate(0,-3.5) translate(12,12) scale(0.85) translate(-12,-12)">
+        <g id="slot-ins-back-outline" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-back" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front-outline" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="5.2" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="9.9" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="14.1" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 9.6 13.4 Q 12 15.8 14.4 13.4" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+    </svg><svg x="24" y="0" width="24" height="24" viewBox="0 0 24 24">
+  <line x1="0.0" y1="12.0" x2="18.0" y2="12.0" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><g transform="translate(24,0)" clip-path="url(#cellClip)"><rect x="0.15654276277438395" y="19.033995271867614" width="23.686914474451232" height="4.932009456264776" rx="0.499290780141844" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="3.328605200945627" fill="rgb(245, 244, 236)" stroke="none">요청(Request)</text></g><svg x="48" y="0" width="24" height="24" viewBox="1.875 1.385 22.430 22.430">
+      <g id="frame-group">
+        <g id="slot-full"><path xmlns="http://www.w3.org/2000/svg" d="M 2.5 23 C 2.5 16.5 7 15 12 15 C 17 15 21.5 16.5 21.5 23 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="8.5" r="6.3" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 12 14.6 L 8.5 13.1 L 8.5 16.1 Z M 12 14.6 L 15.5 13.1 L 15.5 16.1 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse xmlns="http://www.w3.org/2000/svg" cx="19" cy="19" rx="4.68" ry="1.43" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 14.32 19 A 4.68 4.68 0 0 1 23.68 19 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="19" cy="13.87" r="1.04" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+      <g id="slot-ins-wrap" transform="translate(0,-3.5) translate(12,12) scale(0.85) translate(-12,-12)">
+        <g id="slot-ins-back-outline" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-back" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front-outline" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="5.2" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="9.9" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="14.1" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 9.6 13.4 Q 12 15.8 14.4 13.4" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+    </svg><svg x="24" y="24" width="24" height="24" viewBox="0 0 24 24">
+  <line x1="6.0" y1="12.0" x2="24.0" y2="12.0" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <polygon points="6,8 0,12 6,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><g transform="translate(24,24)" clip-path="url(#cellClip)"><rect x="-0.088501170297687" y="19.084719101123596" width="24.177002340595372" height="4.830561797752809" rx="0.4449438202247191" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="2.966292134831461" fill="rgb(245, 244, 236)" stroke="none">응답(Response)</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 48" width="512" height="512" role="img" aria-label="grid_20260707-111931"><defs><clipPath id="cellClip"><rect x="0" y="0" width="24" height="24" fill="rgb(0, 0, 0)" stroke="none"/></clipPath></defs><svg x="0" y="0" width="24" height="24" viewBox="0.975 1.575 22.050 22.050">
+      <g id="frame-group">
+        <g id="slot-full"><path xmlns="http://www.w3.org/2000/svg" d="M 2.5 23 C 2.5 16.5 7 15 12 15 C 17 15 21.5 16.5 21.5 23 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="8.5" r="6.3" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+      <g id="slot-ins-wrap" transform="translate(0,-3.5) translate(12,12) scale(0.85) translate(-12,-12)">
+        <g id="slot-ins-back-outline" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-back" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front-outline" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="5.2" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="9.9" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="14.1" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 9.6 13.4 Q 12 15.8 14.4 13.4" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+    </svg><g transform="translate(0,0)" clip-path="url(#cellClip)"><rect x="0.09611523300630698" y="17.919829011913105" width="23.807769533987386" height="6.160341976173791" rx="0.6216117729502452" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="4.144078486334968" fill="rgb(245, 244, 236)" stroke="none">고객(client)</text></g><svg x="24" y="0" width="24" height="24" viewBox="0 0 24 24">
+  <line x1="0.0" y1="12.0" x2="18.0" y2="12.0" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <polygon points="18,8 24,12 18,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><g transform="translate(24,0)" clip-path="url(#cellClip)"><rect x="0.15654276277438395" y="19.033995271867614" width="23.686914474451232" height="4.932009456264776" rx="0.499290780141844" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="3.328605200945627" fill="rgb(245, 244, 236)" stroke="none">요청(Request)</text></g><svg x="48" y="0" width="24" height="24" viewBox="1.875 1.385 22.430 22.430">
+      <g id="frame-group">
+        <g id="slot-full"><path xmlns="http://www.w3.org/2000/svg" d="M 2.5 23 C 2.5 16.5 7 15 12 15 C 17 15 21.5 16.5 21.5 23 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="8.5" r="6.3" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 12 14.6 L 8.5 13.1 L 8.5 16.1 Z M 12 14.6 L 15.5 13.1 L 15.5 16.1 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse xmlns="http://www.w3.org/2000/svg" cx="19" cy="19" rx="4.68" ry="1.43" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 14.32 19 A 4.68 4.68 0 0 1 23.68 19 Z" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="19" cy="13.87" r="1.04" fill="rgb(28, 28, 23)" stroke="rgb(245, 244, 236)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+      <g id="slot-ins-wrap" transform="translate(0,-3.5) translate(12,12) scale(0.85) translate(-12,-12)">
+        <g id="slot-ins-back-outline" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-back" transform="translate(0,5) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front-outline" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"/>
+        <g id="slot-ins-front" transform="translate(0,0) translate(12,12) scale(1) translate(-12,-12)"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="5.2" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="9.9" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <circle xmlns="http://www.w3.org/2000/svg" cx="14.1" cy="10.4" r="0.85" fill="rgb(255, 212, 0)" stroke="none"/>
+  <path xmlns="http://www.w3.org/2000/svg" d="M 9.6 13.4 Q 12 15.8 14.4 13.4" fill="none" stroke="rgb(255, 212, 0)" stroke-width="0.525" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </g>
+    </svg><g transform="translate(48,0)" clip-path="url(#cellClip)"><rect x="-0.10615254563551679" y="18.47367832167832" width="24.212305091271034" height="5.552643356643356" rx="0.5639160839160838" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="3.7594405594405593" fill="rgb(245, 244, 236)" stroke="none">서버(Server)</text></g><svg x="24" y="24" width="24" height="24" viewBox="0 0 24 24">
+  <line x1="6.0" y1="12.0" x2="24.0" y2="12.0" stroke="rgb(245, 244, 236)" stroke-width="2.4" stroke-linecap="round" fill="rgb(0, 0, 0)" stroke-linejoin="miter"/>
+  <polygon points="6,8 0,12 6,16" fill="rgb(245, 244, 236)" stroke="none"/>
+</svg><g transform="translate(24,24)" clip-path="url(#cellClip)"><rect x="-0.088501170297687" y="19.084719101123596" width="24.177002340595372" height="4.830561797752809" rx="0.4449438202247191" fill="rgba(18, 18, 16, 0.55)" stroke="none"/><text x="12" y="22.5" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="2.966292134831461" fill="rgb(245, 244, 236)" stroke="none">응답(Response)</text></g></svg>

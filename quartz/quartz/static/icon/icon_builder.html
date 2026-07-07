@@ -52,6 +52,7 @@
   h1 { font-size: 30px; font-weight: 800; letter-spacing:-.02em; color: var(--ink); margin: 0; }
   h2 { font-size: 11px; font-weight: 700; margin: 0 0 10px; text-transform: uppercase; letter-spacing: .1em;
        color: var(--brand-yellow-deep); }
+  h4.subsection { font-size: 10px; font-weight: 700; margin: 10px 0 6px; letter-spacing: .05em; color: var(--body); opacity: .7; }
 
   /* 에러 배너 */
   .banner { display:none; width:100%; max-width:600px; background:#2a1a14; border:1px solid #6b3a2a;
@@ -85,6 +86,34 @@
   .auth-btn { font-family: var(--font); font-size: 11px; font-weight: 600; padding: 4px 10px; border: 1px solid var(--hairline);
               border-radius: var(--r-sm); background: var(--surface-soft); color: var(--body); cursor: pointer; transition: .12s; }
   .auth-btn:hover { border-color: var(--brand-yellow); color: var(--ink); }
+
+  /* 작업 상태 저장/불러오기 */
+  .name-input { flex:1; min-width:140px; background:var(--surface-soft); border:1px solid var(--hairline);
+            border-radius:var(--r-md); color:var(--ink); font-family:var(--font); font-size:14px; padding:9px 14px; }
+  .name-input:focus { outline:none; border-color:var(--brand-yellow); }
+  .btn { font-family:var(--font); font-size:12px; font-weight:700; padding:9px 14px; border:1px solid var(--hairline);
+         border-radius:var(--r-md); background:var(--surface); color:var(--body); cursor:pointer; transition:.12s; white-space:nowrap; }
+  .btn:hover { border-color:var(--brand-yellow); color:var(--ink); }
+  .btn:disabled { opacity:.45; cursor:default; }
+  .state-row { display:flex; flex-wrap:wrap; gap:8px; width:100%; max-width:600px; }
+
+  /* 모달 공용 (불러오기 목록) */
+  .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:100; padding:24px; }
+  .modal-bg.show { display:flex; }
+  .modal { background:var(--surface); border:1px solid var(--hairline); border-radius:var(--r-lg); padding:20px;
+           width:min(480px,100%); max-height:82vh; display:flex; flex-direction:column; gap:12px; box-shadow:var(--sh-md); }
+  .modal h3 { margin:0; color:var(--ink); font-size:15px; }
+  .modal-head { display:flex; align-items:center; gap:10px; }
+  .modal .close { cursor:pointer; background:none; border:none; color:var(--muted); font-size:20px; line-height:1; padding:2px 6px; }
+  .modal .close:hover { color:var(--ink); }
+  .llist { overflow:auto; display:flex; flex-direction:column; gap:6px; }
+  .litem { display:flex; align-items:center; gap:8px; background:var(--surface-soft); border:1px solid var(--hairline);
+           border-radius:var(--r-md); padding:8px 12px; }
+  .litem .nm { flex:1; font-family:var(--mono); font-size:12.5px; color:var(--ink); word-break:break-all; }
+  .litem .btn { padding:5px 10px; font-size:11px; }
+  .litem .btn.del { background:#3a1a1a; border-color:#6b3a2a; color:#ffc9bd; }
+  .litem .btn.del:hover { border-color:#ff8a6a; color:#fff; }
+  .empty-msg { color:var(--muted); font-size:12.5px; padding:12px 4px; }
 
   /* 섹션 */
   .sections { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; max-width: 600px; }
@@ -224,6 +253,26 @@
     </div>
   </div>
 
+  <!-- 작업 상태(파츠/색/텍스트 선택) 저장·불러오기. svg/generated 에 올라간 완성 아이콘과는 별개 —
+       "다시 열어서 계속 편집" 하기 위한 설계도 저장임 -->
+  <div class="state-row">
+    <input type="text" id="state-name" class="name-input" placeholder="저장 이름 (예: my-icon-draft)">
+    <button type="button" id="state-save" class="btn">저장</button>
+    <button type="button" id="state-save-copy" class="btn">사본으로 저장</button>
+    <button type="button" id="state-load" class="btn">불러오기</button>
+  </div>
+
+  <!-- 저장된 상태 불러오기 모달 -->
+  <div class="modal-bg" id="state-load-bg">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>저장된 상태 불러오기</h3>
+        <button class="close" id="state-load-close" type="button">&times;</button>
+      </div>
+      <div class="llist" id="state-load-list"></div>
+    </div>
+  </div>
+
   <!-- 탭: frame / front / back / guide (미리보기 아래) -->
   <div class="tabbar">
     <button type="button" class="tab active" data-tab="frame">frame</button>
@@ -360,14 +409,15 @@
       "frm_full_bold_simple-dia-tail-tl", "frm_full_bold_simple-dia-tail-tr", "frm_full_bold_simple-dia-tail-bl", "frm_full_bold_simple-dia-tail-br"
     ],
     insert: [
-      "ins_bold_text_lines", "ins_bold_list_rows", "ins_bold_object_table", "ins_bold_text_code", "ins_bold_sign_plus", "ins_bold_sign_minus",
-      "ins_bold_shape_heart", "ins_bold_shape_cloud",
-      "ins_bold_mark_x", "ins_bold_shape_o", "ins_bold_mark_dots", "ins_bold_text_lines3",
-      "ins_bold_shape_shuriken", "ins_bold_shape_gear",
-      "ins_bold_shape_person", "ins_bold_shape_people", "ins_bold_shape_flag", "ins_bold_hand_like",
-      "ins_bold_object_link", "ins_bold_object_key", "ins_bold_object_lock", "ins_bold_object_token",
-      "ins_bold_object_server", "ins_bold_object_db", "ins_bold_object_interface", "ins_bold_object_apps", "ins_bold_object_search", "ins_bold_object_refresh",
+      "ins_bold_text_lines", "ins_bold_text_lines3", "ins_bold_list_rows", "ins_bold_text_code",
+      "ins_bold_sign_plus", "ins_bold_sign_minus", "ins_bold_sign_times", "ins_bold_sign_divide", "ins_bold_sign_equals",
+      "ins_bold_mark_x", "ins_bold_mark_dots",
+      "ins_bold_shape_heart", "ins_bold_shape_cloud", "ins_bold_shape_o", "ins_bold_shape_shuriken", "ins_bold_shape_gear",
+      "ins_bold_shape_person", "ins_bold_shape_people", "ins_bold_shape_flag",
+      "ins_bold_hand_like",
       "ins_bold_chart_bar", "ins_bold_chart_line", "ins_bold_chart_pie", "ins_bold_chart_stock",
+      "ins_bold_object_table", "ins_bold_object_link", "ins_bold_object_key", "ins_bold_object_lock", "ins_bold_object_token",
+      "ins_bold_object_server", "ins_bold_object_db", "ins_bold_object_interface", "ins_bold_object_apps", "ins_bold_object_search", "ins_bold_object_refresh",
       "ins_bold_object_mail", "ins_bold_object_mailopen", "ins_bold_object_codewin", "ins_bold_object_chip",
       "ins_bold_object_remodel", "ins_bold_object_nodes", "ins_bold_object_grad", "ins_bold_object_sparkcode"
     ],
@@ -390,6 +440,7 @@
   // Supabase Storage(public 버킷 icons) 에서 로드 → file:// 로컬서버 불필요.
   // 네트워크 실패 시 상대경로(svg/...) 폴백.
   const SVG_BASE = "https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/svg/";
+  const BUCKET_BASE = "https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/";
   async function loadSvg(folder, id) {
     const path = folder + "/" + id + ".svg";
     let res;
@@ -415,6 +466,21 @@
     const items = await Promise.all(MANIFEST[key].map(id => loadSvg(FOLDER[key], id)));
     return [NONE, ...items];
   }
+
+  // insert 그룹 세부 섹션 분류 (UI 표시용, MANIFEST.insert 순서와 무관하게 id 로 매칭)
+  const INSERT_SECTIONS = [
+    { title: "텍스트 · 목록", ids: ["ins_bold_text_lines", "ins_bold_text_lines3", "ins_bold_list_rows", "ins_bold_text_code"] },
+    { title: "기호", ids: ["ins_bold_sign_plus", "ins_bold_sign_minus", "ins_bold_sign_times", "ins_bold_sign_divide", "ins_bold_sign_equals", "ins_bold_mark_x", "ins_bold_mark_dots"] },
+    { title: "도형", ids: ["ins_bold_shape_heart", "ins_bold_shape_cloud", "ins_bold_shape_o", "ins_bold_shape_shuriken", "ins_bold_shape_gear", "ins_bold_shape_person", "ins_bold_shape_people", "ins_bold_shape_flag"] },
+    { title: "손", ids: ["ins_bold_hand_like"] },
+    { title: "차트", ids: ["ins_bold_chart_bar", "ins_bold_chart_line", "ins_bold_chart_pie", "ins_bold_chart_stock"] },
+    { title: "오브젝트", ids: [
+      "ins_bold_object_table", "ins_bold_object_link", "ins_bold_object_key", "ins_bold_object_lock", "ins_bold_object_token",
+      "ins_bold_object_server", "ins_bold_object_db", "ins_bold_object_interface", "ins_bold_object_apps", "ins_bold_object_search", "ins_bold_object_refresh",
+      "ins_bold_object_mail", "ins_bold_object_mailopen", "ins_bold_object_codewin", "ins_bold_object_chip",
+      "ins_bold_object_remodel", "ins_bold_object_nodes", "ins_bold_object_grad", "ins_bold_object_sparkcode"
+    ] }
+  ];
 
   // ───────── 슬롯 제어 ─────────
   // insert/logo 를 frame 빈공간 중심에 정렬 + 영역(반경≈6) 안으로 scale 0.85
@@ -548,21 +614,52 @@
         const sec = document.createElement("div");
         sec.className = "section center";
         sec.innerHTML = "<h2>" + cen + "</h2>";
-        const parts = document.createElement("div");
-        parts.className = "parts";
-        parts.dataset.cen = cen; parts.dataset.layer = layer;
-        sec.appendChild(parts);
         host.appendChild(sec);
-        DATA[cen].forEach((item, i) => {
-          const el = thumb(item);
-          el.addEventListener("click", () => selectCenter(layer, item, el));
-          parts.appendChild(el);
-          if (cen === "insert" && i === 0) {           // 기본 none
-            if (layer === "front") selectCenter(layer, item, el);
-            else el.classList.add("active");
-          }
+
+        if (cen !== "insert") {
+          const parts = document.createElement("div");
+          parts.className = "parts";
+          parts.dataset.cen = cen; parts.dataset.layer = layer;
+          sec.appendChild(parts);
+          DATA[cen].forEach(item => {
+            const el = thumb(item);
+            el.addEventListener("click", () => selectCenter(layer, item, el));
+            parts.appendChild(el);
+          });
+          return;
+        }
+
+        // insert: "없음" + 세부 섹션(INSERT_SECTIONS)별로 나눠 표시
+        const byId = new Map(DATA.insert.map(item => [item.id, item]));
+        const none = DATA.insert[0];
+        const noneParts = document.createElement("div");
+        noneParts.className = "parts";
+        noneParts.dataset.cen = cen; noneParts.dataset.layer = layer;
+        sec.appendChild(noneParts);
+        const noneEl = thumb(none);
+        noneEl.addEventListener("click", () => selectCenter(layer, none, noneEl));
+        noneParts.appendChild(noneEl);
+        if (layer === "front") selectCenter(layer, none, noneEl);
+        else noneEl.classList.add("active");
+
+        INSERT_SECTIONS.forEach(group => {
+          const h = document.createElement("h4");
+          h.className = "subsection";
+          h.textContent = group.title;
+          sec.appendChild(h);
+          const parts = document.createElement("div");
+          parts.className = "parts";
+          parts.dataset.cen = cen; parts.dataset.layer = layer;
+          sec.appendChild(parts);
+          group.ids.forEach(id => {
+            const item = byId.get(id);
+            if (!item) return;
+            const el = thumb(item);
+            el.addEventListener("click", () => selectCenter(layer, item, el));
+            parts.appendChild(el);
+          });
         });
-        if (cen === "insert") insContainers[layer] = parts;
+        insContainers[layer] = sec;
       });
       const tsec = document.createElement("div");
       tsec.className = "section center";
@@ -915,6 +1012,94 @@
       alert("업로드 완료 → svg/generated/" + filename);
     });
 
+    // ───────── 작업 상태 저장/불러오기 (Supabase state/*.json) ─────────
+    // 여기서 저장하는 건 "화면 상태"(파츠 선택/색/텍스트, gatherState() 그대로) — svg/generated 에 올라간
+    // 완성 아이콘 파일과는 별개. 나중에 다시 열어서 계속 편집하기 위한 설계도 저장임.
+    const stateNameInput = document.getElementById("state-name");
+    const stateSaveBtn = document.getElementById("state-save");
+    const stateSaveCopyBtn = document.getElementById("state-save-copy");
+    const stateLoadBtn = document.getElementById("state-load");
+    const stateLoadBg = document.getElementById("state-load-bg");
+    const stateLoadList = document.getElementById("state-load-list");
+
+    async function listStateFiles() {
+      const { data, error } = await sb.storage.from("icons").list("state", {
+        limit: 1000, sortBy: { column: "created_at", order: "desc" }
+      });
+      if (error) throw error;
+      return (data || []).filter(f => f.name && /\.json$/i.test(f.name));
+    }
+    async function saveStateAs(name) {
+      if (!sb) { alert("Supabase 미설정: HTML 상단 SUPABASE_ANON_KEY 를 채우세요."); return; }
+      const user = await currentUser();
+      if (!user) { alert("저장하려면 먼저 로그인하세요. Google 로그인 창으로 이동합니다."); signIn(); return; }
+      if (!(await checkPermission())) { alert("저장 권한이 없습니다. 관리자에게 editors 테이블 등록을 요청하세요."); return; }
+      const filename = sanitize(name) + ".json";
+      try {
+        const files = await listStateFiles();
+        if (files.some(f => f.name === filename) &&
+            !confirm("이미 있는 이름입니다.\n\"" + name + "\" 덮어쓸까요?\n되돌릴 수 없습니다.")) return;
+      } catch (e) { /* 목록 확인 실패해도 저장 자체는 시도 */ }
+      const blob = new Blob([JSON.stringify(gatherState())], { type: "application/json" });
+      const { error } = await sb.storage.from("icons")
+        .upload("state/" + filename, blob, { contentType: "application/json", upsert: true });
+      if (error) { alert("저장 실패: " + error.message); return; }
+      alert("저장됨 → state/" + filename);
+    }
+    if (stateSaveBtn) stateSaveBtn.addEventListener("click", () => {
+      const name = stateNameInput.value.trim();
+      if (!name) { alert("저장할 이름을 입력하세요."); return; }
+      saveStateAs(name);
+    });
+    if (stateSaveCopyBtn) stateSaveCopyBtn.addEventListener("click", () => {
+      const base = stateNameInput.value.trim() || "icon-state";
+      const nameIn = prompt("사본으로 저장할 새 이름:", base + "-copy-" + stamp());
+      if (nameIn === null) return;
+      const name = nameIn.trim();
+      if (!name) { alert("이름을 입력하세요."); return; }
+      stateNameInput.value = name;
+      saveStateAs(name);
+    });
+    function openStateLoadModal() {
+      stateLoadList.innerHTML = '<div class="empty-msg">목록 불러오는 중…</div>';
+      stateLoadBg.classList.add("show");
+      if (!sb) { stateLoadList.innerHTML = '<div class="empty-msg">supabase 미설정</div>'; return; }
+      listStateFiles().then(files => {
+        stateLoadList.innerHTML = "";
+        if (!files.length) { stateLoadList.innerHTML = '<div class="empty-msg">저장된 상태 없음</div>'; return; }
+        files.forEach(f => {
+          const label = f.name.replace(/\.json$/i, "");
+          const row = document.createElement("div");
+          row.className = "litem";
+          row.innerHTML = '<span class="nm">' + label + '</span>' +
+            '<button type="button" class="btn load">불러오기</button>' +
+            (canEdit ? '<button type="button" class="btn del">삭제</button>' : "");
+          row.querySelector(".load").addEventListener("click", async () => {
+            try {
+              const res = await fetch(BUCKET_BASE + "state/" + f.name);
+              if (!res.ok) throw new Error(res.status);
+              const data = await res.json();
+              applyState(data);
+              stateNameInput.value = label;
+              stateLoadBg.classList.remove("show");
+            } catch (e) { alert("불러오기 실패: " + (e.message || e)); }
+          });
+          const delBtn = row.querySelector(".del");
+          if (delBtn) delBtn.addEventListener("click", async () => {
+            if (!confirm("삭제할까요?\n" + label)) return;
+            if (!confirm("진짜로 삭제 하겠습니까?\n되돌릴 수 없습니다.")) return;
+            const { error } = await sb.storage.from("icons").remove(["state/" + f.name]);
+            if (error) { alert("삭제 실패: " + error.message); return; }
+            openStateLoadModal();
+          });
+          stateLoadList.appendChild(row);
+        });
+      }).catch(e => { stateLoadList.innerHTML = '<div class="empty-msg">목록을 못 읽음: ' + (e.message || e) + '</div>'; });
+    }
+    if (stateLoadBtn) stateLoadBtn.addEventListener("click", openStateLoadModal);
+    document.getElementById("state-load-close").addEventListener("click", () => stateLoadBg.classList.remove("show"));
+    stateLoadBg.addEventListener("click", e => { if (e.target.id === "state-load-bg") stateLoadBg.classList.remove("show"); });
+
     // ───────── 설정값 영속화 (localStorage) ─────────
     const LS_KEY = "brand-icon-builder-v1";
     let restoring = false;
@@ -959,9 +1144,9 @@
       if (restoring) return;
       try { localStorage.setItem(LS_KEY, JSON.stringify(gatherState())); } catch (e) {}
     }
-    function restoreState() {
-      let s;
-      try { s = JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) {}
+    // s = gatherState() 가 만든 객체 하나를 화면에 그대로 되입힘. localStorage 자동복원과
+    // "저장된 상태 불러오기"(state/*.json) 둘 다 이 함수 하나를 공유.
+    function applyState(s) {
       if (!s) return;
       restoring = true;
       try {
@@ -1003,6 +1188,11 @@
       } catch (e) { console.error(e); }
       restoring = false;
       saveState();
+    }
+    function restoreState() {
+      let s;
+      try { s = JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) {}
+      applyState(s);
     }
 
     // 모든 입력/클릭에서 저장 (선택 핸들러가 DOM 갱신한 뒤 버블링으로 도달)

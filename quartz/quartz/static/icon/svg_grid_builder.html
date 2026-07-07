@@ -290,7 +290,8 @@
     "con_arrow_lr", "con_arrow_rl", "con_arrow_ud", "con_arrow_du",
     "con_arrow_lr_bi", "con_arrow_ud_bi",
     "con_corner_lt_up", "con_corner_lt_left", "con_corner_tr_right", "con_corner_tr_up",
-    "con_corner_rb_down", "con_corner_rb_right", "con_corner_bl_left", "con_corner_bl_down"
+    "con_corner_rb_down", "con_corner_rb_right", "con_corner_bl_left", "con_corner_bl_down",
+    "con_sign_plus", "con_sign_minus", "con_sign_times", "con_sign_divide", "con_sign_equals"
   ].map(name => ({ name, path: "svg/connector/" + name + ".svg", src: "connector" }));
   const rawCache = new Map(); // "src:path" -> raw svg text
   let activeCell = null; // {r,c} 현재 picker 대상
