@@ -65,7 +65,7 @@
 
   /* 텍스트 스타일 전역 설정 패널 (제목/목록 색·크기 — 모든 칸 공통, localStorage) */
   .style-row { display:flex; align-items:center; gap:10px; }
-  .style-label { width:60px; font-size:12px; font-weight:700; color:var(--body); }
+  .style-label { width:74px; font-size:11px; font-weight:700; color:var(--body); }
   .style-row input[type="color"] { width:32px; height:32px; padding:0; border:1px solid var(--hairline); border-radius:var(--r-sm); background:var(--surface-soft); cursor:pointer; }
   .style-row input[type="range"] { flex:1; accent-color:var(--brand-yellow); }
   .style-row .val { font-family:var(--mono); font-size:12px; color:var(--muted); min-width:30px; text-align:right; }
@@ -204,16 +204,28 @@
         <input type="color" id="style-connector-color">
       </div>
       <div class="style-row">
-        <span class="style-label">제목</span>
+        <span class="style-label">title</span>
         <input type="color" id="style-title-color">
         <input type="range" id="style-title-size" min="4" max="14" step="1">
         <span class="val" id="style-title-size-v"></span>
+      </div>
+      <div class="style-row">
+        <span class="style-label">title bg</span>
+        <input type="color" id="style-title-bg-color">
+        <input type="range" id="style-title-bg-opacity" min="0" max="1" step="0.05">
+        <span class="val" id="style-title-bg-opacity-v"></span>
       </div>
       <div class="style-row">
         <span class="style-label">textfield</span>
         <input type="color" id="style-legend-color">
         <input type="range" id="style-legend-size" min="3" max="10" step="1">
         <span class="val" id="style-legend-size-v"></span>
+      </div>
+      <div class="style-row">
+        <span class="style-label">textfield bg</span>
+        <input type="color" id="style-legend-bg-color">
+        <input type="range" id="style-legend-bg-opacity" min="0" max="1" step="0.05">
+        <span class="val" id="style-legend-bg-opacity-v"></span>
       </div>
     </div>
   </div>
@@ -430,12 +442,14 @@
     if (hasList) {
       const ll = content.querySelector(".layer-list");
       ll.style.color = legendStyle.color;
+      ll.style.background = rgbaFromHex(legendBgStyle.color, legendBgStyle.opacity);
       ll.innerHTML = cell.legend.map(line => '<div class="cell-list-line">' + escapeHtml(line) + '</div>').join("");
     }
     if (cell.title) {
       const tt = content.querySelector(".cell-title-text");
       tt.textContent = cell.title;
       tt.style.color = titleStyle.color;
+      tt.style.background = rgbaFromHex(titleBgStyle.color, titleBgStyle.opacity);
     }
   }
   function clearAllCells() {
@@ -542,6 +556,7 @@
         if (pickerTab === "connector") cell.connector = item; else cell.icon = item;
         renderCell(r, c);
         updateArrowState();
+        closePicker(); // connector/icon 은 고르는 즉시 닫음(title/textfield 는 타이핑 계속해야 하니 열어둠)
       });
     });
   }
@@ -641,6 +656,8 @@
   const TITLE_STYLE_KEY = "svg-grid-title-style";
   const LEGEND_STYLE_KEY = "svg-grid-legend-style";
   const CONNECTOR_COLOR_KEY = "svg-grid-connector-color";
+  const TITLE_BG_KEY = "svg-grid-title-bg";
+  const LEGEND_BG_KEY = "svg-grid-legend-bg";
   function loadStyle(key, def) {
     try { const v = JSON.parse(localStorage.getItem(key)); if (v && v.color && v.size) return v; } catch (e) {}
     return { ...def };
@@ -651,8 +668,20 @@
     return def;
   }
   function saveColor(key, color) { try { localStorage.setItem(key, color); } catch (e) {} }
+  function loadBgStyle(key, def) {
+    try { const v = JSON.parse(localStorage.getItem(key)); if (v && v.color && typeof v.opacity === "number") return v; } catch (e) {}
+    return { ...def };
+  }
+  function rgbaFromHex(hex, a) {
+    const h = (hex || "#000000").replace("#", "");
+    const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16);
+    return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+  }
   let titleStyle = loadStyle(TITLE_STYLE_KEY, { color: "#F5F4EC", size: 8 });
   let legendStyle = loadStyle(LEGEND_STYLE_KEY, { color: "#F5F4EC", size: 5 });
+  // 제목/텍스트필드 뒤 배경판(색+불투명도) — 그림 위에 얹힐 때 글자 구분용. textfield 는 기본 불투명도 0(배경 없음)
+  let titleBgStyle = loadBgStyle(TITLE_BG_KEY, { color: "#121210", opacity: 0.55 });
+  let legendBgStyle = loadBgStyle(LEGEND_BG_KEY, { color: "#121210", opacity: 0 });
   // connector(배선) 색은 각각 따로 안 바꾸고 한번에 전역으로만 바꿈 — 모든 connector 파일이 원래 단색(#F5F4EC)
   // 이라 styledSvg() 가 stroke/fill 있는 요소를 통째로 이 색으로 덮어씀
   let connectorStyle = { color: loadColor(CONNECTOR_COLOR_KEY, "#F5F4EC") };
@@ -747,6 +776,13 @@
           const g = document.createElementNS(SVGNS, "g");
           g.setAttribute("transform", "translate(" + cellX + "," + cellY + ")");
           g.setAttribute("clip-path", "url(#cellClip)");
+          if (legendBgStyle.opacity > 0) {
+            const bgRect = document.createElementNS(SVGNS, "rect");
+            bgRect.setAttribute("x", 0); bgRect.setAttribute("y", 0);
+            bgRect.setAttribute("width", CELL); bgRect.setAttribute("height", CELL);
+            bgRect.setAttribute("fill", rgbaFromHex(legendBgStyle.color, legendBgStyle.opacity));
+            g.appendChild(bgRect);
+          }
           const lh = legendStyle.size * 1.15;
           let ty = Math.max(lh, (CELL - u.legend.length * lh) / 2 + lh * 0.8);
           u.legend.forEach(line => {
@@ -778,7 +814,7 @@
           rect.setAttribute("width", fit.bbox.width + padX * 2);
           rect.setAttribute("height", fit.bbox.height + padY * 2);
           rect.setAttribute("rx", Math.min(2, fit.size * 0.15));
-          rect.setAttribute("fill", "rgba(18,18,16,.55)");
+          rect.setAttribute("fill", rgbaFromHex(titleBgStyle.color, titleBgStyle.opacity));
           g.appendChild(rect);
           const t = document.createElementNS(SVGNS, "text");
           t.setAttribute("x", localX); t.setAttribute("y", localY);
@@ -994,9 +1030,15 @@
     document.getElementById("style-title-color").value = titleStyle.color;
     document.getElementById("style-title-size").value = titleStyle.size;
     document.getElementById("style-title-size-v").textContent = titleStyle.size + "px";
+    document.getElementById("style-title-bg-color").value = titleBgStyle.color;
+    document.getElementById("style-title-bg-opacity").value = titleBgStyle.opacity;
+    document.getElementById("style-title-bg-opacity-v").textContent = titleBgStyle.opacity.toFixed(2);
     document.getElementById("style-legend-color").value = legendStyle.color;
     document.getElementById("style-legend-size").value = legendStyle.size;
     document.getElementById("style-legend-size-v").textContent = legendStyle.size + "px";
+    document.getElementById("style-legend-bg-color").value = legendBgStyle.color;
+    document.getElementById("style-legend-bg-opacity").value = legendBgStyle.opacity;
+    document.getElementById("style-legend-bg-opacity-v").textContent = legendBgStyle.opacity.toFixed(2);
     document.getElementById("textstyle-bg").classList.add("show");
   }
   function closeTextStylePanel() { document.getElementById("textstyle-bg").classList.remove("show"); }
@@ -1035,6 +1077,23 @@
     legendStyle.size = parseInt(e.target.value, 10);
     document.getElementById("style-legend-size-v").textContent = legendStyle.size + "px";
     applyMetaStyles(); saveStyle(LEGEND_STYLE_KEY, legendStyle); refreshTextStyledCells();
+  });
+  function saveBgStyle(key, style) { try { localStorage.setItem(key, JSON.stringify(style)); } catch (e) {} }
+  document.getElementById("style-title-bg-color").addEventListener("input", e => {
+    titleBgStyle.color = e.target.value; saveBgStyle(TITLE_BG_KEY, titleBgStyle); refreshTextStyledCells();
+  });
+  document.getElementById("style-title-bg-opacity").addEventListener("input", e => {
+    titleBgStyle.opacity = parseFloat(e.target.value);
+    document.getElementById("style-title-bg-opacity-v").textContent = titleBgStyle.opacity.toFixed(2);
+    saveBgStyle(TITLE_BG_KEY, titleBgStyle); refreshTextStyledCells();
+  });
+  document.getElementById("style-legend-bg-color").addEventListener("input", e => {
+    legendBgStyle.color = e.target.value; saveBgStyle(LEGEND_BG_KEY, legendBgStyle); refreshTextStyledCells();
+  });
+  document.getElementById("style-legend-bg-opacity").addEventListener("input", e => {
+    legendBgStyle.opacity = parseFloat(e.target.value);
+    document.getElementById("style-legend-bg-opacity-v").textContent = legendBgStyle.opacity.toFixed(2);
+    saveBgStyle(LEGEND_BG_KEY, legendBgStyle); refreshTextStyledCells();
   });
 
   // ───────── 초기화 ─────────
