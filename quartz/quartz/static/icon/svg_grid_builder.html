@@ -445,6 +445,7 @@
   // ───────── 격자 렌더 ─────────
   const cellEls = [];
   let dragSrc = null;   // {r,c} 드래그 시작 칸
+  let hoverCell = null; // {r,c} 마우스 올라간 칸 — Delete 키로 그 칸 비우기용
   // 호버시 뜨는 4개 버튼 — 각각 자기 종류 전용 모달만 엶(기존 탭이동 없앰)
   const CELL_BTNS = [
     { kind: "connector", label: "connector" },
@@ -487,6 +488,8 @@
           el.classList.add("dragover");
         });
         el.addEventListener("dragleave", () => el.classList.remove("dragover"));
+        el.addEventListener("mouseenter", () => { hoverCell = { r, c }; });
+        el.addEventListener("mouseleave", () => { if (hoverCell && hoverCell.r === r && hoverCell.c === c) hoverCell = null; });
         el.addEventListener("drop", e => {
           e.preventDefault();
           el.classList.remove("dragover");
@@ -1139,6 +1142,26 @@
   document.getElementById("btn-load").addEventListener("click", openLoadModal);
   document.getElementById("load-close").addEventListener("click", () => document.getElementById("load-bg").classList.remove("show"));
   document.getElementById("load-bg").addEventListener("click", e => { if (e.target.id === "load-bg") document.getElementById("load-bg").classList.remove("show"); });
+
+  // 칸 위에 마우스 올린 채 Delete 키 → 그 칸(connector+icon+title+textfield 전부) 확인 후 비움.
+  // input/textarea 포커스 중이거나 모달 열려있으면 그쪽 텍스트 편집이 우선이라 건드리지 않음.
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      if (document.getElementById("picker-bg").classList.contains("show")) closePicker();
+      return;
+    }
+    if (e.key !== "Delete") return;
+    if (!hoverCell) return;
+    const tag = document.activeElement && document.activeElement.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    if (["picker-bg", "load-bg", "textstyle-bg"].some(id => document.getElementById(id).classList.contains("show"))) return;
+    const { r, c } = hoverCell;
+    if (cellIsEmpty(grid[r][c])) return;
+    if (!confirm("(" + (r + 1) + "," + (c + 1) + ") 칸 내용을 전부 지울까요? (connector/icon/title/textfield)")) return;
+    grid[r][c] = null;
+    renderCell(r, c);
+    updateArrowState();
+  });
 
   // ───────── export: 로컬 다운로드 / gallery 업로드 ─────────
   document.getElementById("btn-new").addEventListener("click", () => {
