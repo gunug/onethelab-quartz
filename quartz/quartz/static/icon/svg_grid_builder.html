@@ -1032,7 +1032,9 @@
       const payload = buildGridPayload();
       const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
       const path = "grid/" + gridJsonFilename(name);
-      const { error } = await SB.storage.from("icons").upload(path, blob, { contentType: "application/json", upsert: true });
+      // cacheControl 안 주면 supabase 기본 3600초(1시간) 로 CDN 엣지에 캐시됨 — 같은 경로에 upsert 로
+      // 덮어써도 엣지가 예전 바이트 계속 줄 수 있어서(브라우저 강제새로고침으론 못 지움) "0" 으로 짧게 잡음.
+      const { error } = await SB.storage.from("icons").upload(path, blob, { contentType: "application/json", upsert: true, cacheControl: "0" });
       if (error) { toast("저장 실패: " + error.message); return; }
 
       const xml = await buildGridSvg();
@@ -1040,7 +1042,7 @@
       const svgBlob = new Blob([xml], { type: "image/svg+xml" });
       const svgPath = gallerySvgPath(name);
       const { error: svgErr } = await SB.storage.from("icons")
-        .upload(svgPath, svgBlob, { contentType: "image/svg+xml", upsert: true });
+        .upload(svgPath, svgBlob, { contentType: "image/svg+xml", upsert: true, cacheControl: "0" });
       if (svgErr) { toast("저장됨(정의만) → " + path + " · 갤러리 갱신 실패: " + svgErr.message); return; }
       document.getElementById("grid-name").value = name;
       toast("저장됨 → " + path + " · 갤러리 → " + svgPath);
