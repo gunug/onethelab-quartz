@@ -82,15 +82,12 @@
              linear-gradient(45deg, transparent 75%, #1c1c17 75%),
              linear-gradient(-45deg, transparent 75%, #1c1c17 75%);
            background-size:14px 14px; background-position:0 0,0 7px,7px -7px,-7px 0; }
-  .thumb svg { width:var(--thumb, 64px); height:var(--thumb, 64px); display:block; }
+  .thumb img { width:var(--thumb, 64px); height:var(--thumb, 64px); display:block; }
   .nm { font-size:10.5px; font-family:var(--mono); color:var(--muted); text-align:center; word-break:break-all; line-height:1.3; }
-  .btns { display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; width:100%; }
+  .btns { display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; width:100%; }
   .btn { font-family:var(--font); font-size:11px; font-weight:600; padding:6px 0; border:1px solid var(--hairline);
          border-radius:var(--r-sm); background:var(--surface-soft); color:var(--body); cursor:pointer; transition:.1s; }
   .btn:hover { border-color:var(--brand-yellow); color:var(--ink); }
-  .btn.primary { background:var(--brand-yellow); color:var(--on-brand); border-color:var(--brand-yellow); }
-  .btn.primary:hover { background:var(--brand-yellow-deep); color:#fff; }
-  .btn.copied { background:#1f3a22; border-color:#3a6b3f; color:#c6f0cc; }
 
   /* 토스트 */
   .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
@@ -118,7 +115,7 @@
   <div class="head">
     <span class="eyebrow">SVG Gallery</span>
     <h1>SVG Gallery</h1>
-    <div class="sub">Icon Builder 에서 업로드한 <b>generated</b> 아이콘만 표시. <b>RAW HTML TAG</b> = 색 박힌 인라인 svg 복사 · <b>URL</b> = 이미지 링크 · <b>DOWN LOAD</b> = svg 파일 다운로드 · <b>HTML TAG</b> = &lt;img&gt; 태그</div>
+    <div class="sub">Icon Builder 에서 업로드한 <b>generated</b> 아이콘만 표시. <b>DOWN</b> = svg 파일 다운로드</div>
   </div>
 
   <div class="banner" id="banner"></div>
@@ -136,79 +133,12 @@
 
   <div id="sections"></div>
 
-  <div class="toast" id="toast">복사됨</div>
+  <div class="toast" id="toast">다운로드됨</div>
 
 <script>
   // ───────── 설정 ─────────
   const SB_BASE = "https://pstpexrnusiwrkcdypjq.supabase.co/storage/v1/object/public/icons/";
   const publicUrl = path => SB_BASE + path; // path = "svg/<folder>/<id>.svg"
-  const IMG_W = "100%"; // HTML TAG 버튼이 넣는 <img> 기본 width
-
-  // 원본 svg 는 색 없이 클래스만 → 인라인 표시용 팔레트 주입 (icon_builder 기본색)
-  const PAL = { main:"#F5F4EC", point:"#FFD400", back:"#8E8C82", fill:"none" };
-  const STYLE_CSS =
-    ".arc{fill:" + PAL.fill + ";stroke:" + PAL.main + ";stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round}" +
-    ".edge{fill:none;stroke:" + PAL.main + ";stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round}" +
-    ".fill{fill:" + PAL.fill + ";stroke:none}" +
-    ".dot{fill:" + PAL.main + ";stroke:none}" +
-    ".ins{fill:none;stroke:" + PAL.point + ";stroke-width:0.6;stroke-linecap:round;stroke-linejoin:round}" +
-    ".ins-dot{fill:" + PAL.point + ";stroke:none}" +
-    ".ins-solid{fill:" + PAL.point + "}" +
-    ".ins-text{fill:" + PAL.point + ";font-family:'Inter',-apple-system,sans-serif;font-weight:800}";
-
-  const SVGNS = "http://www.w3.org/2000/svg";
-
-  // 원본 svg 텍스트 → 색 입힌 standalone svg 문자열 (썸네일 & 복사 공용)
-  function styledSvg(rawText, name) {
-    const doc = new DOMParser().parseFromString(rawText, "image/svg+xml");
-    const svg = doc.querySelector("svg");
-    if (!svg || doc.querySelector("parsererror")) return null;
-    svg.setAttribute("xmlns", SVGNS);
-    if (!svg.getAttribute("viewBox")) svg.setAttribute("viewBox", "-2 -2 28 28");
-    svg.setAttribute("role", "img");
-    if (name) svg.setAttribute("aria-label", name);
-    // generated svg 는 색이 내장(<style>)됨 → 팔레트 주입 안 함. 색 없는 원본만 주입.
-    if (!svg.querySelector("style")) {
-      const style = doc.createElementNS(SVGNS, "style");
-      style.textContent = STYLE_CSS;
-      svg.insertBefore(style, svg.firstChild);
-    }
-    return new XMLSerializer().serializeToString(svg);
-  }
-
-  // 라이브(DOM) svg → 색·두께를 각 요소 presentation 속성으로 박은 portable svg 문자열.
-  // <style>/class/CSS변수 제거 → Obsidian·Quartz 등이 <style> 를 sanitize 해도 색 유지("검은 덩어리" 방지).
-  function flattenLiveSvg(live) {
-    const clone = live.cloneNode(true);
-    clone.setAttribute("xmlns", SVGNS);
-    if (!clone.getAttribute("viewBox")) clone.setAttribute("viewBox", "-2 -2 28 28");
-    clone.setAttribute("width", "512"); clone.setAttribute("height", "512");
-    const SEL = "path,circle,line,rect,polygon,polyline,ellipse,text,tspan";
-    const src = live.querySelectorAll(SEL), cl = clone.querySelectorAll(SEL);
-    const isNone = c => !c || c === "none" || c === "rgba(0, 0, 0, 0)";
-    cl.forEach((el, i) => {
-      const cs = getComputedStyle(src[i]);
-      el.setAttribute("fill", isNone(cs.fill) ? "none" : cs.fill);
-      if (isNone(cs.stroke)) el.setAttribute("stroke", "none");
-      else {
-        el.setAttribute("stroke", cs.stroke);
-        const m = cs.strokeWidth.match(/(-?[\d.]+)px/);
-        el.setAttribute("stroke-width", m ? m[1] : cs.strokeWidth);
-        el.setAttribute("stroke-linecap", cs.strokeLinecap || "round");
-        el.setAttribute("stroke-linejoin", cs.strokeLinejoin || "round");
-      }
-      const t = el.tagName.toLowerCase();
-      if (t === "text" || t === "tspan") {
-        el.setAttribute("font-family", cs.fontFamily);
-        el.setAttribute("font-weight", cs.fontWeight);
-        if (!el.getAttribute("font-size")) el.setAttribute("font-size", cs.fontSize);
-      }
-      el.removeAttribute("class"); el.removeAttribute("style");
-    });
-    clone.querySelectorAll("[class]").forEach(el => el.removeAttribute("class"));
-    clone.querySelectorAll("style").forEach(el => el.remove());
-    return new XMLSerializer().serializeToString(clone);
-  }
 
   // ───────── 로드 & 렌더 ─────────
   // grid = SVG Grid Builder 에서 export 한 10x10 합성 svg (svg/grid/*.svg). generated 와 동일하게 열람/삭제.
@@ -278,9 +208,6 @@
       byFolder[folder].forEach(it => grid.appendChild(buildCard(it)));
     });
 
-    // 각 svg lazy fetch (썸네일 채우기)
-    cards.forEach(c => hydrate(c));
-
     // 검색
     document.getElementById("search").addEventListener("input", e => {
       state.q = e.target.value.trim().toLowerCase(); applyFilter();
@@ -299,44 +226,22 @@
     card.dataset.name = it.name.toLowerCase();
     card.dataset.folder = it.folder;
     const thumb = document.createElement("div"); thumb.className = "thumb";
-    thumb.innerHTML = '<svg viewBox="-2 -2 28 28"></svg>'; // placeholder, hydrate 가 교체
     const nm = document.createElement("div"); nm.className = "nm"; nm.textContent = it.name;
     const btns = document.createElement("div"); btns.className = "btns";
-    const bSvg = document.createElement("button"); bSvg.className = "btn primary"; bSvg.textContent = "raw";
-    const bUrl = document.createElement("button"); bUrl.className = "btn"; bUrl.textContent = "url";
     const bDown = document.createElement("button"); bDown.className = "btn"; bDown.textContent = "down";
-    const bTag = document.createElement("button"); bTag.className = "btn"; bTag.textContent = "tag";
     const bDel = document.createElement("button"); bDel.className = "btn del"; bDel.textContent = "del";
-    btns.appendChild(bSvg); btns.appendChild(bUrl); btns.appendChild(bDown); btns.appendChild(bTag); btns.appendChild(bDel);
+    btns.appendChild(bDown); btns.appendChild(bDel);
     card.appendChild(thumb); card.appendChild(nm); card.appendChild(btns);
 
-    const rec = { folder: it.folder, name: it.name, path: it.path, el: card, thumb, markup: null, url: publicUrl(it.path) };
-    const imgTag = () => '<img src="' + rec.url + '" width="' + IMG_W + '">';
-    bSvg.addEventListener("click", () => {
-      const live = rec.thumb.querySelector("svg");
-      if (!rec.markup || !live) { toast("아직 로딩 중…"); return; }
-      copy(flattenLiveSvg(live), bSvg, "RAW HTML TAG"); // 색을 속성으로 박은 portable svg
-    });
-    bUrl.addEventListener("click", () => copy(rec.url, bUrl, "URL"));
+    const rec = { folder: it.folder, name: it.name, path: it.path, el: card, thumb, url: publicUrl(it.path) };
+    const img = document.createElement("img");
+    img.alt = ""; img.src = rec.url;
+    img.onerror = () => { thumb.innerHTML = '<div style="color:#8e8c82;font-size:10px">load fail</div>'; };
+    thumb.appendChild(img);
     bDown.addEventListener("click", () => downloadSvg(rec, bDown));
-    bTag.addEventListener("click", () => copy(imgTag(), bTag, "HTML TAG"));
     bDel.addEventListener("click", () => removeIcon(rec, bDel));
     cards.push(rec);
     return card;
-  }
-
-  async function hydrate(rec) {
-    try {
-      const res = await fetch(rec.url, { cache: "force-cache" });
-      if (!res.ok) throw new Error(res.status);
-      const raw = await res.text();
-      const markup = styledSvg(raw, rec.name);
-      if (!markup) throw new Error("parse");
-      rec.markup = markup;
-      rec.thumb.innerHTML = markup;
-    } catch (e) {
-      rec.thumb.innerHTML = '<div style="color:#8e8c82;font-size:10px">load fail</div>';
-    }
   }
 
   // ───────── 필터/검색 ─────────
@@ -360,7 +265,7 @@
   // ───────── svg 파일 다운로드 ─────────
   async function downloadSvg(rec, btn) {
     try {
-      const res = await fetch(rec.url, { cache: "force-cache" });
+      const res = await fetch(rec.url);
       if (!res.ok) throw new Error(res.status);
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
@@ -372,23 +277,6 @@
     } catch (e) { toast("다운로드 실패"); }
   }
 
-  // ───────── 복사 & 토스트 ─────────
-  async function copy(text, btn, label) {
-    let ok = false;
-    try { await navigator.clipboard.writeText(text); ok = true; }
-    catch (e) {
-      const ta = document.createElement("textarea");
-      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
-      document.body.appendChild(ta); ta.select();
-      try { ok = document.execCommand("copy"); } catch (_) {}
-      document.body.removeChild(ta);
-    }
-    if (ok && btn) {
-      btn.classList.add("copied"); const t = btn.textContent; btn.textContent = "✓";
-      setTimeout(() => { btn.classList.remove("copied"); btn.textContent = t; }, 900);
-    }
-    toast(ok ? label + " 복사됨" : "복사 실패");
-  }
   let toastTimer = null;
   function toast(msg) {
     const t = document.getElementById("toast");
@@ -447,7 +335,7 @@
       const { error } = await SB.storage.from("icons").upload(path, f, { contentType: "image/svg+xml", upsert: false });
       if (error) { toast("업로드 실패: " + error.message); continue; }
       ok++;
-      if (grid) { const card = buildCard({ folder: "generated", name, path }); grid.appendChild(card); hydrate(cards[cards.length - 1]); }
+      if (grid) grid.appendChild(buildCard({ folder: "generated", name, path }));
     }
     if (ok) toast(ok + "개 업로드됨");
   }
