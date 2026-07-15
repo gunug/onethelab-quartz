@@ -31,16 +31,25 @@ One The Lab은 **인터랙티브 전시 솔루션** 회사입니다. 인쇄된 �
 
 ---
 # 디지털 콘텐츠 제작
+<div class="content-cards">
+
+<div class="content-card">
+
 ## Content Programming
 Unity3D 기반으로 VR, AR, 2D, 3D 콘텐츠를 개발하여 Windows 및 Android 플랫폼으로 배포합니다.
 
-* VR (가상현실) 콘텐츠 제작
+- VR (가상현실) 콘텐츠 제작
 - AR (증강현실) 콘텐츠 제작
 - 2D/3D 그래픽 콘텐츠
 - Unity3D 기반 Windows 및 Android 애플리케이션
 
 ![[Pasted image 20260630165203.png]]
 <small>초상권 문제로 실제 촬영한 사진을 사람만 변경함 (AI)</small>
+
+</div>
+
+<div class="content-card">
+
 ## Physical Computing
 3D 설계와 프린팅, 레이저 커팅, PCB 설계 및 Arduino를 활용한 전자 장치 제어로 물리적 인터랙션을 구현합니다.
 
@@ -51,6 +60,10 @@ Unity3D 기반으로 VR, AR, 2D, 3D 콘텐츠를 개발하여 Windows 및 Androi
 
 ![[Pasted image 20260630165144.png]]
 
+</div>
+
+<div class="content-card">
+
 ## Device Remodeling
 기존 기계 장치를 커스터마이징하고 전시 환경에 맞춘 특수 장비를 직접 제작합니다.
 
@@ -58,23 +71,46 @@ Unity3D 기반으로 VR, AR, 2D, 3D 콘텐츠를 개발하여 Windows 및 Androi
 
 ![[Pasted image 20260630165132.png]]
 
+</div>
+
+<div class="content-card">
+
 ## System Integration
 Serial, Socket, UDP, HID 등 다양한 통신 프로토콜로 소프트웨어와 하드웨어를 연동하며 호환성 문제를 해결합니다.
 
-* Serial 통신 프로그래밍
+- Serial 통신 프로그래밍
 - Socket 통신 프로그래밍
 - UDP 프로토콜 연동
 - HID (Human Interface Device) 연동 프로그래밍
 
 ![[Pasted image 20260630165150.png]]
 
+</div>
+
+</div>
+
 ---
 # 프로그래밍 교육
+<div class="content-cards">
+
+<div class="content-card">
+
 ## Programming Education
 프로그래밍 전공이 아닌 관계자들을 대상으로 실무 중심의 프로그래밍 강의를 제공합니다.
+
 ![[ChatGPT Image 2026년 6월 30일 오후 05_23_07.png]]
 <small>초상권 문제로 실제 촬영한 사진을 사람만 변경함 (AI)</small>
+
+</div>
+
+<div class="content-card">
+
 ## AI Vibe Coding
 AI 기술을 활용하여 창의적이고 인터랙티브한 바이브코딩 강의를 진행합니다.
+
 ![[Pasted image 20260630194216.png]]
 <small>실제 사진이 아닌 AI로 생성된 이미지</small>
+
+</div>
+
+</div>
