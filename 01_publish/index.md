@@ -116,3 +116,5 @@ AI 기술을 활용하여 창의적이고 인터랙티브한 바이브코딩 강
 </div>
 
 ![[01_publish/01_exhibition/01_project/index|index]]
+
+![[01_publish/01_exhibition/02_reasearch/index|index]]
