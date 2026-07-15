@@ -1,5 +1,5 @@
 import { FileTrieNode } from "../../util/fileTrie"
-import { FullSlug, resolveRelative, simplifySlug } from "../../util/path"
+import { FullSlug, resolveRelative } from "../../util/path"
 import { ContentDetails } from "../../plugins/emitters/contentIndex"
 
 type MaybeHTMLElement = HTMLElement | undefined
@@ -134,13 +134,10 @@ function createFolderNode(
     currentExplorerState.find((item) => item.path === folderPath)?.collapsed ??
     opts.folderDefaultState === "collapsed"
 
-  // if this folder is a prefix of the current path we
-  // want to open it anyways
-  const simpleFolderPath = simplifySlug(folderPath)
-  const folderIsPrefixOfCurrentSlug =
-    simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
-
-  if (!isCollapsed || folderIsPrefixOfCurrentSlug) {
+  // 폴더는 "저장된 상태"(사용자가 화살표로 직접 연 것)에 따라서만 펼친다.
+  // 현재 경로의 상위 폴더라고 자동으로 펼치지 않는다 → 폴더 이름 클릭(=페이지 이동)이
+  // 하위메뉴를 펼치지 않고, 오직 왼쪽 화살표(.folder-icon)로만 펼쳐지게 함.
+  if (!isCollapsed) {
     folderOuter.classList.add("open")
   }
 
