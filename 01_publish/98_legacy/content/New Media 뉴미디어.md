@@ -1,0 +1,12 @@
+---
+layout: post
+title: New Media 뉴미디어
+category: content
+tags: new-media
+---
+
+
+# projection mapping 프로젝션 맵핑
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lX6JcybgDFo?si=cTio8B08JrgVOo9J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+2023-09-06

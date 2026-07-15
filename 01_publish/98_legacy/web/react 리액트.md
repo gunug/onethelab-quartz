@@ -1,0 +1,363 @@
+---
+layout: post
+title: react 리액트
+category: web
+tags: 
+---
+
+
+# React
+* React, Angular, Svelte, Vue, Preact
+* React Native를 이용해서 React문법으로 모바일 앱 제작 가능
+
+# 필요 프로그램 설치
+### node.js
+* https://nodejs.org/ko/
+* 최신버전 설치 (이미 설치되어 있는 경우도 새로 설치)
+
+## visual studio code
+* https://code.visualstudio.com/
+
+---
+
+# Visual studio code의 terminal
+![[react_1.jpg]]
+* visual studio code 하단의 창 드래그 하여 확장하기
+* Menu > Terminal > New Teriminal 선택하여 터미널창 켜기
+
+```
+입력 : npm -v
+출력 : 10.9.3
+
+입력 : node -v
+출력 : v22.19.0
+```
+
+## 프로젝트 생성
+* ```npm create vite@latest```
+* Project name : test-project
+* Select a Framework : React
+* Select a variant : TypeScript + SWC
+
+> ## TypeScript
+> * 정적 타입 시스템: 코드가 실행되기 전에 오류를 잡아낼 수 있어, 대규모 애플리케이션 개발에 유리합니다.
+> * 파일 확장자: .ts, .tsx
+> * 구성: tsconfig.json 파일이 포함되어 있어, TypeScript 컴파일러 옵션을 설정할 수 있습니다.
+> * 장점: 코드의 가독성과 유지보수성이 높아집니다.
+
+> ## SWC(Speedy Web Compiler)
+> * SWC는 Rust라는 고성능 언어로 만들어진 컴파일러입니다. tsc와 마찬가지로 TypeScript 코드를 JavaScript로 변환하는 역할을 하지만, 변환 속도가 훨씬 빠릅니다.
+> * SWC는 타입 검사 기능이 내장되어 있지 않기 때문에, 타입 검사는 **tsc**나 **esbuild**와 같은 다른 도구에 의존해야 합니다. SWC는 주로 빌드 과정에서 **코드 변환(transpiling)**과 **압축(minifying)**에 특화되어 있어, Vite나 Next.js와 같은 최신 프레임워크에서 빌드 속도를 획기적으로 개선하는 데 사용됩니다.
+
+## 프로젝트 추가 설치
+```
+cd test-project
+npm install
+npm install react-router-dom
+npm run dev
+```
+
+> ## React Router (React-router)
+> * main.jsx 또는 main.tsx 파일에 <BrowserRouter>가 추가되어 라우팅 환경을 설정합니다.
+> * App.jsx 또는 App.tsx 파일에 <Routes>와 <Route> 컴포넌트가 포함된 예시 코드가 자동으로 생성됩니다.
+> * 페이지를 이동할 수 있는 NavBar와 같은 컴포넌트가 포함될 수 있습니다.
+> * 장점: 별도의 설치나 설정 없이 멀티 페이지 애플리케이션 개발을 바로 시작할 수 있습니다.
+
+
+## 라우터 설정
+* src/main.tsx
+  
+```
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import './index.css';
+
+// 1. BrowserRouter를 react-router-dom에서 가져옵니다.
+import { BrowserRouter } from 'react-router-dom';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    {/* 2. <App /> 컴포넌트를 <BrowserRouter>로 감싸줍니다. */}
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+);
+```
+
+## 라우팅 구현
+* src/App.tsx
+  
+```
+import { Routes, Route } from 'react-router-dom';
+import './App.css';
+
+// 라우팅할 페이지 컴포넌트를 생성합니다. (예: Home.tsx, About.tsx)
+function Home() {
+  return <h1>홈 페이지</h1>;
+}
+function About() {
+  return <h1>소개 페이지</h1>;
+}
+
+function App() {
+  return (
+    <>
+      <nav>
+        {/* 링크 컴포넌트를 사용하여 페이지를 이동합니다. */}
+        <a href="/">홈</a> | <a href="/about">소개</a>
+      </nav>
+      {/* <Routes>로 라우트들을 감싸고, <Route>로 경로를 정의합니다. */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </>
+  );
+}
+
+export default App;
+```
+
+---
+
+## 파일/폴더 설명
+* node_modules 폴더 : 설치한 라이브러리의 소스코드 보관 폴더
+* public 폴더 : 데이터파일 이미지파일 등 static한 (정적으로 고정된)파일 저장하는 위치
+* src 폴더 : 소스코드 저장하는 위치
+* package.json : 설치한 라이브러리, 버전 기록용 파일 npm으로 라이브러리 설치할때마다 자동으로 기록되기 때문에 직접 수정하지 않음
+* eslint.config.js : lint 설정용 파일
+* vite.congif.js : vite 설정용 파일
+* index.html : 메인페이지 App.tsx 내용을 main.tsx에 넣고 그걸 index.html에 넣는 식으로 짜여져있음
+
+---
+
+## 발생할 수 있는 에러들
+* "npm command not found..." : 에디터 새로 시작, node.js가 제대로 설치 되지 않았거나 최신이 아님, 맥북에서 brew 사용하지 않고 웹사이트에서 직접 다운로드하여 설치하기, 한글 폴더명 사용금지, 윈도우는 onedive 폴더 하위에 생성하지 않기
+* "npm install, npm run dev" 명령어 에러 : 한글 폴더명 금지
+* 맥북에서 "permisson"관련 에러 : 명령어 앞에 'sudo' 단어를 추가하여 명령어 입력, 비밀번호는 맥북 비밀번호 입력
+* 윈도우에서 "허가되지 않은 스크립트"에러 : 윈도우 실행메뉴 검색창에 Powershell 검색, 우클릭 '관리자 권한'으로 실행 ```Set-ExecutionPolicy RemoteSigned``` 입력, 동의 화면에서 Y입력, 터미널 재시작
+* "The engine "node" is incompatible with this module"에러 : node.js 버전에 너무 낮거나 높음, 에러메세지 에서 요구하는 버전으로 재설치.
+* 환경변수 설정관련은 <https://imspear.tistory.com/31> 내용 참고.
+
+---
+
+## 부연설명
+* node.js는 npm 명령어를 사용하기 위해 설치함, npm 명령어를 이용하면 여러가지 라이브러리를 명령어 만으로 쉽게 설치가 가능한데 위 경우는 'create vite'를 사용하였음
+* App.tsx는 메인페이지에 들어갈 HTML짜는 곳
+* public/index.html는 최종적으로 컴파일된 파일 main.tsx, app.tsx등에서 영향을 받음
+* ```style="color:red; font-size:30px;"```가 ```style={ {color:'blue', fontSize:'30px'} }```로 변경 (대시 기호대신 케멀케이스 속성명)
+
+---
+
+# HTML, CSS 작성과 React에서 달라지는점.
+* class 대신 className으로 작성 : javascript, typescript의 예약어 문제
+* innerHTML을 사용하지 않고 {변수명} 문법으로 변수값을 출력 가능
+* 거의 모든 문자열 치환에 {변수명} 문법을 사용가능
+* 데이터는 변수와 state로 보관 가능
+* onclick등이 onClick으로 변경
+  
+```
+<div onclick="alert('안녕')">Hello</div> <!-- 기본 html 문법 -->
+<div onClick={() => alert('안녕')}>Hello</div> <!-- react 문법 -->
+<div onClick={() => { 1+1 }}>Hello</div> <!-- react 문법 -->
+
+function(){}
+() => {} //ES6 부터 사용가능한 함수 정의
+```
+
+---
+
+# 리액트의 데이터 바인딩
+* 데이터 바인딩 : 데이터 바인딩은 데이터 소스(JavaScript)와 UI(HTML)를 연결하여, 데이터가 변경되면 자동으로 UI가 업데이트되도록 하는 양방향 또는 단방향 동기화 기술입니다. 단순히 HTML에 데이터를 표시하는 것을 넘어, 데이터와 UI를 연결하고 동기화하는 개념
+  
+```
+let var1 = "문자열 데이터"
+document.getElementById().innerHTML = var1? //기존 javasciprt 방식
+{var1} //리액트 방식
+
+function test1(){
+    return 1000;
+}
+{ test1() }
+
+import logo from './logo.svg';
+<img src={logo} />
+```
+
+## state
+
+* 변수 대신 쓸 수 있는 데이터 저장 공간
+* useState() 함수를 이용하여 생성
+* state가 변경되면 HTML이 자동으로 재렌더링 됨
+* 자주 바뀌는, 중요한 데이터는 변수대신 state로 저장하여 사용하기
+  
+```
+import React, {useState} from 'react';
+let [a,b] = useState('코트'); //[state 데이터, state 데이터 변경 함수]
+//ES6 destructuring 문법
+{ a }
+
+let [c,d] = useState(['변수1','변수2','변수3']);
+{c}
+{c[1]}
+
+let [counter, setCounter] = useState(0);
+<span onClick={() => {setCounter(counter + 1)}}>버튼</span> {counter}
+counter = 10; //직접 state 변수 값을 변경하는건 권장되지 않음. 변경 함수를 사용하여 변경
+```
+
+## ES6 Destructuring
+```
+let [a,b] = [100,1000];
+```
+
+```
+//array 형 자료 업데이트
+let [a,b] = useState(['자료1','자료2','자료3]);
+var newArray = [...a]; //ES6 스프레드 문법(Spread Syntax)을 사용한 배열의 얕은 복사(Shallow Copy)
+newArray[0] = '새 자료';
+b(newArray);
+```
+* 얕은 복사(Shallow Copy)의 한계 : 스프레드 문법은 배열의 **첫 번째 레벨(1차원)**에 있는 요소들만 새로운 배열에 값으로 복사합니다. 만약 원본 배열에 객체나 다른 배열이 포함되어 있다면, 스프레드 문법은 그 객체나 배열의 **참조값(Reference)**만 복사합니다.
+
+```
+//깊은 복사
+// lodash 라이브러리 사용 예시
+import { cloneDeep } from 'lodash';
+const deepCopyArray = cloneDeep(originalArray);
+```
+* 라이브러리 사용
+
+---
+
+# 리액트 대원칙
+* immutable data
+* Immutable data(불변 데이터)**란, 생성된 후 상태를 변경할 수 없는 데이터를 의미합니다. 즉, 한 번 만들어진 데이터는 절대로 수정될 수 없고, 만약 데이터를 수정해야 할 경우 기존 데이터를 복사하여 새로운 데이터를 생성하는 방식으로 처리됩니다.
+  
+## 불변 데이터의 특징
+* 변경 불가: 객체나 배열 같은 데이터가 생성되면 그 값을 직접 수정하는 것이 불가능합니다.
+* 새로운 데이터 생성: 기존 데이터를 바탕으로 변경된 내용이 담긴 새로운 데이터 객체를 만듭니다.
+* 얕은 복사와의 차이: **얕은 복사(Shallow Copy)**는 원본 데이터의 일부가 변경될 수 있지만, 불변 데이터는 완전히 새로운 데이터만 생성하기 때문에 원본 데이터에 영향을 주지 않습니다.
+
+## 왜 불변 데이터를 사용하는가?
+* 예측 가능한 상태 관리: 데이터가 변경되지 않기 때문에 애플리케이션의 상태 변화를 추적하기 쉽고, 버그를 줄일 수 있습니다.
+* 안전성: 여러 함수나 컴포넌트가 동일한 데이터를 공유할 때, 의도치 않은 데이터 변경으로 인한 부작용을 방지합니다.
+* 성능 최적화: React 같은 프레임워크에서 shouldComponentUpdate와 같은 기능을 통해 데이터가 실제로 변경되었는지 여부를 쉽게 판단할 수 있어, 불필요한 리렌더링을 막아 성능을 최적화할 수 있습니다.
+
+---
+
+# Component
+
+```
+<Modal></Modal>
+<Modal />
+function Modal(){
+    return(
+        <div></div>
+    )
+}
+```
+
+* Component 만들때 이름을 대문자로 만들것
+* return의 소괄호 안에 최상위 div는 한개만 둘것 (나머지 div은 자식객체로 등록) 플래그먼트(<> </>)를 사용하여도 됨
+
+---
+
+# 리액트 구문
+
+```html
+<input type="text" onChange={(event)=>console.log(event.target.value)}>
+
+<TodoBoard todoList={todoList}>
+function TodoBoard(props){
+    console.log("todoBoard",props.todoList)
+    return{
+        <div>
+        {props.todoList.map((item)=><TodoItem item={item}/>)}
+        </div>
+    }
+}
+function TodoItem(props){
+    <div>
+    </div>
+}
+```
+
+
+---
+
+
+# 빌드 및 배포
+
+## 깃허브 페이지 설정 및 주의사항
+* package.json 설정: package.json 파일에 homepage 속성을 추가해야 합니다. 이 속성은 빌드된 정적 파일이 배포될 위치를 지정합니다. 예를 들어, https://username.github.io/repository-name 와 같이 설정합니다. 이렇게 설정해야 페이지를 새로고침할 때 404 에러가 발생하는 것을 방지할 수 있습니다.
+* gh-pages 확장 설치: gh-pages 확장을 사용하면 빌드된 파일을 깃허브 페이지에 쉽게 배포할 수 있습니다. ```npm install --save-dev gh-pages``` 명령어로 설치합니다.
+* 스크립트 추가: package.json의 scripts에 predeploy와 deploy 스크립트를 추가합니다.
+  
+* predeploy: npm run build를 실행하여 빌드합니다.
+* deploy: gh-pages -d build를 실행하여 build 폴더의 내용을 gh-pages 브랜치에 배포합니다.
+* 깃허브 페이지 설정: 깃허브 저장소의 'Settings' 탭으로 이동하여 'Pages' 메뉴를 클릭합니다. 소스(Source)를 'gh-pages' 브랜치로 설정하면 배포된 페이지가 활성화됩니다.
+* 위의 과정을 모두 올바르게 수행했다면, npm run deploy 명령어를 실행하는 것만으로 빌드부터 배포까지 한 번에 완료할 수 있습니다.
+
+```
+"scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+}
+```
+
+* predeploy: 이 스크립트는 deploy 스크립트가 실행되기 전에 자동으로 실행됩니다. 여기서는 npm run build를 넣어, 배포 전에 프로젝트를 빌드하도록 지정합니다.
+* deploy: 이 스크립트는 gh-pages 확장을 사용해 build 폴더의 내용을 GitHub Pages에 배포하는 역할을 합니다. -d build는 배포할 소스 폴더가 build임을 의미합니다.
+
+```
+npm run build
+```
+
+
+---
+
+# 페이지 새로고침 404에러 방지
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      sessionStorage.redirect = location.href;
+    </script>
+    <meta http-equiv="refresh" content="0;URL='index.html'" />
+  </head>
+  <body>
+    </body>
+</html>
+```
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Page Not Found</title>
+    <script type="text/javascript">
+      var segmentCount = 1;
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' +
+        l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
+```
+
+2025-08-31

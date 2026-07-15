@@ -1,0 +1,147 @@
+---
+layout: post
+title: comfyUI
+category: stable-diffusion
+tags: ai todo
+---
+
+
+# comfyUI
+* 스테이블 디퓨젼 webui
+## 설치
+---
+
+* 설치방법 참고 : <https://www.internetmap.kr/entry/Stable-Diffusion-via-ComfyUI#install>
+* 자료공유 사이트 : <https://openart.ai/workflows/all>
+* Git주소 : <https://github.com/comfyanonymous/ComfyUI#windows>
+* [Direct link to download](https://github.com/comfyanonymous/ComfyUI/releases/download/latest/ComfyUI_windows_portable_nvidia_cu121_or_cpu.7z)
+* ComfyUI_windows_portable\ComfyUI\extra_model_paths.yaml.example 편집하여 모델 경로 추가하여 extra_model_paths.yaml로 저장
+
+```yaml
+a111:
+    base_path: F:/sd/stable-diffusion-webui
+
+    checkpoints: models/Stable-diffusion
+    configs: models/Stable-diffusion
+    vae: models/VAE
+    loras: |
+         models/Lora
+         models/LyCORIS
+    upscale_models: |
+                  models/ESRGAN
+                  models/RealESRGAN
+                  models/SwinIR
+    embeddings: embeddings
+    hypernetworks: models/hypernetworks
+    controlnet: models/ControlNet
+```
+
+* 위 예시처럼 스테이블 디퓨전의 base_path를 실제 설치된 stable-diffusion-webui의 위치로 변경
+
+## 모델추가
+* <https://civitai.com/api/download/models/128078>
+* <https://civitai.com/api/download/models/128080>
+* ComfyUI_windows_portable\ComfyUI\models\checkpoints 속에 넣기
+
+## 업데이트
+* ComfyUI_windows_portable\update\update_comfyui.bat 실행
+
+## 실행
+* ComfyUI_windows_portable\run_nvidia_gpu.bat
+
+## 접속주소
+* <http://127.0.0.1:8188/>
+
+---
+
+# 사용
+* [ComfyUI Academy](https://openart.ai/workflows/academy)
+
+## ComfyUI_Manager 설치
+* cmd
+* ```cd ComfyUI_windows_portable\ComfyUI\custom_nodes```
+* ```git clone https://github.com/ltdrdata/ComfyUI-Manager```
+* [Install Custom Nodes] 커스톰 노드를 설치/제거할 수 있습니다. 
+* [Install Missing Custom Nodes] 현재 워크플로에 있지만, 빠진 노드를 설치해줍니다. 특히 다른 사람이 생성한 워크플로를 가져와서 사용할 경우, 그 사람이 사용했던 커스톰 노드중에서 자신에게 없는 노드를 자동으로 설치해 줘서 매우 유용합니다.
+* [Install Model] 체크포인트 모델, AI 확대기 모델, VAE, LoRA, ControlNet 모델 등을 설치합니다.
+* [Update ComfyUI] ComfyUI를 업데이트합니다.
+* [Fetch Updates] 커스톰 노드의 업데이트를 확인합니다. 재시작해야 적용됩니다.
+* [Alternatives of A1111] 잘 모르겠는데, AUTOMATIC1111 확장중에서 ComfyUI에서 사용가능한 것을 검색하고 설치할 수 있는 것 같습니다.
+* [ComfyUI Community Manual] 매뉴얼
+
+---
+
+## 커스텀 노드 설치 - 각각
+* ComfyUI_windows_portable\ComfyUI\custom_nodes
+* 해당위치에서 주소창에 cmd입력
+* git clone [github에서 복사해온 주소] 입력하여 각 커스텀 노드를 설치 가능
+
+## 커스텀 노드 매니져 이용
+* Manager 클릭
+* Install Custom Nudes
+* 우상단 검색창에서 노드 검색 가능
+* install
+* Fetch Updates를 이용하여 커스텀노드 업데이트 가능
+  
+## 커스텀 노드들
+* Comfyui WD 1.4 Tagger 인페인트를 위함, Load image노드에 연결하여 모델을 붙임
+*  pythongosssss/ComfyUI-Custom-Scripts 이미지에 메타태그 기록
+*  ComfyUI_Comfyroll_CustomNodes 이미지 비율, 해상도 관련
+  
+---
+
+# ComfyUI examples
+* <https://comfyanonymous.github.io/ComfyUI_examples/>
+
+---
+
+# controlnet
+* SD1.5용 : https://huggingface.co/lllyasviel/ControlNet-v1-1/tree/main
+* ComfyUI\models\controlnet에 설치
+
+* 커스텀노드 :  ComfyUI's ControlNet Auxiliary Preprocessors 컨트롤넷 전처리기
+
+---
+
+![[comfy_ui_1.png]]
+![[comfy_ui_2.png]]
+
+---
+
+* 차후 : <https://openart.ai/workflows/academy> 확인하여 사용법을 업데이트 하자
+* 모든 워크플로우 공유 사이트 : <https://openart.ai/workflows/all>
+
+---
+
+* 참고영상: https://youtu.be/LNOlk8oz1nY?si=fDh7N6YvoJBVhPEK
+  
+# 기능
+* 노드 우클릭 title을 이용하여 새 이름 지정가능
+* Convert to input, Convert to widget으로 입력핀을 생성 삭제
+* 바닥 우클릭 Add Group을 이용하여 그룹 지정가능
+* 노트 우클릭 Bypass를 이용하여 활성, 비활성화 가능
+
+# node
+* Reroute 멀티탭 같은 느낌 미리 연결해 놓으면 다른 노드로 한꺼번에 옯기기 좋음
+* KSampler 모델, 긍정, 부정, 배경이미지 입력 및 수치조정 가능
+* CRSeed 랜덤값의 씨앗
+
+* 참고영상: https://youtu.be/6kHCE1_LaO0?si=JjeRS_pFGt1Pdeg1
+
+* ControlNet Preprocessor > Apply ControlNet
+* Load contolrolnet model
+* Upscale laten by
+* Load Image > VAE Encode
+* Clip text encode : 아직 용도 파악이 안됨
+
+* model merge, clip merge
+
+* MeshGraphormer Hand Refiner : 손보정
+* Mask to image
+
+---
+
+* sd_xl_base_1.0 : <https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/blob/main/sd_xl_base_1.0.safetensors>
+* sd_xl_refiner_1.0 : <https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/blob/main/sd_xl_refiner_1.0.safetensors>
+
+2024-02-18

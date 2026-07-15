@@ -1,0 +1,329 @@
+---
+layout: post
+title: math 수학
+category: etc
+tags: math
+---
+
+
+# 회전행렬
+
+```markdown
+{a,b,tx}
+{c,d,ty}
+{0,0,1}
+```
+
+```c#
+a= cos() b=-sin() c=sin() d=cos()
+mat.a = +Math.cos(angle*Math.PI/180);
+mat.b = -Math.sin(angle*Math.PI/180); 
+mat.c = +Math.sin(angle*Math.PI/180); 
+mat.d = +Math.cos(angle*Math.PI/180);
+```
+
+---
+
+# 네 점을 알때. 각 두점을 통과하는 직선의 교점
+```c#
+private function setPoint(targetSprite:Sprite, sp1:Sprite, sp4:Sprite, sp2:Sprite, sp3:Sprite){
+//두직선의 교점 시작
+
+    var l1_m = (sp4.y-sp1.y)/(sp4.x-sp1.x); //기울기 
+    var l1_d = sp1.y-(sp1.x*l1_m); //y절편 
+    var l2_m = (sp3.y-sp2.y)/(sp3.x-sp2.x); //기울기 
+    var l2_d = sp2.y-(sp2.x*l2_m); //y절편 
+    var bool1:Boolean = (l1_d == Number.POSITIVE_INFINITY || l1_d == Number.NEGATIVE_INFINITY); 
+    var bool2:Boolean = (l2_d == Number.POSITIVE_INFINITY || l2_d == Number.NEGATIVE_INFINITY); 
+    if(l1_m == l2_m){ 
+            l1_m = (sp4.y-sp1.y)/((sp4.x+0.0000001)-sp1.x); 
+            l2_m = (sp3.y-sp2.y)/((sp3.x+0.0000001)-sp2.x); 
+    }else if(bool1 || bool2){
+            if(bool1)l1_m = (sp4.y-sp1.y)/((sp4.x+0.0000001)-sp1.x);
+            if(bool2)l2_m = (sp3.y-sp2.y)/((sp3.x+0.0000001)-sp2.x);
+    }
+    l1_d = sp1.y-(sp1.x*l1_m); 
+    l2_d = sp2.y-(sp2.x*l2_m); 
+    var center_x:Number; var center_y:Number; 
+    //두 일차함수 y절편이 무한(infinity)이 아닐경우 연산법 
+    center_x = (l2_d - l1_d)/(l1_m-l2_m); 
+    center_y = l1_m*center_x+l1_d; 
+    //두직선의 교점 끝 
+    targetSprite.x = center_x;
+    targetSprite.y = center_y;
+}
+```
+
+---
+
+# kalman filter 칼만필터
+* e_mea: Measurement Uncertainty - How much do we expect to our measurement vary
+* e_est: Estimation Uncertainty - Can be initilized with the same value as e_mea since the kalman filter will adjust its value.
+* q: Process Variance - usually a small number between 0.001 and 1 - how fast your measurement moves. Recommended 0.01. Should be tunned to your needs.
+* SimpleKalmanFilter kf = SimpleKalmanFilter(e_mea, e_est, q);
+
+---
+
+# 수학 공식
+
+* 점과 직선 사이의 거리 : 점```p(x1-y1)```과 직선 ```ax+by+c = 0``` 사이의 거리 ```|(ax1+by1+c)|/Math.sqrt(a*a+b*b)```
+* 삼각형을 이루는 세 점 A,B,C에 대한 삼각형의 넓이 :
+
+```javascript
+A(x1,y1); B(x2,y2); C(x3,y3); 
+S = 0.5 * Math.abs((y1*x2+y2*x3+y3*x1)-(x1*y2+x2*y3+x3*y1));
+```
+* x,y에 대한 일반적인 각도 회전 공식 ``` x' | cosθ -sinθ | x | y' = | sinθ cosθ | y | ```
+* 회전행렬을 풀어쓴 공식(플래시용) ``` x' = cosθ*x - sinθ*y y' = sinθ*x + cosθ*y //θ은 각도를 이야기함 Degree일수도 있고 radian일수도 있다 ```
+* ※중요한 사실은 수식이 완료될때까지 X값을 변환하지 않는것에 있다
+
+* x값과 y값이 서로 얽혀 계산되기 때문에 계산의 완료시까지 값이 섞이면 안된다
+* 슬라이딩 공식<매프레임마다> x' = x+(목표지점-x)*0.5
+* 단진동 공식 x" = a(x'-targetX)+b(x-targetX)+targetXss
+
+* 단진동 공식(플래시용) m = 50//추의 질량 k = 1//탄성계수 b = 1//저항계수 box.x = prevX = 1; box.y = prevY = 1; //초기위치 설정 targetX = 200; targetY = 200; //목표지점 설정
+
+```javascript 
+<매프레임마다> 
+tampX = box.x; tampY = box.y; 
+box.x = (2*m-k-b)/m*(box.x-targetX)-(1-b/m)*(prevX-targetX)+targetX; 
+box.y = (2*m-k-b)/m*(box.y-targetY)-(1-b/m)*(prevY-targetY)+targetY; 
+prevX = tampX; 
+prevY = tampY; 
+targetX = mouseX; 
+targetY = mouseY;
+```
+
+* 단진동 공식(요약) tampX = box.x; tampY = box.y; box.x = a*(box.x-tx)+b*prevX-tx)+tx; box.y = a*(box.y-ty)+b*prevY-ty)+ty; prevX = tampX; prevY = tampY;
+* 반발력 공식 F = (K*A'*A")/(R*R); K:비례상수 / A',A":전하량 / R:두 전자 사이의 거리
+* Fx = F*(Rx/(R*R*R)) = (K*A'*A")*(Rx/(R*R*R)) Fy = F*(Ry/(R*R*R)) = (K*A'*A")*(Ry/(R*R*R))
+-출처 '신명용의 플래시 MX 액션스크립트 1권'
+//이 공식은 AS 2.0기준입니다.
+
+* 슬라이드 this.onEnterFrame{movieclip._x+= (목표위치-movieclip._x)*0.5}; [시작]0 0 0 0 0 0 00[끝]
+* 두점사이의 대각선의 길이 A(x1,y1) B(x2,y2)일때 대각선의 길이 = Math.sqrt((x2-x1)*(x2-x1))+((y2-y1)*(y2-y1));
+* 두점사이의 대각선의 라디안값 A(x1,y1) B(x2,y2)일때 라디안값 = Math.atan2(y2-y1,x2-x1);
+* 두점사이의 대각선의 각도값 A(x1,y1) B(x2,y2)일때 각도값 = Math.atan2(y2-y1,x2-x1)*180/Mtah.PI;
+* 스테이지 크기안에서 슬라이딩되는 무비클립
+
+```javascript 
+movieclip.onEnterFrame = function(){
+ this._x+=((0-(_xmouse/Stage.width)*(this._width-Stage.width))-this._x)*0.1
+}
+```
+
+---
+
+# 최대공약수 gcd(greatest common divisor)
+* 두 숫자를 나누어 떨어지게 할수 있는 가장큰수 = 두 숫자를 나눈 나머지가 0이 될때의 값
+* 항상 큰수에서 작은수를 나누어야 한다. 
+
+```javascript
+function gcd(a,b){
+  var min = Math.min(a,b);
+  var max = Math.max(a,b);
+  var _gcd = min;
+  while(true){
+      if(max % min == 0)break;
+      _gcd = max % min;
+      max = min;
+      min = _gcd;
+  }
+  console.log("gcd:"+_gcd);
+  return _gcd;
+}
+```
+
+# 최소공배수 lcm(least common multiple)
+* 두 수에 서로 공통으로 존재하는 배수 중 가장 작은 수
+* 두 수를 곱한 후 최대공약수로 나눈수
+
+```javascript
+//javascript
+function lcm(a,b){
+  var _gcd = gcd(a,b);
+  var _lcm = a*b/_gcd;
+  console.log("lcm:"+_gcd);
+  return _lcm;
+}
+```
+
+---
+
+# 팩토리얼
+재귀함수, 팩토리얼 수학 공식
+
+```javascript
+function factorial(num:int){
+       if(num==0){
+               return 1;
+       }else{
+               return num*factorial(num-1);
+       }
+}
+console.log(factorial(3));
+```
+
+* 3! 이라고 적고 3팩토리얼 이라고 읽는다 계산법은 3*2*1 이고 확률문제에 많이 사용된다.
+* 170!은 약 7.25e+306 으로 플래시 int에서 표현할 수 있는 최대 단위이고
+* 171!부터는 int 최대단위를 넘어가서 infinity로 표기된다.
+
+# 재귀가 없는 팩토리얼
+* !7은 7*6*5*4*3*2*1 입니다.
+
+```javascript
+function pec(num:Number):Number{
+  var ggg=1; 
+  for(var i=0;i<num;i++){
+    ggg = ggg*(num-i);
+  } 
+  return ggg 
+} 
+console.log(pec(9)); //362880 //9 팩토리얼은 362880입니다~
+```
+---
+
+# random 난수
+```c#
+Math.floor(Math.random()*2) 
+Math.round(Math.random()*1)
+```
+
+* 둘다 0 ~ 2까지의 난수를 발생하는 공식입니다.
+* 다만.Math.round(Math.random()*1) 은 잘못된 결과가 나옵니다.
+* Math.floor(Math.random()*2) 은 0:1:2 = 300:300:300;
+* Math.round(Math.random()*1) 은 0:1:2 = 200:400:200;
+* 비율로 나옵니다.
+
+---
+
+# 극좌표, 데카르트 좌표
+```javascript
+mc.x = A(d,e)
+
+// 점에서 B각도로 C픽셀 떨어진 위치의 x(데카르트)좌표 
+mc.x = d+Math.cos(B)*C mc.y = A(d,e)
+
+// 점에서 B각도로 C픽셀 떨어진 위치의 x(데카르트)좌표 
+mc.y = e+Math.sin(B)*C
+
+//점 A(a,b)와 점 B(c,d) 간의 거리 M은 
+M = Math.sprt(a*a+b*b)
+
+//항상 양수 점 A(a,b)와 점 B(c,d) 간의 각도(라디안) T는 
+T = Math.atan2(d-b,c-a)
+```
+
+---
+
+# 삼각함수
+
+* sin,cos에 대하여 이야기 해보려 합니다. sin은 각도값이 [0일때0/90일때1/180일때0/270일때-1/360일때0] 을 순환합니다. cos은 각도값이 [0일때1/90일때0/180일때-1/270일때0/360일때1] 을 순환합니다. 0~360 순환값이 sin, cos함수에의해서 -1~1 순환값으로 환산 받을 수 있다는 것이지요!!
+
+* 더재미있는 사실은 이 -1~1의 순환값을 [x < cos환산값][y < sin환산값] 이렇게 대입해보면 sin,cos그래프의 특성(주기와 곡선) 에 의하여 원형으로 배열된다는 것입니다. 한마디로 대입해주고 sin,cos에 들어가는 각도값을 점점 증가시켜주면 x,y에 의한 뱅뱅도는 형태가 나온다는 것이지요. 위치는 각각 [0일때 우측/90일때 하단/180일때 좌측/270일때 상단/360일때 우측]입니다.
+
+* 이런 뱅뱅도는 형태에 힘입어 삼각함수는 AS애서 뱅뱅도는 모션네비게이션이나 3D기법에 없어서는 안될 공식이 되었습니다.
+
+* 공학용 계산기는 sin,cos을 0~360의 각도 값으로 받습니다. (윈도우XP 공학용계산기 기준) AS 2.0은 sin,cos을 라디안값으로 받습니다.(Flash 8 ActionScrip 2.0기준) 각도값과 라디안값을 환산해서 정확히 입력해주면 둘다 같은 값을 줍니다.
+
+* 1라디안은 어떠한 원의 지름과 호의 길이가 같을때 그 각도값을 말합니다. 1라디안은 대략 57도17분45초입니다. 360도는 대략 6.28라디안 되겠습니다. 라디안/각도 환산식은 [라디안 = 2*파이*각도] 되겠습니다.
+
+---
+
+# 수학 공식 방정식
+* 원뿔형 원기둥의 본래 길이 관련
+
+```
+A:B+D = C:D일때
+내항의 곱은 외항의 곱과 같다 (비례식의 성질)
+D=(B+D)*C/A 
+D = B*C/A  +  D*C/A
+D - D*C/A = B*C/A
+DA/A  - D*C/A = B*C/A
+D(A-C)/A = B*C/A
+D(A-C) = B*C
+D = B*C/(A-C)
+A 큰원, B작은원
+
+A:B = C+D:D일때
+D = (C+D)*B/A;
+D = C*B/A + D*B/A;
+D - D*B/A = C*B/A;
+D*A/A - D*B/A = C*B/A;
+DA - DB = CB;
+D(A-B) = CB;
+D = CB/(A-B);
+```
+
+---
+
+# 회전각 상황에서 근사각 계산
+* 수학공식 또는 프로그램 로직
+* 회전각은 라디안(0~6.28), 도(0~360)에서 초기화 되는 경향이 있다.
+* 하지만 회전각을 기록하는 angle변수를 +- 하여 사용하다 보면 한없이 한쪽 방향으로 넘어가는 경우가 있다. 0 -> 360 상황은 한바퀴를 돌게 만든다. 
+* 그것을 제거하기 위하여. angle1기준 angle2의 새로운 각을 구해주는 함수다 
+
+```javascript
+function nearAngle(angle1:Number,angle2:Number){
+ var nearAngle = angle2
+ if(nearAngle < angle1){
+  while(Math.abs(angle1 - nearAngle) >= 360){
+   nearAngle += 360;
+  }
+ }else{
+  while(Math.abs(nearAngle - angle1) >= 360){
+   nearAngle -= 360;
+  }
+ }
+ //1회전 이상의 경우 회전수를 줄여서 뱅뱅이도는것을 방지
+ //nearAngle이 angle1의 -+359.9999 지점에 위치하게 됨
+ 
+ if(nearAngle < angle1){
+  if(Math.abs(angle1 - nearAngle) >= 180){
+   nearAngle += 360;
+  }
+ }else{
+  if(Math.abs(nearAngle - angle1) >= 180){
+   nearAngle -= 360;
+  }
+ }
+ //반회전 이상의 경우 반대쪽 회전각으로 전환
+ 
+ return nearAngle;
+}
+```
+
+---
+
+# 소수의 판별함수 (prime number discriminant)
+
+```javascript
+function isPrime(num:uint):Boolean{
+	var imPrime:Boolean = true;
+	for(var i:uint=2; i<=Math.sqrt(num); i++){
+		if(num%i == 0){
+			imPrime = false;
+			break;
+		}
+	}
+	return imPrime;
+}
+```
+
+---
+
+# Z축 공식
+* 3D좌표를 2D로 프로젝션 할때 사용
+
+```javascript
+f=300;
+zoom=f/(f+_mc.z);
+_mc._nx += (_mc._mx-_mc._nx)*0.1;
+_mc._ny += (_mc._my-_mc._ny)*0.1;
+  _mc._xscale=zoom*100;
+_mc._yscale=zoom*100;
+_mc._x=zoom*_mc._nx
+_mc._y=zoom*_mc._ny
+```
+
+2023-09-11

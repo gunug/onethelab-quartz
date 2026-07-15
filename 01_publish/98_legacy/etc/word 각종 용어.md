@@ -1,0 +1,40 @@
+---
+layout: post
+title: word 각종 용어
+category: etc
+tags: word
+---
+
+
+
+# 컴퓨터 원격으로 켜는 방법
+* WOL :웨이크 온 랜, 랜선으로 컴퓨터 켜기
+
+# 의료용 모션캡처 장비이름
+* k-vest
+* 모티피지오
+
+# 영상처리기술
+* blob detection
+
+# 용어
+* jetbrains : 에디터 개발 업체
+* IntelliJ IDEA : 프론트엔드 javascript
+* PHPstorm : PHP 개발자
+* Rider : c#, c++ .net - ReSharper 기본설치
+
+---
+
+## 꼬냑
+* VSOP, 해네시 엑소, 레미 마틴
+
+## 사케
+* 준마이 다이긴죠 타카지
+
+---
+
+## 여행장소
+* 당진 왜목마을
+* 바라산 자연휴양림
+
+2023-10-04

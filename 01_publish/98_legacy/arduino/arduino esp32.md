@@ -1,0 +1,72 @@
+---
+layout: post
+title: arduino esp32
+category: arduino
+tags: 
+---
+
+
+# arduino esp32
+* 참고링크 : https://www.bneware.com/blogPost/esp32_arduino_ide
+* arduino IDE > 파일 > 환경설정
+* 추가적인 보드 매니져 URLs
+* ```https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_dev_index.json```
+
+* 메인메뉴 > 툴 > 보드 > 보드메니저
+* esp32 검색하여 설치
+  
+* 툴 > 보드 > 
+* ESP32-S3-WROOM-2 : ESP32S3 Dev Module
+* ESP32-C3-MINI-1 : ESP32C3 Dev Module
+* ESP32-WROOM-32E : ESP32 Dev Module
+
+---
+
+# 디바이스 esp32 설정
+## 아두이노1.8.19버전 다운로드
+
+## 보드 XIAO ESP32 C3 선택 및다운로드
+* IDE Preference에 다음링크 추가 ```https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json```
+* 툴 > 보드 > 보드매니저
+* 보드 종류 XIAO_ESP32C3
+* 위 과정으로 설치시 하기 컴파일 에러 발생
+* 링크추가 없이 보드매니저에서 설치 esp32 - by Espressif Systems
+* 보드 매니저에서 찾아서 esp32c3를 다운로드 (3.0.0)
+* 보드정보 가져오기를 하니 ESP32H2 Dev Module이라고 나온다
+* 2.0.11
+
+```
+BN: ESP32H2 Dev Module
+VID: 303a
+PID: 1001
+SN: A0:76:4E:44:40:F8
+```
+  
+## QMC5883LCompass-master 설치
+* 스케치 > 라이브러리 > 라이브러리 관리
+* ```Qmc5883lcompass``` 검색
+* Qmc5883lcompass 설치
+* 1.2.3
+
+## Adafruit_GFX 설치시 관련 라이브러리 모두 설치
+* 스케치 > 라이브러리 > 라이브러리 관리
+* ```Adafruit_GFX``` 검색
+* Adafruit_GFX library 설치
+* 1.11.9
+
+## Adafruit_SSD1306 설치
+* 스케치 > 라이브러리 > 라이브러리 관리
+* ```Adafruit_SSD1306``` 검색
+* Adafruit SSD1306 설치
+* 2.5.10
+
+---
+
+# 컴파일 에러
+* too many arguments to function 'hw_timer_t* timerBegin(uint32_t)
+* 인자갯수가 다른 공식문서가 있는것을 확인하여 버전문제로 파악중
+* 2.0.17
+* <bits/c++allocator.h> no such file or directory
+* 2.0.11 버전이 설치되어 있었음. 버전업 하면서 라이브러리 내용도 바뀌었나봄
+
+2024-06-02

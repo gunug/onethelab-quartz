@@ -1,0 +1,73 @@
+---
+layout: post
+title: AI 서비스 목록
+category: ETC
+tags: 
+---
+
+
+# AI 사용 유형
+
+| 유형 | 설명 | 예시 |
+|------|------|------|
+| 웹 챗봇 | 브라우저에서 대화형으로 질의응답 | ChatGPT, Claude, Gemini |
+| CLI | 터미널에서 명령어로 AI를 호출, 로컬 파일 직접 접근 가능 | Claude Code, Gemini CLI |
+| IDE 통합 | 코드 에디터에 플러그인으로 내장, 코딩 중 실시간 지원 | GitHub Copilot, Cursor, Windsurf |
+| API | 프로그램 코드에서 AI를 직접 호출하여 서비스에 통합 | OpenAI API, Gemini API, Claude API |
+| 앱 내장 | 기존 서비스 안에 AI 기능이 포함된 형태 | Notion AI, Adobe Firefly, CapCut |
+
+---
+
+# AI 서비스 목록
+
+## 코딩
+
+| 이름 | 설명 | 링크 |
+|------|------|------|
+| GitHub Copilot | GitHub과 OpenAI가 만든 AI 코드 자동완성 도구 | [github.com/features/copilot](https://github.com/features/copilot) |
+| Cursor | AI 기반 코드 에디터, 코드 생성 및 수정 지원 | [cursor.com](https://cursor.com) |
+| Windsurf | AI 코딩 에디터, 코드베이스 맥락 이해 및 자동 코딩 (구 Codeium) | [windsurf.com](https://windsurf.com) |
+| Tabnine | 엔터프라이즈 보안 중심 AI 코드 어시스턴트 | [tabnine.com](https://www.tabnine.com) |
+| Claude Code | Anthropic의 CLI 기반 AI 코딩 에이전트 | [claude.ai](https://claude.ai) |
+| Bolt.new | 자연어로 웹 앱을 빌드하는 AI 개발 플랫폼 | [bolt.new](https://bolt.new) |
+| v0 | Vercel의 AI UI 생성 도구, 프롬프트로 웹 컴포넌트 생성 | [v0.app](https://v0.app) |
+| Lovable | 대화형 AI 풀스택 웹 앱 빌더 | [lovable.dev](https://lovable.dev) |
+| Replit | AI 기반 온라인 IDE, 코드 생성 및 배포 지원 | [replit.com](https://replit.com) |
+
+## 동영상
+
+| 이름 | 설명 | 링크 |
+|------|------|------|
+| Sora | OpenAI의 텍스트/이미지 기반 동영상 생성 AI | [sora.com](https://sora.com) |
+| Runway | AI 동영상 생성 및 편집 도구 (Gen-4.5 모델) | [runwayml.com](https://runwayml.com) |
+| Pika | 텍스트/이미지를 동영상으로 변환하는 AI 생성 도구 | [pika.art](https://pika.art) |
+| Kling AI | 고품질 AI 동영상 생성, 다양한 모델 버전 제공 | [klingai.com](https://klingai.com) |
+| Synthesia | AI 아바타 기반 비즈니스 영상 제작 플랫폼 (160개+ 언어 지원) | [synthesia.io](https://www.synthesia.io) |
+| CapCut | AI 기반 동영상 편집기, 자동 캡션/음성 생성 지원 | [capcut.com](https://www.capcut.com) |
+
+## 이미지
+
+| 이름 | 설명 | 링크 |
+|------|------|------|
+| Midjourney | 고품질 AI 이미지 생성, 예술적 스타일에 강점 | [midjourney.com](https://www.midjourney.com) |
+| DALL-E 3 | OpenAI의 텍스트 기반 이미지 생성 AI (ChatGPT 내 통합) | [openai.com/dall-e-3](https://openai.com/dall-e-3) |
+| Adobe Firefly | Adobe의 AI 이미지/디자인 생성 도구, Creative Cloud 통합 | [adobe.com/products/firefly](https://www.adobe.com/products/firefly.html) |
+| Stable Diffusion | Stability AI의 오픈소스 이미지 생성 모델 | [stability.ai](https://stability.ai) |
+| Leonardo AI | AI 이미지 및 동영상 생성 플랫폼, 다양한 스타일 지원 | [leonardo.ai](https://leonardo.ai) |
+| Ideogram | 텍스트 렌더링에 강한 AI 이미지 생성 도구 | [ideogram.ai](https://ideogram.ai) |
+
+## 기타
+
+| 이름 | 설명 | 링크 |
+|------|------|------|
+| ChatGPT | OpenAI의 대화형 AI 어시스턴트 | [chatgpt.com](https://chatgpt.com) |
+| Claude | Anthropic의 대화형 AI 어시스턴트 | [claude.ai](https://claude.ai) |
+| Gemini | Google의 멀티모달 AI 어시스턴트 | [gemini.google.com](https://gemini.google.com) |
+| Perplexity | AI 기반 검색 엔진, 출처 포함 답변 제공 | [perplexity.ai](https://www.perplexity.ai) |
+| NotebookLM | Google의 AI 기반 문서 분석 및 요약 도구 | [notebooklm.google.com](https://notebooklm.google.com) |
+| Notion AI | Notion 워크스페이스 내 AI 문서 작성/요약 도구 | [notion.com/product/ai](https://www.notion.com/product/ai) |
+| ElevenLabs | AI 음성 생성 및 음성 복제 플랫폼 | [elevenlabs.io](https://elevenlabs.io) |
+| Suno | AI 음악 생성 도구, 텍스트로 노래 작곡 | [suno.com](https://suno.com) |
+| Gamma | AI 프레젠테이션/문서/웹페이지 자동 생성 도구 | [gamma.app](https://gamma.app) |
+
+2026-02-19

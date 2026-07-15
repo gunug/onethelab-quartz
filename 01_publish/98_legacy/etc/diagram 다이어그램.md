@@ -1,0 +1,14 @@
+---
+layout: post
+title: diagram 다이어그램
+category: etc
+tags: 
+---
+
+
+* venn diagram 벤 다이어그램 
+* sequnce diagram 시퀀스 다이어그램
+* block diagram 블록 다이터그램
+* flow chart 순서도, work flow
+
+2023-10-26

@@ -1,0 +1,38 @@
+---
+layout: post
+title: prefab 프리팹, package 패키지
+category: subpage
+tags: 
+---
+
+
+## 프리팹 언팩
+
+![[prefab_1.jpg]]
+
+* Hierarchy창에서 아바타 우클릭 Prefab > Unpack Completely 선택하여 기존에 있던 프리팹을 해제
+
+![[prefab_2.jpg]]
+
+* Hierarchy창에 있는 아바타를 드래그 Project창에 드랍, prefab 등록
+
+## 프리팹 이란
+
+* 게임 오브젝트를 생성, 설정 및 저장할 수 있으며, 해당 게임 오브젝트의 모든 컴포넌트, 프로퍼티 값, 자식 게임 오브젝트를 재사용 가능한 에셋으로 만들 수 있습니다. 프리팹 에셋은 씬에 새로운 프리팹 인스턴스를 만들기 위한 템플릿 역할을 합니다.
+* 참고링크 : <https://docs.unity3d.com/kr/2020.3/Manual/Prefabs.html>
+
+---
+
+## UnityPackage만들기
+
+![[prefab_3.jpg]]
+
+* Project창 Assets 밑 모든 폴더를 복수 선택하고 마우스 우클릭, Export Package 선택
+* 파일명은 ```avatar_all```로 저장
+
+---
+
+## 다른 프로젝트에서 불러오기
+* 만들어진 avatar_all파일을 다른 프로젝트의 Project 창에 드래그 드랍하여 import
+
+2024-08-05

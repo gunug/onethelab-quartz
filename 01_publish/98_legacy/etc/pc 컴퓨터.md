@@ -1,0 +1,75 @@
+---
+layout: post
+title: pc 컴퓨터
+category: etc
+tags: 
+---
+
+
+* NUC EXTREME 13 : RTX4070까지 장착가능한 미니PC
+* BeeLink SER MAX : 미니PC
+* GPD WIN 4 7480U : OCuLink 타입 eGPU 연결 가능한가보더라
+
+
+---
+
+# 모니터
+* Odyssey Neo G9, 57인치
+
+---
+
+# 사운드
+* HEDDPhone Two
+* ifi iDSD 시그니처, 디아블로, 디아블로2 : 포터블
+* ifi zen can : 헤드폰 앰프, 프리 앰프
+
+
+---
+
+@2020-02-19
+### CPU
+* 인텔 코어i7-9세대 9700K (커피레이크-R) (정품)
+  
+### RAM
+* GIGABYTE AORUS DDR4-3600 CL18 RGB Non Demo kit 패키지 (16GB(8Gx2)) : 40.7만
+* 2개 묶음 상품 2개 구입하여 총 4개 (32GB)
+* 검토중 삼성전자 DDR4 32GB PC4-25600 메모리 (3200MHz) : 8.7만 2개
+  
+### Mainboard
+* GIGABYTE Z390 AORUS PRO WiFi 피씨디렉트 : 28.9만
+  
+### 그래픽카드
+* GIGABYTE AORUS Xtreme 지포스 RTX 2080 Ti D6 11GB : 184.4만
+  
+### SSD
+* 삼성전자 970 EVO M.2 2280 (500GB) :12.9만
+  
+### HDD
+* Seagate 2TB BarraCuda ST2000DM008 (SATA3/7200/256) : 7.2만
+  
+### Case
+* 리안리 PC-O11D XL ROG (Black) : 26.9만
+  
+### POWER
+* 시소닉 FOCUS GOLD GX-850 Full Modular : 17.2만
+* 2023-09-18 시소닉 VERTEX GX-1200 GOLD Full Modular ATX 3.0 : 37.9만
+  
+### Cooler
+* 쿨러마스터 V8 GTS : 12.7만
+* 써멀테이크 Riing Plus 12 RGB TT 프리미엄 에디션 (5PACK) * 2 : 37만
+* 2023-11-22 NOCTUA NH-U12A chromax.black CPU쿨러 : 18.4만
+
+@2023-09-17
+* MSI 지포스 RTX 4090 슈프림 D6X 24GB 트라이프로져3S : 249.9만
+* 시소닉 VERTEX GX-1200 GOLD Full Modular ATX 3.0 : 39.5만
+
+---
+
+@2024-05-30
+* AI를 사용하기 위한 RAM 부족
+* 램 버전을 올려야 한다면 지금 상황에서 이 메인보드에 램추가를 할 이유가없다
+* 램 버전이 동일하다면 이 메인보드에 램추가만 할 예정
+* 램 버전 정보 확인 필요
+* 다음 업그레이드를 위해서라도 새컴을 맞추는게 나을려나
+
+2024-03-06

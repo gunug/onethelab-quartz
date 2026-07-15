@@ -1,0 +1,12 @@
+---
+layout: post
+title: Easy Save
+category: unity-asset
+tags: 
+---
+
+
+# Easy Save
+* [Easy Save - The Complete Save & Load Tool for Unity](https://assetstore.unity.com/packages/tools/utilities/easy-save-the-complete-save-game-data-serializer-system-768)
+
+2024-12-14

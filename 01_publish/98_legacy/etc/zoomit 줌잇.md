@@ -1,0 +1,12 @@
+---
+layout: post
+title: zoomit 줌잇
+category: etc
+tags: 
+---
+
+
+# zoomit 줌잇
+* <https://learn.microsoft.com/ko-kr/sysinternals/downloads/zoomit>
+
+2024-07-09

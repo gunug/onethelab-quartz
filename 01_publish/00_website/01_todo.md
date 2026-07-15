@@ -17,13 +17,20 @@
 * Hashmap
 * database index
 * cache invalidation
+* Tailwind, Vite, Storybook, PostCSS를 사용한 Theme (color + component)
 
 # 앱
 - [ ] 코드생성기
 - [ ] Suno AI 리듬액션
 - [ ] 쿠폰모아
-- [ ] 구독확인
+- [ ] 구독확인 OTT Manager
+- [ ] 근무표
 - [ ] 안드로이드 하이제킹 방지 (겹쳐 그리기)
 - [ ] 세금 회계 운영
 - [ ] 주식 AI
+- [ ] [[통합AI]] 
 
+# 연구
+[[LTX2.3]]
+Qwen3-TTS
+[[z-image]]

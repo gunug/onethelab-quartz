@@ -4,3 +4,5 @@ https://dokploy.com/
 curl -sSL https://dokploy.com/install.sh | sh
 ```
 
+![[Pasted image 20260714183644.png]]
+

@@ -1,0 +1,135 @@
+---
+layout: post
+title: jekyll 사용
+category: blog
+tags: jekyll
+---
+
+# terminal 명령어
+> 시작 cmd 터미널
+
+## 새 프로젝트 만들기
+```markdown
+jekyll new 프로젝트이름
+```
+
+## 프로젝트 구동, 서비스하기
+```markdown
+bundle exec jekyll serve
+```
+> 이후 localhost:4000에서 결과 확인
+
+## bundler: command not found: jekyll
+
+* Install missing gem executables with `bundle install`
+
+```markdown
+gem install jekyll
+
+bundle install
+```
+
+### 특이사항
+* 문법적으로 문제가 있을시 포스팅 자동변환이 안되어 포스팅 업데이트가 안됨
+
+---
+
+* 지킬 설치법 : <https://jekyllrb-ko.github.io/docs/installation/#requirements>{:target="_blank"}
+* 윈도우 환경 지킬 설치법 : <https://jekyllrb-ko.github.io/docs/installation/windows/>{:target="_blank"}
+* 윈도우환경 루비 설치 <https://rubyinstaller.org/downloads/>{:target="_blank"}
+
+---
+
+# 환경변수 등록
+* 시작메뉴 > '환경 변수' 검색
+* 환경변수 > 시스템 변수 > Path를 선택하고 편집 > 새로만들기 선택후 path 입력
+
+---
+
+<https://docs.github.com/ko/pages/setting-up-a-github-pages-site-with-jekyll/adding-a-theme-to-your-github-pages-site-using-jekyll>{:target="_blank"}
+
+* 참고자료 :
+<https://til.younho9.dev/docs/frontend/jekyll/jekyll-github-page%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4-%EA%B0%9C%EC%9D%B8%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/>{:target="_blank"}
+
+---
+
+검색바 만들기
+https://dev-yakuza.posstree.com/ko/jekyll/search-bar/
+
+https://learn.cloudcannon.com/jekyll/jekyll-search-using-lunr-js/
+(이 내용 이식하여 성공)
+
+http://sgwanlee.github.io/dev/jekyll/2017/02/14/jekyll-search/
+(한글 검색을 위한 중국어 지원버전)
+root에 올려서 해결
+
+
+---
+
+사이드바에 태그 추가
+* https://hoisharka.github.io/jekyll/2017/12/03/jekyll-category-002/
+
+---
+
+# 문제사항
+* 새 페이지가 html로 업데이트 되지 않음 : index파일을 수정하여 올리면 해결됨
+* _config.yml에 future: true추가
+* md 페이지에 published:true추가
+
+---
+
+# 테마 클론 및 사용하기
+
+* [참고링크](https://wormwlrm.github.io/2018/07/09/How-to-clone-Jekyll-theme-without-downloading-Jekyll.html)
+* [fork 대상](https://github.com/gunug/gunug.github.io)
+
+* fork 하여 저장소 가져오기
+* 저장소 명을 변경하여 github.io에서 접속 가능하게 하기
+* _config.yml 열어서 url 포함 옵션들을 변경하기
+* 변경한 설정 푸시하기
+
+---
+
+# 새 레이아웃 추가하기 (articles 예시)
+* 루트에 articles.md 추가
+
+```markdown
+---
+layout: articles
+title: Articles
+permalink: /articles/
+---
+```
+
+* _layout 폴더에 articles.html 추가
+
+---
+
+# _pages 동작하게 하기
+* https://github.com/jekyll/jekyll/issues/920
+* _congif.yml에 다음내용 추가
+
+```
+include: ['_pages']
+```
+
+---
+
+# 검색 속도 개선
+* 참고링크 : https://cjeon.com/2016/05/29/Jekyll-lunr.html
+* <https://github.com/olivernn/lunr.js> 에서 최신 js 받기
+* 참고링크 : <https://devshjeon.github.io/12>
+* <https://github.com/MihaiValentin/lunr-languages> 추가언어 js
+@ 2024-07-05 우선 적용하여 보았지만 개선되지 않아 보류
+
+---
+
+# 디렉토리 구조
+* <https://jekyllrb-ko.github.io/docs/structure/>
+
+---
+
+# 스크롤 목차
+* 참고링크 : <https://velog.io/@outstandingboy/Github-%EB%B8%94%EB%A1%9C%EA%B7%B8-%ED%8F%AC%EC%8A%A4%ED%8A%B8%EC%97%90-%EC%8A%A4%ED%81%AC%EB%A1%A4%EC%97%90-%EB%94%B0%EB%A5%B8-%EB%AA%A9%EC%B0%A8Table-of-Contents-TOC%EB%A5%BC-%EB%9D%84%EC%9A%B0%EB%8A%94-ScrollSpy-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0>
+
+2023-08-22

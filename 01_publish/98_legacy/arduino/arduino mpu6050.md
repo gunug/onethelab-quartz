@@ -1,0 +1,52 @@
+---
+layout: post
+title: arduino mpu6050
+category: arduino
+tags: 
+---
+
+
+* https://ez.analog.com/mems/f/q-a/118251/accelerometer-drift
+* ADXL-355Z 드리프트 발생
+* ADXL-355 드리프트 발생하지 않음
+
+
+* 가속도계는 온도 변화, 기계적 스트레스, 내부 구성 요소의 노후화 등 여러 요인으로 인해 표류할 수 있습니다. 온도 변화로 인해 가속도계 내부의 재료가 팽창하거나 수축하여 특성이 변경될 수 있습니다. 진동이나 충격으로 인한 기계적 응력도 가속도계의 내부 구조에 영향을 미쳐 시간이 지남에 따라 드리프트를 일으킬 수 있습니다. 또한 내부 구성 요소의 노후화로 인해 가속도계의 보정 및 성능이 변경될 수 있습니다. 이러한 요소는 가속도계 출력의 드리프트에 영향을 미칠 수 있으며, 특정 애플리케이션에서는 이를 보상해야 할 수 있습니다.
+
+* https://www.youtube.com/watch?v=F1IdRtIDdIs
+
+
+
+* 안드로이드 VR : https://www.youtube.com/watch?v=qZzhXHqXM-g
+
+---
+
+![[arduino_mpu6050_1.jpg]]
+
+
+```c++
+Sensor readings with offsets:	-16	-6	16391	1	0	0
+Your offsets:	-408	1472	1822	-80	57	45
+
+Sensor readings with offsets:	3	0	16384	0	-2	0
+Your offsets:	-400	1474	1822	-78	59	42
+
+Sensor readings with offsets:	-7	-1	16373	-2	-5	-1
+Your offsets:	-597	1579	5911	-80	56	43
+//센서 위아래를 뒤집었을때
+
+Sensor readings with offsets:	0	0	16387	1	3	1
+Your offsets:	-385	1478	1830	-73	58	45
+
+Data is printed as: acelX acelY acelZ giroX giroY giroZ
+Check that your sensor readings are close to 0 0 16384 0 0 0
+
+```
+
+---
+
+# 쿼터니언 연산
+* 참고링크 : <https://m.blog.naver.com/dj3630/221447943453>
+* 
+
+2024-04-18

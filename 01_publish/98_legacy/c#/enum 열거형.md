@@ -1,0 +1,33 @@
+---
+layout: post
+title: enum 열거형
+category: c#
+tags: c#
+---
+
+
+```c#
+public enum ContentLanguage
+{
+    KR, EN
+}
+public static class LanguageState
+{
+    public static ContentLanguage current_language = ContentLanguage.KR;
+}
+```
+
+## 열거형 수량
+```c#
+System.Enum.GetValues(typeof(DeviceState)).Length;
+```
+
+## 열거형 열람
+```c#
+foreach (Days r in Enum.GetValues(typeof(Days)))
+{
+    Console.WriteLine(r);
+}
+```
+
+2023-08-23

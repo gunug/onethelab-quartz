@@ -1,0 +1,132 @@
+---
+layout: post
+title: 프로젝트 DK4
+category: etc
+tags: 
+---
+
+
+# 음악 만들기
+
+## 기본 내용
+```
+봄쯤에 올라온 새 꽃송이
+향기에 이끌려 따라가서는
+아침에 꺾어놓고 잊었는데
+저녁쯤 생각나서 가봤더니
+꽃은 사라져 오간데 없고
+향기만 남아서 슬프더라
+```
+
+## 가사 늘리기
+```
+[Intro 4마디] 
+
+[Verse 8마디] 
+봄쯤에 올라온 새 꽃송이 
+향기에 이끌려 따라가서는 
+아침에 꺾어 놓고 잊었는데 
+저녁쯤 생각나서 가 봤더니 
+꽃은 사라져 오간 데 없고 
+향기만 남아서 슬프더라 
+
+[Chorus 8마디] 
+나 혼자 남았네 남아 있는 향기처럼 
+너는 사라졌네 꺾여 버린 꽃처럼 
+가지려 했던 어리석은 지난날을 후회해
+잊었던 나를 원망해 
+
+[Verse 8마디] 
+여름에 햇살은 따갑고 
+더위에 지쳐서 비틀거리며 
+아침엔 세상이 뜨거운데 
+저녁쯤 한강으로 가 봤더니 
+더위는 사라져 오간 데 없고 
+시원한 바람이 반갑더라 
+
+[Chorus 8마디] 
+나 혼자 남았네 남아 있는 향기처럼 
+너는 사라졌네 꺾여 버린 꽃처럼 
+후회와 원망으로 뜨거운 마음이지만 
+작은 바람이 반가워 
+
+[Outro 4마디]
+```
+# Suno AI 사용
+* 프롬프트 : R&B, live piano, poem, female vocal
+<audio controls="controls" src="/mp3/spring_flower1.mp3"></audio>
+<audio controls="controls" src="/mp3/spring_flower2.mp3"></audio>
+
+---
+
+# 목소리 바꾸기
+## 목소리 추출
+* https://moises.ai/ko/
+## 학습모델
+* 가수 음성 학습 사이트 : https://colab.research.google.com/drive/1XIPCP9ken63S7M6b5ui1b36Cs17sP-NS#scrollTo=Q7JhsK5oYByc
+* 내 드라이브로 복사
+* https://drive.google.com/drive/home에 사본을 열기
+* run me first > Install Dependencies의 재생버튼 누르기
+* 이어서 재생버튼을 순차적으로 눌러 설치 과정 진행
+* 구글드라이브에 ```rvcDisconnected``` 이름으로 폴더 만들기
+* 보컬 mp3가 들어간 zip파일을 만들어서 해당 폴더에 업로드
+* processing > load dataset > dataset: 부분에 집 파일명 입력
+* Training 직전까지 재생버튼을 순차적으로 누르면서 진행, Trining은 이전에 트레이닝된 데이터를 불러오는 부분
+* Index Training 부터 재생버튼 이어서 눌러주기
+* save_frequency: 50, total_epochs: 250, batch_size: 16 (무료버전에는 하루 학습량 250이 한계)
+* save_only_latest_ckpt, cache_all_training_sets, save_small_final_model 모두 체크
+* Export Model from Notebook to Drive > Skip model체크
+# 목소리 바꾸기
+* https://www.weights.com/replay
+* 프로그램 설치
+* model옆 +기호
+* 학습된 index파일과 pth 파일을 zip압축하여 업로드
+* audio 선택, model 선택, convert audio 클릭하여 진행
+
+* https://ytmp3.la/nM1v/ : 유튜브 mp3다운
+---
+
+# 커버사진
+* comfy ui, hidream 모델 사용
+
+위 가사를 가지고 앨범 자캣을 만들거야. 이미지 생성 AI에서 이미지 생성 할 수 있도록 영어 프롬프트를 만들어줘. 각각 다른게 나올수 있도록 3개 만들어줘. 부연설명은 필요없어
+>1. A delicate, minimalist album cover featuring a single, wilted flower lying on a windowsill at sunset. The flower's petals are faded and starting to disappear, but a soft, glowing aura of fragrance lingers in the air. The scene feels nostalgic and bittersweet, with warm color tones and gentle sunlight streaming through the window.
+![[projectdk4_1.png]]
+
+>2. An impressionistic painting-style album cover depicting a lone figure walking beside a tranquil river at dusk. Scattered flower petals float across the scene, subtly blending into a hazy summer breeze. The background features dreamy, blurred lights of the city, evoking a feeling of wistful solitude and the passing of seasons.
+![[projectdk4_2.png]]
+
+>3. A poetic album cover with a close-up of a hand holding a freshly picked flower, its petals beginning to wilt. Wisps of faint, glittering fragrance drift from the flower into the air, forming delicate patterns. The background is a soft, faded gradient reminiscent of early morning and late evening merging, symbolizing both regret and hope.
+![[projectdk4_3.png]]
+
+
+3번째가 좋은것 같아. 향기가 연기처럼 보이는건 별로야. 꽃이 없이 꽃대만 들고있었으면 좋겠어.
+>A poetic album cover with a close-up of a hand gently holding only a bare flower stem, with the blossom missing. Where the flower used to be, delicate, subtle light or color suggests the memory of a flower, without using smoke or mist. The background is a soft, faded gradient, blending early morning and late evening colors, evoking feelings of regret and hope.
+![[projectdk4_4.png]]
+
+아직도 꽃이 보여. 꽃이 안 나오도록 해줘. 식물의 줄기와 잎파리만. 꺾여서 꽃은 없어. 잘린 식물 줄기를 좀더 묘사해줘
+>A poetic album cover featuring a close-up of a hand gently holding a freshly cut plant stem with a few green leaves attached. The end of the stem is visibly jagged and freshly broken, clearly showing where the flower has been snapped off. There are no petals or blossom, only the damaged stem and leaves. The background is a soft, blurred gradient blending early morning and late evening colors, creating a mood of nostalgia, regret, and quiet hope.
+![[projectdk4_5.png]]
+
+---
+
+# 보컬사진
+>A Korean man in his 30s or early 40s is wearing headphones and singing passionately into a microphone inside a modern recording studio. The studio has soundproof walls, professional music equipment, and warm, creative lighting. His expression is focused and emotional.
+
+![[projectdk4_6.png]]
+
+>A Korean man in his 30s or early 40s is inside a modern recording studio, wearing headphones and standing in front of a microphone with his mouth closed. The studio has soundproof walls, professional music equipment, and warm, creative lighting. He looks focused and calm.
+
+![[projectdk4_7.png]]
+
+---
+
+# 립싱크
+* https://github.com/ShmuelRonen/ComfyUI-LatentSyncWrapper
+* https://github.com/bytedance/LatentSync
+
+## 커스텀노드 수동설치
+* ```cd E:/ComfyUI_windows_portable/ComfyUI/custom_nodes```
+* ```git clone https://github.com/ltdrdata/ComfyUI-Manager.git```
+
+2025-04-28

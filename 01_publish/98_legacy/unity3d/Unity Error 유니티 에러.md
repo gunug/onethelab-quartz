@@ -1,0 +1,94 @@
+---
+layout: post
+title: Unity Error 유니티 에러
+category: unity3d
+tags: error
+---
+
+
+# 문제해결
+* 안드로이드 SDK 설치 후 빌드 문제
+* 해당 버전의 SDK만 Unity와 호환됩니다.
+
+---
+
+# 유니티 오디오 관련문제
+
+---
+
+# 점검사항
+* Game창의 Mute Audio 토글 확인
+* AudioClip선택 후 inspector창 하단의 클립 재생 직접 시켜보기
+* oculus앱이 켜진 상태에서 VR이 연결되어 있으면 오디오가 출력되지 않음
+
+---
+
+# 오디오 코덱확인
+* 오디오 재생 프로그램 (팟플레이어)등을 이용하여 오디오 코덱 확인
+* 타입캐스트 무료버전의 경우 MPEG Audio Layer 3(0x55) 16000Hz
+
+---
+Audio preview in Inspector does not work
+
+---
+
+# 전/반각 문자, 2byte 문자 관련
+* ExecutionEngineException: String conversion error: Illegal byte sequence encounted in the input.
+* 오디오장치 이름을 불러오는 과정에서 한글표기된 오디오 장치 이름이 있었는듯하다.
+* 이에 따라 2바이트 문자를 1바이트 문자처럼 표현하려다가 에러가 나는듯
+
+---
+
+# 네이티브 클래스 관련
+* 'HttpListenerExample.HttpServer' is missing the class attribute 'ExtensionOfNativeClass'!
+* MonoBehaviour를 상속받지 않은 class를 컴퍼넌트로 사용하려 할때 발생
+
+---
+
+# ```System.InvalidOperationException: \\.\pipe\unity-ilpp```
+* https://forum.unity.com/threads/unhandled-exception-system-invalidoperationexception-cant-find-file-pipe-unity-ilpp.1394605/
+* 프로젝트가 세이프 보드로 구동할것을 권장됨
+* 무시하고 실행하면 에러를 동반하여 빌드가 안됨
+* 세이프모드로 구동하고 timeline를 업데이트 해보라는 이야기가 있음
+
+---
+
+# Library/PackageCache/  error
+![[unity-error_1.jpg]]
+
+# 패키지 리셋 후 input system 찾을수 없음
+ 'InputSystem' does not exist in the namespace 'UnityEngine'
+![[unity-error_2.jpg]]
+
+# 패키지 리셋 후 cinemachine 찾을수 없음
+![[unity-error_3.jpg]]
+
+# 우클릭 WASD 먹히지 않음
+* all layout reset
+# Project setting > player > other settings > input both
+* 새로운 입력 시스템이 나오면서 구 시스템과 동시 사용 설정을 해주어야함
+
+---
+
+# 라이트 제어하기
+* 라이트 베이크 해제 : Try Window -> Rendering -> Lighting Settings. Uncheck 'Auto Generate'.
+* Generate light 버튼을 눌러서 빛을 베이크함
+
+---
+
+# <유니티> 빛이 여러개일때 화면에 따라 빛이 꺼지는 현상
+* <https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=anciid&logNo=220682858156>
+  
+# InvalidOperationException :
+* Found it. I'm using 2019.3.0f6. EDIT --> PROJECT SETTING --> PROJECT --> PLAYER --> OTHER SETTINGS --> "ACTIVE INPUT HANDLING" -- > select the input system you wish to use. = "both"
+
+* <https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Installation.html>
+
+# ArgumentException: Input Axis Lift is not setup.
+* To change the input settings use: Edit -> Settings -> Input
+
+# PA_DronePack.DroneAxisInput.Update () (at :0)
+* input setting에서 정의하지 않는 축을 불러서 사용하려 할때 나타난다.
+* 입력 관리자(메뉴 편집/프로젝트 설정/입력)에서 축 설정을 확인합니다.
+
+2023-09-11

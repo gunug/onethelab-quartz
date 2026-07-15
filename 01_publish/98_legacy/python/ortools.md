@@ -1,0 +1,14 @@
+---
+layout: post
+title: ortools
+category: python
+tags: 
+---
+
+
+# ortools
+* 설치 ```pip install ortools```
+* 확인 ```import ortools
+print(ortools.__version__)```
+
+2025-05-13

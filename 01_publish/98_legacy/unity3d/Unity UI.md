@@ -1,0 +1,132 @@
+---
+layout: post
+title: Unity UI
+category: unity3d
+tags: ui
+---
+
+
+# unity ui
+
+---
+
+```c#
+[Range(10, 150)]
+public int fontSize = 30;
+public Color color = new Color(.0f, .0f, .0f, 1.0f);
+public float width, height;
+private void OnGUI()
+{
+	Rect position = new Rect(width, height, Screen.width, Screen.height);
+
+	float fps = 1.0f / Time.deltaTime;
+	float ms = Time.deltaTime * 1000.0f;
+	string text = string.Format("{0:N1} FPS ({1:N1}ms)", fps, ms);
+
+	GUIStyle style = new GUIStyle();
+
+	style.fontSize = fontSize;
+	style.normal.textColor = color;
+
+	GUI.Label(position, text, style);
+}
+```
+
+---
+
+# ui animation
+* Image 클래스에 접근하여 이미지를 교체해주는 스크립트
+* [출처](https://gist.github.com/almirage/e9e4f447190371ee6ce9)
+
+```c#
+using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+
+public class ImageAnimation : MonoBehaviour {
+
+	public Sprite[] sprites;
+	public int spritePerFrame = 6;
+	public bool loop = true;
+	public bool destroyOnEnd = false;
+
+	private int index = 0;
+	private Image image;
+	private int frame = 0;
+
+	void Awake() {
+		image = GetComponent<Image> ();
+	}
+
+	void Update () {
+		if (!loop && index == sprites.Length) return;
+		frame ++;
+		if (frame < spritePerFrame) return;
+		image.sprite = sprites [index];
+		frame = 0;
+		index ++;
+		if (index >= sprites.Length) {
+			if (loop) index = 0;
+			if (destroyOnEnd) Destroy (gameObject);
+		}
+	}
+}
+```
+
+---
+
+
+# GUILayout
+* 위치지정을 하지 않아도 자동배열
+
+
+
+```c#
+ private void OnGUI()
+{
+	GUIStyle LabelStyle = new GUIStyle(GUI.skin.label);
+	LabelStyle.fontSize = font_size;
+	GUIStyle ButtonStyle = new GUIStyle(GUI.skin.button);
+	//ButtonStyle.alignment = TextAnchor.MiddleRight;
+	ButtonStyle.fontSize = font_size;
+	GUIStyle ButtonStyle2 = new GUIStyle(GUI.skin.button);
+	ButtonStyle2.alignment = TextAnchor.MiddleLeft;
+	ButtonStyle2.fontSize = font_size-5;
+	GUIStyle TextAreaStyle = new GUIStyle(GUI.skin.textArea);
+	TextAreaStyle.fontSize = font_size;
+
+	/* ---------------------------------------------------------------- */
+	GUILayout.BeginHorizontal();
+	GUILayout.BeginVertical();
+	GUILayout.Label("COM ports", LabelStyle);
+	if (GUILayout.Button("re-connect", ButtonStyle)) Reconnect();
+	scrollPosition1 = GUILayout.BeginScrollView(
+		scrollPosition1, GUILayout.Width(width), GUILayout.Height(150));
+	GUILayout.TextArea(port_name, TextAreaStyle);
+	GUILayout.EndScrollView();
+	GUILayout.Space(20);
+
+	/* ---------------------------------------------------------------- */
+	GUILayout.BeginVertical();
+	int counter = 0;
+	foreach(DeviceState ds in Enum.GetValues(typeof(DeviceState))) { 
+		if (GUILayout.Button(ds.ToString(), ButtonStyle2)) DeviceStateWrite(ds);
+		counter++;
+		if(counter%28 == 0)
+		{
+			GUILayout.EndVertical();
+			GUILayout.BeginVertical();
+		}
+	}
+	GUILayout.EndVertical();
+	/* ---------------------------------------------------------------- */
+	GUILayout.EndHorizontal();
+}
+```
+
+```c#
+m1 = GUILayout.TextField(m1, TextFieldStyle);
+//변수를 덮어씌우는 방식으로 input field를 구현함
+```
+
+2023-09-12

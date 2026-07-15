@@ -1,0 +1,14 @@
+---
+layout: post
+title: OpenAI, ChatGPT, DALL-E, AI 관련 링크
+category: AI
+tags: 
+---
+
+
+# OpenAI, ChatGPT, DALL-E
+* [ChatGPT](https://platform.openai.com/playground/chat?models=gpt-4o)
+
+* [작곡 suno](https://suno.com/)
+
+2024-08-14

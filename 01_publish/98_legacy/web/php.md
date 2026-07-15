@@ -1,0 +1,167 @@
+---
+layout: post
+title: php
+category: web
+tags: php
+---
+
+
+# php
+## 전체 데이터를 출력하는 php
+* page.php
+
+```php
+<meta charset="utf-8" />
+<style type="text/css">
+	td{
+		border: solid 1px #000;
+	}
+</style>
+									
+<?php
+
+	$dbc = mysqli_connect('localhost', 'root', '', 'media_programming_2', '3306') or die('Error connecting to MySQL server.');
+	//데이터 베이스 접속
+
+	$query = "SELECT * FROM `sample_data`";
+	$result = mysqli_query($dbc, $query) or die ('Error querying database');
+	//쿼리문 수행하기
+
+	echo "<table>";
+	while($row=mysqli_fetch_row($result)){
+		echo "<tr>";
+		echo "<td>".$row[0]."</td>";
+		echo "<td>".$row[1]."</td>";
+		echo "<td>".$row[2]."</td>";
+		echo "<td>".$row[3]."</td>";
+		echo "<td>".$row[4]."</td>";
+		echo "<td>".$row[5]."</td>";
+		echo "<td>".$row[6]."</td>";
+		echo "<td>".$row[7]."</td>";
+		echo "<td>".$row[8]."</td>";
+		echo "<td>".$row[9]."</td>";
+		echo "<td>".$row[10]."</td>";
+		echo "<td>".$row[11]."</td>";
+		echo "<td>".$row[12]."</td>";
+		echo "<td>".$row[13]."</td>";
+		echo "<td>".$row[14]."</td>";
+		echo "<td>".$row[15]."</td>";
+		echo "</tr>";
+	}
+	echo "</table>";
+
+	mysqli_close($dbc);
+	//데이터 베이스 닫기
+?>
+```
+
+---
+
+# 전체 게시물 수 표시하기
+* page.php
+
+```php
+$count_query = "SELECT COUNT(*) FROM `sample_data`";
+$count_result = mysqli_query($dbc, $count_query) or die ('Error querying database');
+$one_page = 20; //한 페이지에 표시할 게시물의 수
+while($count_row=mysqli_fetch_row($count_result)){
+	echo "총".$count_row[0]."개의 게시물이 있습니다.";
+	echo "한 페이지에 ".$one_page."개씩 표시할 경우";
+	$page_num = ceil($count_row[0]/$one_page);
+	echo $page_num."페이지가 필요합니다.";
+}
+```
+
+# 페이지 버튼 표시하기
+* page.php
+
+```php
+echo "<table><tr>";
+for($i=0; $i<$page_num; $i++){
+	echo "<td><a href='page.php?page=".($i+1)."'>".($i+1)."</td>";
+}
+echo "</tr></table>";
+```
+# 쿼리문 수정하기
+
+```php
+```if(!isset($_GET['page'])){
+	$_GET['page'] = 1;
+}
+$query = "SELECT * FROM `content` LIMIT ".(($_GET['page']-1)*$one_page).",".$one_page;
+```
+
+---
+
+# 도메인명 알아내기
+
+```php
+$url1 = $_SERVER['PHP_SELF']; 
+$url2 = dirname($_SERVER['PHP_SELF']); 
+$url3 = basename($_SERVER['PHP_SELF']); 
+$url4 = $_SERVER[HTTP_HOST];
+
+echo $url1; echo $url2; echo $url3; echo $url4;
+```
+
+* 현재 웹문서의 주소가 http://sulfur.pe.kr/web/php/php011.html 일 경우 위 코드의 출력 결과는 다음과 같다. 필요한 대로 골라 쓰면 된다.
+
+```php
+$url1 결과 : http://sulfur.pe.kr/web/php/php011.html
+$url2 결과 : /web/php/php011.html
+$url3 결과 : /web/php php011.html
+$url4 결과 : sulfur.pe.kr
+```
+
+---
+
+
+## header와 footer만들기
+* header.html
+  
+```html
+<div id="header">
+	<h1>MY-PORTFOLIO</h1>
+	<ul>
+		<li>HOME</li>
+		<li>ABOUT ME</li>
+		<li>SERVICE</li>
+		<li>MY WORK</li>
+		<li>CONTACT ME</li>
+	</ul>
+</div>
+```
+* footer.html
+  
+```html
+<div id="footer">
+	<div id="copyright">ⓒ 2013 BlueBox. All Right Reserved.</div>
+	<div id="info">the loges in the design are the property of their respective owners/copyright holders.</div>
+</div>
+```
+## include를 이용하여 들여오기
+* page_include.php
+  
+```php
+<!DOCTYPE html>
+<html>
+<head>
+	<title>index html</title>
+</head>
+<body>
+	
+<?php include("header.html"); ?>
+
+	<div id="main_content">
+		<h1>home page main</h1>
+	</div>
+	
+<?php include("footer.html"); ?>
+
+</body>
+</html>
+```
+
+---
+
+2024-02-02

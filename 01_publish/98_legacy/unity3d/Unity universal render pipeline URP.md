@@ -1,0 +1,32 @@
+---
+layout: post
+title: Unity universal render pipeline URP
+category: unity3d
+tags: urp
+---
+
+
+# URP 파일을 교체하기
+* 퀄리티 변경을 위하여 urp를 여러개 준비하고 파이프라인을 교체하면 됨
+
+```c#
+using UnityEngine.Rendering;
+
+
+ // In the Inspector, assign a Render Pipeline Asset to each of these fields
+public RenderPipelineAsset defaultRenderPipelineAsset;
+public RenderPipelineAsset overrideRenderPipelineAsset;
+
+void Start()
+{
+    GraphicsSettings.defaultRenderPipeline = defaultRenderPipelineAsset;
+    QualitySettings.renderPipeline = overrideRenderPipelineAsset;
+
+    DisplayCurrentRenderPipeline();
+}
+```
+
+* edit>project settings>graphics : scriptable render pipeline settings
+* edit>project settings>quality : rendering > render pipeline asset
+
+2023-09-17

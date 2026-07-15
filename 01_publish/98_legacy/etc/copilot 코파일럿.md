@@ -1,0 +1,69 @@
+---
+layout: post
+title: copilot 코파일럿
+category: etc
+tags: ai github
+---
+
+
+# copilot 코파일럿
+
+
+## 교육용 라이선스 등록
+* 참고링크: <https://velog.io/@tl_dr/%ED%95%99%EA%B5%90-%EC%9D%B8%EC%A6%9D%EC%9C%BC%EB%A1%9C-Github-Copilot-%EB%AC%B4%EB%A3%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0>
+* <https://education.github.com/pack>
+* 계정에 학교 email 추가해 두기 <https://github.com/settings/emails>
+* 새로 고침하면 메일의 우측에 교육기관명이 표시됨
+* 다음단계에서 학생증 또는 영문 재직증명서가 필요함
+  
+## 인증방법
+* 깃허브 프로필에서 이름을 영문으로 변경
+* 학교 사이트에서 영문 이름을 등록
+* 학교 내부 증명서 발급 사이트를 이용해서 영문 증명서 발급 받기
+
+---
+
+## 에러
+* 2FA를 활성화 하고 결제 정보를 작성하여 GitHub 계정을 보호해야 합니다 .
+* 이중 인증 으로 GitHub 계정을 보호하세요 . 다시 신청하기 전에 로그아웃했다가 GitHub에 다시 로그인해야 할 수도 있습니다.
+* 학술 제휴 문서에 표시된 이름과 정확히 일치하는 이름으로 GitHub 청구 정보를 작성하기 전까지는 확인되지 않을 것입니다 . 
+* 법적 이름이 하나만 있는 경우 이름과 성 필드에 모두 입력하세요. 결제 수단을 추가할 필요가 없습니다. 다시 신청하기 전에 로그아웃했다가 GitHub에 다시 로그인해야 할 수도 있습니다.
+### 2FA(Two factor authentication, 이중인증) 활성화
+* <https://github.com/settings/security>
+### 청구정보 업데이트
+* <https://github.com/settings/billing/payment_information>
+## 완료
+* 1시간 이내에 답변을 받지 못한 경우 7일 이내에 이메일을 받게 됩니다.
+
+---
+
+# vscode extansion
+* 코파일럿 익스텐션 다운받고 깃허브 로그인
+
+## 어카운트 에러
+* "No access to GitHub Copilot found. You are currently logged in as 아이디"
+* Invalid copilot token: missing token: 403 
+* https://github.com/orgs/community/discussions/19213
+
+1. VSCode의 github 계정에서 로그아웃하세요.
+1. VSCode 편집기를 닫습니다.
+1. VSCode를 사용하여 Github 계정에 다시 로그인하세요.
+1. 그러면 Github 서버에서 인증 토큰이 재생성됩니다.
+1. Github Copilot에 액세스할 수 있다면 이제 작동할 것입니다.
+
+* 2단계 인증을 설정한 탓에 로그인을 싹 새로 해야하는 것 같다
+* 라이센스를 획득한 계정으로 재 로그인. 동일계정이라 괜찮을지 알았는데 메일 주소부터 라이센스 소유 메일 주소로 사용해야함
+
+* 혜택 이용까지의 대기 기간이 있을 수 있습니다. - 대기 상태인듯
+
+---
+
+* github.com 로그인
+* 우상단 프로필 사진
+* Your Copilot 선택, 다음의 메세지 확인
+  
+![[copilot_1.jpg]]
+* get access to Github Copilot
+* 시간이 좀 걸렸다. 바로 확인하려고 하면 안되고 결제하거나 체험판 사용하라고 함
+
+2024-02-22

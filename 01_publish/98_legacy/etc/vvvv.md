@@ -1,0 +1,211 @@
+---
+layout: post
+title: vvvv
+category: etc
+tags: etc
+---
+
+
+![[vvvv_1.png]]
+![[vvvv_2.png]]
+![[vvvv_3.png]]
+![[vvvv_4.png]]
+![[vvvv_5.png]]
+
+---
+
+# GDI renderer
+* GDI (Graphic device interface) : 그래픽 장치 인터페이스
+* 그래픽을 그리는 장비(device)를 제어하기 위한 방법
+
+![[vvvv_6.png]]
+
+
+* 마우스 왼쪽 더블클릭 renderer를 입력하여 randerer(GDI)를 생성
+* Alt+2단축키를 눌러 랜더러를 Patch내에 포함시킴(포토샵 등이 켜있으면 Alt+2가 동작을 하지 않습니다)
+* 화면이 찌그러지는 것을 방지하기 위해 renderer의 가로세로 비율을 1:1로 맞춘다 (모서리를 드래그)
+* 마우스 왼쪽 더블클릭, 검색창에서 마우스 우클릭 후 GDI내의 리스트 확인
+* * BeZierLine : 베지어 곡선
+* * Circle : 동그라미
+* * HLine : 수평선(Horizontal line)
+* * Point : 점찍기 (여러가지 모양)
+* * RoundRect : 둥근모서리의 사각형
+* * text : 글자
+* * VLine : 수직선(Vertical line)
+* 각각의 GDI 객체를 renderer에 연결하여 화면에 표시 가능
+* 마우스 왼쪽 더블클릭 group(GDI)를 검색하여 생성
+* inspector(Ctrl+i)에서 layer template counter를 조절하여 더 많은 GDI객체를 한번에 그릴 수 있음
+
+---
+
+![[vvvv_7.png]]
+
+---
+
+![[vvvv_8.png]]
+
+* RGB : Red, Green, Blue : 빨강, 초록, 파랑
+* HSL : Hue, Saturation, Lightness : 색조, 채도, 명도
+* HSV : Hue, Saturation, Value : 색조, 채도, 값
+* AsColor (String Hex) : hex code(16진수) 컬러코드값
+
+- 마우스 오른쪽 더블클릭 Color I/OBox를 생성
+- 마우스 왼쪽 더블클릭 검색창에 'RGB, HSL, HSV'를 입력하여 color join 생성
+- 각 color join의 상단 input에 real I/OBox를 만들어서 input과 연결
+- 각 color join의 하단 output과 color I/OBox의 input을 연결
+
+* 16진수(Hex code)란 0~9,A~F까지 총 16개의 숫자를 한 자리로 하여 기록 및 연산 하는것
+* 컬러코드인 #666666 또는 0x666666 의 숫자는 2자리씩 각각 R, G, B를 나타낸다
+* 16진수 1자리는 16개의 색을, 2자리는 16*16 = 256가지 색을 표현할 수 있다.
+* A = 10, B = 11, C = 12, D = 13, E = 14, F= 15
+
+
+---
+
+![[vvvv_9.png]]
+* ''' 수업에서 다루지 않습니다. 궁금한 학생들은 별도로 시도해 보세요 '''
+* color picker는 숫자로만 짐작하기 어려운 color를 직접 클릭하여 선택하게 해주는 UI 입니다.
+* color picker plugin : https://vvvv.org/contribution/colorpicker
+* WPF : https://vvvv.org/contribution/ui-plugin
+* 압축해제 후 폴더안의 dll을 복사 (총 3개 파일)
+* VVVV설치 지점 하위 폴더 /lib/nodes/plugins/ 안에 붙여넣기
+* VVVV.ColorPicker.dll을 드래그 드랍으로 Patch위에 올리기
+* 노드를 선택 후 Alt+2를 눌러서 랜더러를 포함시키키
+* 마우스 오른쪽 더블클릭 으로 Color I/OBox 생성하기
+* ColorPicker의 output과 Color I/OBox의 input을 연결하기
+
+---
+
+![[vvvv_7.png]]
+
+---
+
+# vvvv etch a sketch 만들기
+![[vvvv_10.png]]
+
+* 로터리 가변저항 두개를 아날로그 0과, 아날로그 1핀에 연결합니다.
+* GNB - G, VCC - V, OUT - A0
+* GNB - G, VCC - V, OUT - A1
+![[vvvv_11.png]]
+
+---
+
+* particles (2d field) 생성
+* position: 위치
+* Age : 생존시간
+* Age Deviation : 생존시간 편차 (커질수록 입자간 생존시간의 차이가 커진다)
+* Velocity DeviationXY : 움직임 편차 (커질수록 입자간 운동량의 차이가 커진다)
+* Velocity Field XY : 움직임의 방향과 크기
+* Age Time Step : Age의 증감량
+* Velocity Time Step : velocity 증감량
+
+![[vvvv_12.png]]
+![[vvvv_13.png]]
+
+---
+
+# renderer 관련
+## 랜더러 비율 유지하기
+*Renderer (ex9) - actual backbuffer width => AspectRatio - aspect width
+*Renderer (ex9) - actual backbuffer height => AspectRatio - aspect height
+*AspectRatio - transform out => Renderer (ex9) - aspect ratio
+## 3D 카메라 설치 및 조작
+*Camera (transform softimage) - view (matrix transform) => Randerer (ex9) - view (matrix transform)
+*Camera (transform softimage) - projection (matrix transform) => Randerer (ex9) - projection (matrix transform)
+*o,p,z 키보드 + 마우스로 좌표이동. R 리셋 (한영키 주의)
+
+## enumeration 만들기 (create custom enumeration)
+* Create Enumeration
+  * create CreateEnum node.
+  * connect String I/O to CreateEnum
+  * change Row value in String inspector. and put in each values
+  * remember EnumName for use to it
+* Use Enumeration
+  * create NULL node
+  * create enumeration (mouse right click - select enumeration)
+  * connect Enumerations-Output Enum to NULL Enum
+  * select EnumName in enumeration lists
+  * create another enumeration (mouse right click - select enumeration)
+  * connect Enumerations-Output Enum to NULL Receive
+* Enumeration만들기
+  * CreateEnum노드를 만든다. 
+  * 새 String IO를 CreateEnum의 input에 연결한다. 
+  * String의 인스펙터에서 Row를 갯수를 추가하여 원하는 목록을 만든다.
+  * CreateEnum의 EnumName을 기억한다.
+* Enumeration사용하기
+  * NULL 노드를 만든다.
+  * 새 enumeration을 만든다.
+  * enumeration의 Output Enum을 NULL의 Enum에 연결한다.
+  * enumeration의 list중에서 새로만든 EnumName을 찾아 선택한다.
+  * enumeration을 하나 더 생성합니다.
+  * enumeration의 Output Enum을 NULL의 Receive에 연결한다.
+
+---
+
+![[vvvv_14.png]]
+
+---
+
+# joystic
+* GNB - G, +5V - V, VRX - A4, VRY - A3, SW - D2
+
+![[vvvv_15.png]]
+
+---
+
+# addon 설치 
+* 필터를 사용하기 위해서는 addon을 설치 하여야 합니다.
+* vvvv.org 사이트에서 본인의 버전에 맞는 (x86, x64) addon을 다운로드 하여 설치 합니다.
+* 압축해제
+* addonpack 폴더안에 모든 내용을 vvvv의 루트에 덮어씌우기
+
+---
+
+# filetexture
+![[vvvv_16.png]]
+
+* 그림파일(jpg, png)를 준비합니다.
+* 파일을 미리 vvvv파일의 sub에 폴더를 만들어서 이동시켜 둡니다.
+* fileTexture 노드를 생성합니다.
+* 첫번째 인자 값에 마우스 우클릭하면 파일을 선택할 수 있습니다.
+* fullscreenquad 또는 Quad에 연결하여 화면에 표시하세요.
+
+---
+
+# texture filters 
+* fullquad 또는 Quad에 붙이기 직전에 필터역할로 사용할 수 있습니다.
+* 또는 이미 만들어진 EX9 renderer에서 EX9Texture로 뽑아내서 후처리 할 수도 있습니다.
+
+* BlurDirectional : 방향성있는 블러
+* Edge : 경계선 강조
+* Grain : 원본기반 노이즈
+* median : 복화시 (특수유리로 비친 반대편 같은)
+* Twirl : 중심 뒤틀림
+* Magnigy : 중심 볼록함
+* LensBlur : 카메라 랜즈 초점 안맞을때 생기는 흐림
+* pixelize : 모자이크
+* emboss : 모노톤의 올록볼록 화면
+* DotPainter : 동그라미와 컬러로 표현되는 화면
+* polygonize : 폴리곤으로 표현
+* 등 texture filter를 받아서 사용하는 node는 모두 화면효과를 줄 수 있다.
+![[vvvv_17.png]]
+![[vvvv_18.png]]
+
+---
+* pwm(pulse width modulation 펄스 폭 변조) 제어가 가능한 핀 (arduino UNO, Leonardo) 3,5,6,9,10,11
+* color LED를 arduino에 연결한다
+* V - V, B - D9, R - D10, G - D11
+![[vvvv_19.png]]
+![[vvvv_20.png]]
+![[vvvv_21.png]]
+
+
+---
+
+# 문제해결
+
+* 문제해결: vvvv설치중 dx9 링크깨짐 webinstall 안됨
+* 다운로드 주소 https://www.microsoft.com/ko-kr/download/confirmation.aspx?id=34429
+* 폴더 선택하면 해당위치에 압축 풀리고 setup 선택하여 설치과정 진행
+
+2023-09-06

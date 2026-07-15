@@ -1,0 +1,111 @@
+---
+layout: post
+title: Github 가입하고 visual studio code와 연결하기
+category: web
+tags: github
+---
+
+
+# Github 가입하고 visual studio code와 연결하기
+
+## Github 회원가입
+* [https://github.com/](https://github.com/){:target="_blnak"}
+* "Sign up"선택
+* Username, Email Adress, Password등 입력등 가입절차 진행
+* 계정유형은 "Free 무료" 선택
+* 이메일 인증절차 수행
+
+## 로그인 후 저장소(repository) 생성
+* New를 눌러서 새 저장소 생성
+
+![[github-vscode_1.png]]
+
+* Repository Name은 "아이디.github.io" 입력
+* "Add a README file" 체크
+* "Create repository" 선택하여 새 저장소 만들기
+
+
+---
+
+## visual studio code와 연동
+![[github-vscode_2.png]]
+
+* [https://git-scm.com/](https://git-scm.com/){:target="_blank"}
+* Latest source Release 다운로드하여 설치
+* vscode 실행
+* F1키 누르기
+* git clone 입력
+* Git:Clone 메뉴 선택
+
+![[github-vscode_3.png]]
+* Clone Repository 선택
+
+![[github-vscode_4.png]]
+* github.com에서 repository 상세, code에서 복사 버튼 클릭하여 주소를 복사
+* vscode의 입력창에 붙여넣기 한 후 엔터
+
+* 클론 시킬 폴더(위치 설정)
+
+---
+
+## 작성한 문서를 github에 업로드 하기
+![[github-vscode_5.png]]
+* git>source control에 사유 입력하기>commit옆 화살표>commit & sync 선택 하여 git에 업로드
+
+---
+
+## user.name, user.email 에러 해결
+* 시작메뉴 cmd 입력하여 터미널 실행
+
+```markdown
+git config --global user.name '유저네임'
+git config --global user.email '이메일주소'
+```
+
+---
+
+# mac에서 git연동하기
+* [https://git-scm.com/](https://git-scm.com/) 접속
+* honebrew 링크 클릭
+* [https://brew.sh/](https://brew.sh/) 사이트로 이동됨
+
+* install homebrew 하단의 터미널 명령 복사
+
+```markdown
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+* 패스워드를 입력 후 계속진행
+* 다음의 설명
+
+```markdown 
+Next steps: Run these two commands in your terminal to add Homebrew
+to your PATH: (echo: echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /
+Users/vechanshon/.zprofile eval "$(/opt/homebrew/bin/brew shellenv)”
+```
+
+* 홈브류 버전확인
+
+```markdown
+$ brew --version
+```
+
+* 다음과 같은 에러가 나온다면 경로 추가
+
+```markdown
+zsh: command not found: brew
+```
+
+```markdown
+$ echo 'export PATH=/opt/homebrew/bin:$PATH' >> ~/.zshrc
+$ source ~/.zshrc
+```
+
+---
+
+# 각종에러
+
+* you don't have permissons to push to "name/name" on GitHub. Would you like to create a fork and push to it istead?
+* 저장소에 대한 권한이 없어서 포크하여 당겨올 것인지를 물어보는 경고창
+* github 관련 로그인을 새로 하면 해결될듯
+
+2023-09-07

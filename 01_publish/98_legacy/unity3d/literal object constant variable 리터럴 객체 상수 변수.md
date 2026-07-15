@@ -1,0 +1,258 @@
+---
+layout: post
+title: literal object constant variable 리터럴 객체 상수 변수
+category: unity3d
+tags: 
+---
+
+
+
+# 리터럴(Literal)
+* 출처 : <https://ko.wikipedia.org/wiki/%EB%A6%AC%ED%84%B0%EB%9F%B4>
+* 컴퓨터 과학 분야에서 리터럴(literal)이란 소스 코드의 고정된 값을 나타내는 표기법
+* 정수, 부동소수점 숫자, 문자열, 불린(boolean)등 기본적인 값
+  * 정수형 : sbyte, byte, short, ushort, int, uint, long, ulong, decimal(10진수)
+  * 문자형 : char, string
+  * 실수형 : float, double
+  * 불린형 : boolean
+* 값 그 자체
+
+```c#
+1           //정수(integer)
+1.5f        //실수(float)
+"글자"      //문자열(string)
+true        //불린(boolean)
+false       // 불린(boolean)
+
+var decimalLiteral = 42;
+var hexLiteral = 0x2A;
+var binaryLiteral = 0b_0010_1010;
+// _는 숫자의 구분기호
+// .NET 7.0 이상에서 언더바(_)구분과 int에 16진수 2진수 담는것이 가능함
+```
+
+---
+
+# 객체(Object)
+* 사물, 물체
+* 일종의 리터럴(literal)의 집합이라고 보아도 무방
+
+```c#
+사람 a = new 사람();        //'a'라는 사람이 있습니다.
+a.키 = 170;                 //키가 170입니다.
+a.몸무게 = 60;              //몸무게가 60입니다.
+a.나이 = 20;                //나이가 20입니다.
+a.성별 = "남";              //성별이 남자 입니다.
+a.학생 = true;              //학생이 맞습니다(참, true)
+```
+
+# 객체형 데이터(Object data type)
+* 리터럴(literal)이 아닌 거의 대부분의 데이터
+* 값 자체가 아닌 객체(object)로서 새로 만들때 생성자(new)등이 필요
+* 변수나 상수는 값 자체(리터럴, literal)가 아닌 객체를 참조하는 주소를 보유하게 됨
+
+```c#
+new 사람();
+new Animation();
+new Animator();
+new GameObject();
+```
+
+# 참조(Reference)
+* <https://ko.wikipedia.org/wiki/%EC%B0%B8%EA%B3%A0>
+* 한 객체가 다른 객체와의 연결 수단으로 작용하는 객체 간의 관계
+* 리터럴이 아닌 객체는 그 자체가 아닌 객체가 있는 주소(address)를 참조(reference)함
+* 참조를 가져오는 방법에는 여러가지가 있음
+
+```c#
+사람 a = new 사람(); 
+//'a'라는 사람을 담을 수 있는 변수에 새로 '사람'을 만들어 그의 주소를 참조
+
+반 디미디_A반 = 대한민국.경기도.의왕시.계원예술대학교.디지털미디어디자인과.A반;
+//'디미디_A반' 이라는 반을 담을 수 있는 변수에 '계원예술대학교.디지털미디어디자인과.A반'의 주소를 참조
+```
+* 값 그 자체가 아닌 객체는 그 자체를 저장할수 없음
+
+## 참조를 가져오는 방법
+* public 변수를 생성하여 객체를 inspector에 직접 드래그 드롭으로 지정
+* GameObject.FindGameObjectsWithTag("태그명") : 해당 태그명을 가지고 있는 모든 오브젝트를 찾음. GameObject[] 형식
+* GameObject.FindWithTag("태그명") : 해당 태그명을 가지고 있는 오브젝트 1개
+* GameObject.Find("오브젝트명") : 해당 오브젝트 이름을 가지고 있는 오브젝트 1개
+
+# 참조형 변수 예시
+```c#
+int[] d = {1,2,3,4,5};
+Console.WriteLine(d[0]); //1
+d[0] = 10;
+Console.WriteLine(d[0]); //10
+
+int[] e = d;  //참조를 가지고 온다
+e[0] = 30; //e를 변경하였지만 e는 d의 참조 이므로, e와 d가 동일대상
+
+Console.WriteLine(e[0]); //30
+Console.WriteLine(d[0]); //30
+```
+
+# 기본형 변수의 참조
+* ref 키워드를 이용하여 기본형 변수라도 참조를 넘길 수 있다.
+  
+```c#
+void A(ref in p1)
+    {
+      p1 = 10;
+    }
+```
+
+---
+
+# 필드(Field)
+* 클래스 또는 구조체에서 직접 선언되는 모든 형식의 값이 저장되는곳
+* 필드는 상수와 변수로 나눌 수 있다.
+
+---
+
+# 상수(Constant)
+
+* 출처: <https://ko.wikipedia.org/wiki/%EC%83%81%EC%88%98>
+* 수식에서 변하지 않는 값. 변하는 값인 변수(variable)와 반대개념
+* c# script에서의 상수는 const로 정의함
+
+```c#
+const int a = 10;
+//integer형 상수 a(상수의 이름)는 10 입니다.
+
+const 사람 b = new 사람();
+//사람형 상수 b(상수의 이름)는 '사람'이라는 객체(object)의 참조(reference)를 가지고 있습니다.
+
+const Animation c = new Animation();
+//Animation형 상수 c(상수의 이름)는 'Animation'이라는 객체(object)의 참조(reference)를 가지고 있습니다.
+```
+
+---
+
+# 변수(Variable)
+
+* 변하는 값. 변하지 않는값인 상수(constant)와 반대개념
+  
+```c#
+int a = 10;
+//integer형 변수 a(변수의 이름)는 10 입니다.
+
+a = 20;
+//a는 20으로 바뀌었습니다. (더이상 10이 아님)
+
+int a = 123;
+System.Int32 b = 123; // .Net 형식
+```
+
+* 기본형(primitive type) 변수 : 리터럴, 즉, 실제 값이 들어가는 변수
+```int, string, char, double, float, bool```
+* 참조형 변수(Reference type) : 참조(reference)가 들어가는 변수, 참조란 값이 있는 주소(위치)를 의미
+```object, gameobject, vector3```
+
+---
+
+## 변수의 선언
+
+```c#
+int num1 = 10;
+string str1 = "a";
+//변수타입 변수이름 = 초기값;
+```
+
+```c#
+var num1 = 10;
+var str1 = "a";
+//변수선언 변수이름 = 초기값;
+```
+
+## 키워드와 .Net 형식
+```c#
+int a = 123;
+System.Int32 b = 123;
+```
+
+---
+
+# 변수의 범위
+* 정수 숫자 형식
+
+```c#
+using System;		
+public class Program
+{	
+	public static void Main()
+	{
+		int a = 2147483647;
+		Console.WriteLine(a);
+        //2147483647
+		a++;
+		Console.WriteLine(a);
+        //-2147483648
+	}
+}
+```
+
+
+---
+
+# 정리
+* 값은 리터럴(literal)과 오브젝트(Object)로 크게 나눌 수 있다
+* 필드(Field)는 값을 저장하는 곳으로 리터럴이나 오브젝트의 참조(reference)를 저장한다
+* 필드는 변하지 않는 상수(constant)와 변하는 변수(variable)로 크게 나눌 수 있다
+
+---
+
+# 왜 변수가 필요한가?
+- 바뀌어야 하니까
+- 값이 바뀌면 결과가 바뀜 =  프로그램의 목적
+
+# 왜 참조가 필요한가?
+- 코드가 간결해짐
+- 반복작업 방지 = 생산성 증대, 컴퓨터 리소스 확보
+
+---
+
+# 변수 유형 variable type
+- 변수에는 유형(type)이 있음
+- 유형에 맞는 값을 넣어야 함 (유형에 맞지 않는 값은 못넣음)
+- 유형에 맞지 않는 변수는 형변환(type cast) 해서 넣음
+- 형변환 방법에는 대표적으로 ```(int)```
+- 자동으로 캐스팅 되는 경우 : 묵시적 형변환(implicitly type cast)
+- 안되는 경우 : 명시적 형변환(Explicit Type Conversion)
+- 명시적 형변환이 불가능한경우 : 값 자체를 재 가공
+
+---
+
+# 묵시적 형변환 implicitly type cast
+- 하위객체를 상위객체로 변환
+- 상위객체를 하위객체로 묵시적 형변환 시도하면 에러
+
+# 명시적 형변환 Explicit Type Conversion
+- 직접 데이터 타입을 변환
+
+---
+
+# 캐스팅(형변환)
+```c#
+int m = 10;
+int n = 3;
+Console.WriteLine( (double)m / n );
+Console.WriteLine( m / n );
+```
+
+---
+
+# 기타
+- typescript : MS에서 만든 JavaScript의 슈퍼셋(Superset) 프로그래밍 언어.
+- 호이스팅(hoisting) : 변수 선언이 어디에 있든 상관없이 다른 코드보다 먼저 실행되는 특징 
+
+# .Net 에서 
+```
+int a  = 10;
+char b = 'B';
+a = System.Convert.ToInt32(b);
+Console.WriteLine(a);
+```
+
+2024-03-21

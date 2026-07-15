@@ -1,0 +1,290 @@
+---
+layout: post
+title: link 링크모음
+category: etc
+tags: etc
+---
+
+
+* [font awesome](https://fontawesome.com/){:target="_blank"}
+* [Font Awesome 500px Icon](https://www.w3resource.com/icon/font-awesome/brand-icons/500px.php)
+* [웹 블로그](https://wsss.tistory.com/)
+
+---
+
+# 게임
+* [인벤토리 시스템](https://rito15.github.io/posts/unity-study-rpg-inventory/)
+
+---
+
+# 웹사이트
+* [나이키 3D 사이트](https://www.nike-react.com/assemble)
+
+---
+
+# 라이브러리
+* [three.js](https://github.com/mrdoob/three.js)
+* [farmer motion (웹용 자바스크립트 트위너)](https://www.framer.com/motion/introduction/)
+
+---
+
+# 유니티3D
+* [passthrough](https://www.youtube.com/watch?v=9u3QQi6Gnx0)
+* 프로젝트 기본 세팅 : https://developer.oculus.com/documentation/unity/unity-conf-settings/
+* Passthrough 세팅 : https://developer.oculus.com/documentation/unity/unity-passthrough/?locale=ko_KR
+* Hand Tracking 세팅 : https://developer.oculus.com/documentation/unity/unity-handtracking/?locale=ko_KR
+
+---
+
+# 무료 소스
+* 무료 이미지 다운 : http://www.freepik.com/index.php?goto=74&idfoto=833564&term=buttons
+* 무료 아이콘 다운 : https://material.io/icons/
+* 영상의 인트로 샘플 : velosofy
+
+---
+
+# HTML, CSS
+* 웹 어워드 : https://www.awwwards.com/
+* CSS 커리큘럼 : https://opentutorials.org/course/2418/13684
+
+---
+
+# 코딩교육
+* [앱인벤터](http://appinventor.mit.edu/)
+* [엔트리](https://playentry.org/)
+* [프로그래머스](https://school.programmers.co.kr/)
+* [네이버 엑스퍼트](https://m.expert.naver.com/)
+* [틴커캐드](https://www.tinkercad.com/)
+* [네이버 지식인](https://kin.naver.com/)
+
+* http://junior.slic.kr/
+* https://www.playsw.or.kr/main
+* https://playentry.org/#!/
+* https://opentutorials.org/
+* http://www.dreamcode.co.kr/ : 앱인벤터를 이용한 코딩강좌
+* https://olc.kr/main/index.jsp
+* https://www.codecademy.com/
+* https://code.org/
+* https://www.khanacademy.org/
+* https://www.w3schools.com/
+* http://ai2.appinventor.mit.edu
+
+---
+
+# 로고생성
+* https://hatchful.shopify.com/
+
+---
+
+# 기타
+* [프로그래밍 언어 순위](https://www.tiobe.com/tiobe-index/)
+* IOBE programming language index는 해당 프로그래밍 언어를 이용하는 엔지니어 및 업체의 수와 Google, Bing, Yahoo 등의 검색 엔진을 통해 검색되는 결과물의 수를 바탕으로 순위를 결정한다. 따라서 TIOBE index에서는 C/C++이나 Java와 같은 전통적인 프로그래밍 언어의 순위가 높게 산정되는 경향이 있다.
+
+* 폰트 [monaco](http://devthink.tistory.com/entry/%EC%BD%94%EB%94%A9-%EC%9A%A9-%ED%8F%B0%ED%8A%B8-Monaco-font)
+* 폰트 [네이버 나눔 코딩](https://software.naver.com/software/summary.nhn?softwareId=GWS_000331)
+
+---
+
+# 공식 레퍼런스
+* HTML=Structuring the web / CSS=Styling the web / Javascript=Dynamic client-side scripting
+* HTML reference : https://developer.mozilla.org/en-US/docs/Web/HTML/Reference
+* CSS reference : https://developer.mozilla.org/en-US/docs/Web/CSS/Reference
+* Javscript reference : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+
+---
+
+# 크레온 API 파이썬 주식투자
+* https://www.youtube.com/watch?v=4DzGOpsT3bw
+
+---
+
+# Validator
+* w3c : http://validator.kldp.org/
+* css : http://jigsaw.w3.org/css-validator/
+* html : https://html5.validator.nu/
+
+---
+
+# etc
+* 모션하우스 모션 시뮬레이터 : https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers
+
+---
+
+# socket.io
+* <https://meetup.nhncloud.com/posts/112>
+
+---
+
+* Fritzing : PCB 설계 프로그램
+
+---
+
+# VR/AR영상 thejuice
+* <https://thejuice.com/>
+  
+```markdown
+더 쥬스의 한국 로컬 담당자 이인영
+Leina Lee
+account executive | thejuice
+
+e: leina.lee@thejuice.com
+t: +44 20 7193 7473
+m: +82 10 2289 2684
+```
+* 모션하우스 SDK :
+http://www.motionhouse.co.kr/bbs/board.php?bo_table=03_01&wr_id=10
+
+---
+
+* 알파채널을 지원하는 파일 목록
+* https://www.digitalrebellion.com/blog/posts/list_of_video_formats_supporting_alpha_channels.html
+
+---
+
+# 더 헤러틱 제작기: 디지털 휴먼 캐릭터 가웨인
+* <https://blog.unity.com/kr/technology/making-of-the-heretic-digital-human-character-gawain>
+
+---
+
+# 영상편집
+* 아이락스 IRC50 레보메이트
+* 모니터 : 삼성 C34J791
+
+---
+
+# 그래픽 작업
+* 각종 맵(map) 생성기 : <http://www.boundingboxsoftware.com/materialize/downloads.php>
+
+---
+
+* PHP로 QR코드 생성 : http://blog.naver.com/pareko/20128654432
+* 모바일 웹 관련 유용한 CSS : http://horajjan.blog.me/220312169225
+* 제이쿼리 스크롤 디텍션 : https://www.sitepoint.com/scroll-based-animations-jquery-css3/
+* 엑셀을 json으로 변환해주는 웹사이트 : http://shancarter.github.io/mr-data-converter/
+* json 형식 확인 사이트 : https://jsonlint.com/
+* 비정형디스플레이 판매업체 : https://www.userful.com/videowall
+* 지도그림(국토정보맵) : http://map.ngii.go.kr/ms/map/NlipMap.do
+작은 글씨체는 본고딕 : 어도비랑 구글이 무료폰트
+* EMC 고려사항 : http://blog.naver.com/PostView.nhn?blogId=qorrha0576&logNo=50004440993&parentCategoryNo=&categoryNo=&viewDate=&isShowPopularPosts=false&from=postView
+* 메테리얼 디자인 아이콘 : https://material.io/icons/
+
+* 라라벨 강좌사이트 : http://l5.appkr.kr/lessons/05-pass-data-to-view.html
+* 바이브 구매 공식사이트 링크 : https://mall.vivestore.co.kr/kr/checkout/cart/
+* git는 소스트리로 관리하면 편하다 - 터미널로 하는경우도 있음
+
+* 알바몬 서식다운로드, 계약서, 경력증명서 등 : http://www.alba.co.kr/story/albahelper/DownFormList.asp?sch_code_cd=K#DownLoadList
+* syntaxhighlighter : http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/
+* 픽토그램을 폰트로 지원 : https://fontawesome.com/?from=io
+* 프리랜서 마켓 크몽 : https://kmong.com/
+
+# 3D print
+* 3D 모델 구매사이트 : https://www.cgtrader.com/
+* 각종 기기장비들을 제작하는 오픈빌더 사이트 : https://openbuilds.com/
+
+# 작품을 현실로
+* https://www.crayoncreatures.com/
+
+---
+
+# HTC VIVE
+* https://www.vive.com/us/setup/
+* 계정/설정/장치설정/
+* 에러코드 종류 : https://www.vive.com/vn/support/cosmos/category_howto/what-do-these-error-codes-and-messages-mean.html
+* 에러코드 한국어 : https://www.vive.com/kr/support/cosmos/category_howto/what-do-these-error-codes-and-messages-mean.html?error=219
+
+---
+
+# 조이스틱
+* 기어봉 메탈 : http://itempage3.auction.co.kr/DetailView.aspx?ItemNo=B551443424&frm3=V2
+* 카본 : http://unit808.com/shop/goods_view.php?id=2322837517&ad_code=naver_shopping&NaPm=ct%3Djo5f4deg%7Cci%3D34d45a60e027c256b5e268b985302bb0be16ab33%7Ctr%3Dslsl%7Csn%3D637611%7Chk%3D0493e8df8eb574c267845035019ebc43786e8890
+* 카본 어덥터 포함 : https://smartstore.naver.com/bongssun/products/2931150166?NaPm=ct%3Djo5f4cmo%7Cci%3D57c8601a809ed6371c020ec748acd242acb17991%7Ctr%3Dslsl%7Csn%3D522879%7Cic%3D%7Chk%3Dd6c54e79fea16a46467a0d1a7bdd592e7c4e307c
+* 가죽 : http://www.rstuff.co.kr/shop/shopdetail.html?branduid=1080522&ref=naver_open&NaPm=ct%3Djo5f6ik8%7Cci%3D2639a7296945ff507ec5ad31171741fd402892a2%7Ctr%3Dslsl%7Csn%3D248492%7Chk%3D54428f6fd584f87d67b4dec7b62e488b52187237
+* 메탈 : http://unit808.com/shop/goods_view.php?id=2320389980&ad_code=naver_shopping&NaPm=ct%3Djo5f6n6w%7Cci%3D9229fa9a3aa8a6e66c62dc8daa6e1ff78dae562f%7Ctr%3Dslsl%7Csn%3D637611%7Chk%3D5c60ba2aff3008a98ce13024371c90c8440279e8
+
+---
+
+# 지형 노멀맵
+* https://tangrams.github.io/heightmapper/
+* 계원 : https://tangrams.github.io/heightmapper/#15.125/37.3816/126.9890
+
+---
+
+# 멀티비전
+* https://www.lanmart.co.kr/shop/goods/goods_view.php?goodsno=25070&category=013
+* RS232 입력가능
+  
+# 멀티뷰어, 컨트롤
+* <https://www.lanmart.co.kr/shop/goods/goods_view.php?goodsno=24058&category=013>
+* <https://www.lanmart.co.kr/shop/goods/goods_view.php?goodsno=24052&category=013>
+
+---
+
+# 유니티 해상도 설정
+* <http://smilejsu.tistory.com/990>
+
+---
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cvitiohWGyA?si=Q2rLQLSP70e_ltNr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+* OliVR VR Panorama 360 PRO Renderer 360도 입체 VR 랜더러
+
+---
+
+# 유니티 비동기 장면 전환
+* AsyncOperation
+* <https://m.blog.naver.com/pxkey/221307916592>
+
+---
+
+# unity3d vscode 연동
+* <https://code.visualstudio.com/docs/other/unity>
+
+---
+
+# 페럴럭스 스크롤 Parallax effects
+* 참고 : https://blog.usefulparadigm.com/%EB%9E%9C%EB%94%A9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%97%90-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0-a35d0b6cbf4e
+* 참고 : https://m.blog.naver.com/PostView.nhn?blogId=subaru52&logNo=220980370830&proxyReferer=https%3A%2F%2Fwww.google.com%2F
+
+---
+
+# 드론 항공촬영
+* https://pixabay.com/ko/videos/search/drone/
+
+---
+
+# 블루투스 스피커 만들기
+* http://deneb21.tistory.com/323?category=5928
+* PAM8403 보다 상위의 모듈인 DIODES사의 PAM8610
+* TPA3116 칩을 사용한 앰프보드 국내자료량도 많고 호평
+
+---
+
+# K-디지털 아카데미
+* <https://www.hrd.go.kr/hrdp/pk/pkaao/PKAAO0100L.do>
+* 강사 자리가 시급이 괜찮다는듯
+
+---
+
+* U Got That : https://soundcloud.com/kyler27/halogen-u-got-that-extended-mix
+
+---
+
+* <typescriptlang.org> 타입스크립트 작성 해볼 수 있는 온라인 공간
+* <play.vuejs.org> 뷰코드 작성 해볼 수 있는 온라인 공간
+
+---
+
+# Web VR
+* 지원 브라우저 : https://webvr.rocks/
+* firefox web vr : https://support.mozilla.org/en-US/kb/view-virtual-reality-firefox-webvr
+* firefox web vr portal : https://mixedreality.mozilla.org/
+* web vr content : https://app.draftxr.com/vr/dJ9uxR
+
+---
+
+* 웹 커리큘럼 링크 : http://tinyurl.com/hd18-2
+
+---
+
+* Meta Avatars 2 : https://developer.oculus.com/documentation/unity/meta-avatars-overview/
+
+2024-03-08
