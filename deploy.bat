@@ -47,27 +47,31 @@ git diff --cached --quiet && echo  - no changes, skip commit || git commit -m "%
 
 echo.
 echo [5/5] Push...
-git push
+git push origin main
+if not "%ERRORLEVEL%"=="0" goto :push_retry
+goto :push_done
+
+:push_retry
+echo  - push failed ^(remote ahead / no upstream^). pulling remote changes with rebase...
+git pull --rebase origin main
 if not "%ERRORLEVEL%"=="0" (
-  echo  - push rejected ^(remote ahead^). pulling remote changes with rebase...
-  git pull --rebase origin main
-  if not "%ERRORLEVEL%"=="0" (
-    echo.
-    echo [FAIL] rebase conflict. resolve manually then run again.
-    echo.
-    pause
-    exit /b 1
-  )
-  echo  - rebased. retry push...
-  git push
-  if not "%ERRORLEVEL%"=="0" (
-    echo.
-    echo [FAIL] push still failing after rebase.
-    echo.
-    pause
-    exit /b 1
-  )
+  echo.
+  echo [FAIL] rebase conflict. resolve manually then run again.
+  echo.
+  pause
+  exit /b 1
 )
+echo  - rebased. retry push...
+git push origin main
+if not "%ERRORLEVEL%"=="0" (
+  echo.
+  echo [FAIL] push still failing after rebase.
+  echo.
+  pause
+  exit /b 1
+)
+
+:push_done
 
 echo.
 echo ============================================
