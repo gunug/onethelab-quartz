@@ -830,3 +830,8 @@ tbody tr:hover {
     flex-basis: 100%;
   }
 }
+
+/* <small> 태그(이미지 캡션 등)는 불투명도 60% */
+article small {
+  opacity: 0.6;
+}
