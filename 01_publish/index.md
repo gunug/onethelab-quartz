@@ -1,7 +1,8 @@
 ---
 title: One The Lab
 ---
-# <img src="https://onethelab.com/hhg-design-system/gicons/hhg_x__onethelab-v2__x__20260630-183305.svg" width="46" height="46" style="vertical-align:middle"> One The Lab
+![[icon_x__onethelab-v2__x__20260716-082618.svg|128]]
+# One The Lab
 
 > "전시장은 인테리어, 인쇄물, 조명의 전형적인 모습으로 만들어집니다"
 
@@ -9,8 +10,8 @@ title: One The Lab
 
 One The Lab은 **인터랙티브 전시 솔루션** 회사입니다. 인쇄된 설명과 정적인 전시에서 벗어나, 이미지·사운드·영상과 Kinect·Leap Motion·Arduino 같은 인터랙션 장치로 관람객이 직접 체험하는 콘텐츠를 만듭니다.
 
-- <img src="https://onethelab.com/hhg-design-system/gicons/hhg_x__web__x__20260630-184931.svg" width="32" height="32" style="vertical-align:middle"> 회사 사이트: [onethelab.com](https://onethelab.com)
-- <img src="https://onethelab.com/hhg-design-system/gicons/hhg_x__object-mail__x__20260630-184958.svg" width="31" height="31" style="vertical-align:middle"> 문의: gh.cho@onethelab.com, gunug@naver.com
+- 회사 사이트: [onethelab.com](https://onethelab.com)
+- 문의: gh.cho@onethelab.com, gunug@naver.com
 ## 하는일
 ## 동적 콘텐츠 기반 전시
 - 이미지, 사운드, 영상 등 다양한 미디어 활용
@@ -117,4 +118,4 @@ AI 기술을 활용하여 창의적이고 인터랙티브한 바이브코딩 강
 
 ![[01_publish/01_exhibition/01_project/index|index]]
 
-![[01_publish/01_exhibition/02_reasearch/index|index]]
+![[02_research|02_research]]
