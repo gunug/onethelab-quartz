@@ -7,14 +7,14 @@ tags:
 ---
 
 # Unity third person
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1716437845.jpg" />
+![[1716437845.jpg]]
 
 * <https://assetstore.unity.com/packages/essentials/starter-assets-thirdperson-updates-in-new-charactercontroller-pa-196526>
 * AssetStore 접속 불가시 다운로드 : https://drive.google.com/file/d/1-WHXOXQqyaFtUTdXC1UNK6YttX2mySeH/view?usp=sharing
 ---
 
 ## Material Shader 변경
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1716438661.jpg" />
+![[1716438661.jpg]]
 
 * Project창 > StartAssets > ThirdPersonController > Character > Material 폴더안 모든 Material 전체선택
 * Inspector창 > Shader > Standard로 변경
@@ -22,7 +22,7 @@ tags:
 ---
 
 ## 삼인칭 캐릭터 올리기
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1716440115.jpg" />
+![[1716440115.jpg]]
 
 * Project창 > StartAssets > ThirdPersonController > Prefabs > NestedParentArmature_Unpack 드래그 하여 Scene창에 드랍
 * MainCamera 삭제
@@ -34,14 +34,14 @@ tags:
 ## 캐릭터 바꾸기
 
 # Jammo Character | Mix and Jam
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1716161741.jpg" />
+![[1716161741.jpg]]
 
 * <https://assetstore.unity.com/packages/3d/characters/jammo-character-mix-and-jam-158456>
 * AssetStore 접속불가시 다운로드 : https://drive.google.com/file/d/1L081vNPa4QrGanoY7Ripwu8ZgIf_dAuB/view?usp=sharing
 ---
 
 ## rigging setting
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1716161863.jpg" />
+![[1716161863.jpg]]
 
 * Jammo-character / models / Jammo_LowPoly 선택
 * Inspector > Rig > Animation Type : Humanoid 선택
@@ -51,14 +51,14 @@ tags:
 ---
 
 ## third person controller에 캐릭터 적용
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1716442035.jpg" />
+![[1716442035.jpg]]
 
 * Jammo-character / models / Jammo_LowPoly 드래그하여 NestedParentArmature_Unpack > PlayerAmature에 드랍
 * Geomatry 삭제
 * Skeleton 삭제
 
 ## Avatar 적용
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1716442309.jpg" />
+![[1716442309.jpg]]
 
 * Hierarchy창에서 PlayerAmature 선택
 * Inspector창에서 Animator > Avatar 확인

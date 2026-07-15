@@ -7,7 +7,7 @@ tags:
 
 # Unity 새 3D project 만들기
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714287824.jpg" />
+![[1714287824.jpg]]
 
 * Unity Hub > projects > New Project
 * 프로젝트명은 ```project_3D```

@@ -1,4 +1,4 @@
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1771474804.jpg" />
+![[1771474804.jpg]]
 작업창 우클릭 > Services > AI를 선택 AI 버튼 활성화
 
 Open Assistant

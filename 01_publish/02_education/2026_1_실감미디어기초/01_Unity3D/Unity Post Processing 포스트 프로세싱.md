@@ -7,19 +7,19 @@ tags:
 
 # Unity Post Processing 포스트프로세싱
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715238799.jpg" />
+![[1715238799.jpg]]
 
 * Main Menu > Window > package manager
 * Packages:Unity Registry > post processing
 * instrall 선택하여 포스트 프로세싱을 설치
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715238828.jpg" />
+![[1715238828.jpg]]
 
 * MainCamera 선택
 * Inspector의 Add Component 선택
 * post로 검색하여 post-processing layer와 post-processing volume 컴퍼넌트 추가
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715238857.jpg" />
+![[1715238857.jpg]]
 
 ## post-process layer
 * Layer : Everything
@@ -29,7 +29,7 @@ tags:
 * is Global : check
 * Profile : New 선택하여 새로운 Post Process Profile 생성
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715238904.jpg" />
+![[1715238904.jpg]]
 
 * post-process volume 컴퍼넌트 Add effect... 클릭하여 이펙트 추가가능
 
@@ -62,5 +62,5 @@ tags:
 * Vignette : 테두리 음영 표현
 * dithering
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715239002.jpg" />
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715239014.jpg" />
+![[1715239002.jpg]]
+![[1715239014.jpg]]

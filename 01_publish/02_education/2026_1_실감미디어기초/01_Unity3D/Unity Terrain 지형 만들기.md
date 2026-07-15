@@ -18,14 +18,14 @@ tags:
 ---
 
 # 지형(Terrain) 만들기
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714288649.jpg" />
+![[1714288649.jpg]]
 
 * Hierarchy창 마우스 우클릭
 * 3D Object > Terrain 선택하여 지형(terrain)을 생성
 
 ---
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714289047.jpg" />
+![[1714289047.jpg]]
 
 ## Raise or Lower Terrain
 * Hierarchy창에서 terrain 선택
@@ -47,9 +47,9 @@ tags:
 * Terrain Layers > Edit Terrain Layers > Create Layer
 * 바닥 타일 모양의 그림(풀, 자갈, 모래)을 선택하여 레이어를 생성
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714289169.jpg" />
+![[1714289169.jpg]]
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714290097.jpg" />
+![[1714290097.jpg]]
 
 * Select Texture2D 검색창에 ```albedo``` 검색
 * 나오는 Texture들 중 지면에 사용할수 있는 이미지를 더블클릭하여 등록
@@ -77,7 +77,7 @@ tags:
 * 나무에 붓모양 아이콘 클릭
 * Edit Trees > Add Tree 클릭
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714290222.jpg" />
+![[1714290222.jpg]]
 
 * Tree prefab 우측 동그라미 클릭
 * Select GameObject창 검색창에 ```desktop``` 입력
@@ -88,7 +88,7 @@ tags:
 * click : 나무 심기
 * shift + click : 나무 지우기
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714290305.jpg" />
+![[1714290305.jpg]]
 * 너무 많은 수량의 나무는 컴퓨터가 힘들어 할 수 있음. 한번 버벅거리기 시작하면 유니티 전체 반응속도가 느려져 아무것도 못하게 될 수 있으니 주의
 
 ---
@@ -96,7 +96,7 @@ tags:
 ## 물 만들기
 * Project 창
   
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714290386.jpg" />
+![[1714290386.jpg]]
 
 * Standard Assets / Environment / Water / Water4 / Prefabs / Water4Simple
 * 드래그 드랍으로 Scene창에 내려놓기
@@ -112,7 +112,7 @@ tags:
 * 다운로드가 완료되면 import버튼 클릭
 * import Unity Package 창에서 import 버튼 클릭
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1714290644.jpg" />
+![[1714290644.jpg]]
 
 * Project창 Skybox / Materials / Skybox_Sunset
 * Scene창에 드래그 드랍

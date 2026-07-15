@@ -16,7 +16,7 @@ tags:
 
 # 새 Scene 만들기
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1712219535.jpg" />
+![[1712219535.jpg]]
 
 * Project 창 마우스 우클릭
 * Create > Scene으로 새 Scene 만들기
@@ -27,7 +27,7 @@ tags:
 
 # Plane 생성
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1712219591.jpg" />
+![[1712219591.jpg]]
 
 * Hierarchy 창 마우스 우클릭
 * 3D Object > Plane 선택
@@ -37,7 +37,7 @@ tags:
 
 # Plane 위치변경
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1712219645.jpg" />
+![[1712219645.jpg]]
 
 * hierarchy창에서 Plane(이름 Screen)선택 inspector창에 표시
 * Transform.Position : 0,0,0
@@ -48,20 +48,20 @@ tags:
 
 # VideoPlayer 생성
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1712219683.jpg" />
+![[1712219683.jpg]]
 
 * Hierarchy 창 마우스 우클릭
 * Video > Video player 선택
 
 # RenderMode 변경
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1712219739.jpg" />
+![[1712219739.jpg]]
 
 * Renderer Mode > Meterial Override 선택
 
 # Material target 연결
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1712219790.jpg" />
+![[1712219790.jpg]]
 
 * Hierarchy에서 VideoPlayer 선택 inspector에 상세 띄우기
 * 만들어둔 Plane(이름 Screen)을 inspector창 Randerer에 드래그 드랍
@@ -69,14 +69,14 @@ tags:
 ---
 
 # Video Clip 연결
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1712219917.jpg" />
+![[1712219917.jpg]]
 
 * Hierarchy창 VideoPlayer를 선택 inspector에 상세 띄우기
 * Project창 VideoClip을 찾아서 incpector창 Video Clip에 드래그 드랍
 
 # 버튼만들기
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1712219965.jpg" />
+![[1712219965.jpg]]
 
 * Project창의 버튼 이미지를 Scene으로 드래그 드랍
 * inspector의 add component > Pyshics 2d > box collider 2d 추가

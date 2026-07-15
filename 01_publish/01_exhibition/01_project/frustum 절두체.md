@@ -3,7 +3,7 @@ layout: post
 title: frustum 절두체
 category: portfolio
 tags: unity3d consulting
-teaser: https://image.onethelab.com/thumbnail/1728743317.jpg
+teaser: ../../zz_file/1728743317.jpg
 ---
 
 |프로젝트 이름|발주처|주소|기간|담당업무|

@@ -37,7 +37,7 @@ tags:
 ![[unity_animator_5.jpg]]
 * Animator창 Animation 마우스 우클릭 '''Make Transition``` 선택
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1711000065.jpg" />
+![[1711000065.jpg]]
 * 연결할 대상 Animation을 클릭하여 트랜지션 연결
 
 ## transition 삭제
@@ -47,7 +47,7 @@ tags:
 
 ---
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1711022992.jpg" />
+![[1711022992.jpg]]
 * 새롭게 Animation3를 만들고 내용은 비워둡니다 (아무것도 움직이지 않도록)
 * Animation3를 마우스 우클릭 하여 ```Set as Layer Default State``` 선택, 기본으로 등록합니다
 * Animation1,2,3 간에 Transition은 없도록 합니다.

@@ -25,7 +25,7 @@ tags:
 * 이후는 Main Camera가 각 카메라 위치를 이동하면서 촬영하게 됩니다.
 * Hierarchy창에서 카메라 선택
   
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715221541.jpg" />
+![[1715221541.jpg]]
 
 * Camera 컴퍼넌트 왼쪽 체크를 해제하여 비활성화(disable)
 * 5개 카메라 모두 비활성화 합니다. Main Camera는 비활성화 하지 않습니다.
@@ -33,7 +33,7 @@ tags:
 ---
 
 ## iTween 들여오기
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715221815.jpg" />
+![[1715221815.jpg]]
 
 * [에셋 스토어 링크](https://assetstore.unity.com/packages/tools/animation/itween-84)
 * [사용 설명서 링크](https://www.pixelplacement.com/itween/documentation.php)
@@ -76,14 +76,14 @@ public class MainCamera : MonoBehaviour
 ---
 
 # 스크립트를 카메라에 등록
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715221976.jpg" />
+![[1715221976.jpg]]
 
 * Project창에서 스크립트를 드래그 하여 Main Camera에 드롭
 
 ---
 
 # 스크립트에 카메라를 등록
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715222024.jpg" />
+![[1715222024.jpg]]
 
 * Inspector창에 MainCamera 컴퍼넌트 Sub Camera 숫자를 5로 변경
 * 5개의 빈칸이 나오면 각각의 빈칸에 Camera를 드래그 드랍하여 연결
@@ -113,30 +113,30 @@ public class CameraButton : MonoBehaviour
 ---
 
 # 큐브 버튼 생성후 배치
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715222156.jpg" />
+![[1715222156.jpg]]
 
 * MainCamera 선택
 * MainCamera 위에서 마우스 우클릭 3D Object > Cube를 선택하여 Cube생성
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715222210.jpg" />
+![[1715222210.jpg]]
 
 * MainCamera의 촬영 방향에 맞추어 카메라의 촬영범위에 들어갈 수 있도록 큐브를 이동
 
 ---
 
 # 큐브에 스크립트 등록
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715222281.jpg" />
+![[1715222281.jpg]]
 
 * 만들어진 CameraButton.cs를 큐브에 드래그 드랍으로 등록
 
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715222351.jpg" />
+![[1715222351.jpg]]
 
 * Cube선택후 inspector창의 target camera에 MainCamera를 드래그 드랍
 
 ---
 
 # 큐브 복제, target index 값 입력
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1715222389.jpg" />
+![[1715222389.jpg]]
 
 * 복사(ctrl+c) 붙여넣기(ctrl+v)로 큐브를 복제
 * target index가 각각 0,1,2,3,4가 될 수 있도록 입력

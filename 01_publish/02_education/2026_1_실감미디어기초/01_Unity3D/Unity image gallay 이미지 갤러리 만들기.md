@@ -140,6 +140,6 @@ new_position, "easetype", iTween.EaseType.easeOutElastic, "time", 1.0f));
 ## ease type 변경
 * https://easings.net/
   
-<img style='border:solid 1px black;' src="https://image.onethelab.com/resized/1711595128.jpg" />
+![[1711595128.jpg]]
 
 * ```iTween.EaseType.easeOutElastic``` 부분에 입력하여 다른 움직임 적용 가능
