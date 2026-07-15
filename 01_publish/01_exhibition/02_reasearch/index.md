@@ -1,3 +1,5 @@
+<div class="card-grid">
+
 > [[유니티 ChatGPT NPC 만들기]]
 > ![[unity_chatgpt_1.jpg]]
 
@@ -39,3 +41,5 @@
 
 > [[interaction stair]]
 > ![[interaction_stair_1.png]]
+
+</div>

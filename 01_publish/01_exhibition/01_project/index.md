@@ -1,3 +1,5 @@
+<div class="card-grid">
+
 > [[한국외대 중화반응실험 VR]]
 > ![[Pasted image 20260704142217.png]]
 
@@ -63,3 +65,5 @@
 
 > [[2013 영국 한류 박람회]]
 > ![[rondon_1.png]]
+
+</div>

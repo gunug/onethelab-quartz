@@ -676,3 +676,81 @@ tbody tr:hover {
   letter-spacing: -0.02em;
   margin-top: 4px;
 }
+
+/* ── 프로젝트/리서치 인덱스 카드 그리드 ──
+   각 blockquote(제목 링크 + 임베드 이미지) 를 고정폭·고정높이 카드로.
+   가로로 채우다 공간 부족하면 다음 줄로 wrap. (01_project·02_reasearch index.md 의 .card-grid) */
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 1.2rem 0;
+
+  & > blockquote {
+    width: 220px; /* 가로 고정 */
+    height: 210px; /* 세로 고정 */
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--lightgray);
+    border-left-width: 1px; /* quartz 기본 blockquote 좌측 굵은선 해제 */
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--light);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition:
+      box-shadow 0.12s ease,
+      border-color 0.12s ease,
+      transform 0.12s ease;
+
+    &:hover {
+      border-color: var(--secondary);
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.16);
+      transform: translateY(-2px);
+    }
+
+    & > p {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    img {
+      order: -1; /* 이미지를 카드 위쪽으로 */
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      object-fit: cover;
+      display: block;
+      margin: 0;
+      border-radius: 0;
+    }
+
+    a {
+      flex: 0 0 auto;
+      padding: 9px 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.3;
+      font-style: normal;
+      text-decoration: none;
+      color: var(--dark);
+      background: var(--light);
+      /* 긴 제목은 2줄까지, 넘치면 … */
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      &:hover {
+        color: var(--secondary);
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid > blockquote {
+    width: calc(50% - 8px);
+  }
+}
