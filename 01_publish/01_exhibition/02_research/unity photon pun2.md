@@ -9,7 +9,7 @@ tags: unity3d
 # unity photon pun2
 * 유니티 포톤 펀2 사용을 위한 스터디를 진행 하였습니다.
 
-* ![[photon_pun2_1.png]]
+* ![[01_publish/01_exhibition/02_research/zz_file/photon_pun2_1.png]]
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/22lBJs-rd5E?si=_F0D45keYZHMHvT-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cNRZZ9dFqew?si=bt_tkmuBGPfO84sT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

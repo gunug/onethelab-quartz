@@ -303,7 +303,7 @@ public class ChatGPTManager : MonoBehaviour
 * https://assetstore.unity.com/packages/tools/game-toolkits/ready-player-me-avatar-and-character-creator-259814?locale=ko-KR
 
 ## Avatar comfigure
-![[unity_chatgpt_1.jpg]]
+![[01_publish/98_legacy/unity3d/zz_file/unity_chatgpt_1.jpg]]
 
 ![[unity_chatgpt_2.jpg]]
 

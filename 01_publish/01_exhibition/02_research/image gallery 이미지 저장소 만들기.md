@@ -7,7 +7,7 @@ tags: php html css javascript
 
 
 # image gallery 이미지 저장소 만들기
-![[image_gallery_1.jpg]]
+![[01_publish/01_exhibition/02_research/zz_file/image_gallery_1.jpg]]
 
 ## 작업 기간
 * 2024-02-22 ~ 2024-03-06 (총13일)

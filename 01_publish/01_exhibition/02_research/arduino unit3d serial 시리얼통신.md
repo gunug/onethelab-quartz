@@ -10,6 +10,6 @@ tags: arduino unity3d
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/uku84nPUXa8?si=M7Y5B4YrLqAJL-UD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-![[arduino_serial_1.png]]
+![[01_publish/01_exhibition/02_research/zz_file/arduino_serial_1.png]]
 
 2023-11-09
